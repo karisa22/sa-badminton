@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&family=Noto+Sans+Thai:wght@100;200;300;400;500;600;700;800&display=swap');
+*
+{
+    box-sizing: border-box;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-family: 'Noto Sans Thai', sans-serif;
+}
+body
+{
+    margin: 0;
+    background: #f4f4fb;
+}
+header
+{
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+nav
+{
+    height: 55px;
+    position: relative;
+    top: 20px;
+    width: 100%;
+    display: flex;
+    background: #c6efff;
+    justify-content: space-between;
+}
+nav ul
+{
+    margin: 0;
+    display: flex;
+}
+nav ul li
+{
+    list-style: none;
+}
+nav ul li a
+{
+    top: 20px;
+    font-size: 18px;
+    font-weight: 400;
+    height: 55px;
+    line-height: 55px;
+    padding: 0px 9px;
+    text-decoration: none;
+    color: black;
+    display: block;
+}
+nav ul li a:hover
+{
+    
+    background: #818dff;
+    color: #ffff;
+    transition: all .5s;
+}
+.logo
+{
+    font-size: 22px;
+    font-weight: 600;
+    height: flex;
+    line-height: 20px;
+    padding: 0px 10px;
+}
