@@ -324,7 +324,7 @@ nav .navbar .links li .sub-menu li{
             <ul class="js-sub-menu sub-menu">
               <li><a href="courtimage_admin.php">ภาพสนาม</a></li>  
               <li><a href="#">การจองของฉัน</a></li>
-              <li><a href="#">การจองทั้งหมด</a></li>
+              <li><a href="courtlist.php">การจองทั้งหมด</a></li>
               <li><a href="#">ชำระค่าบริการ</a></li>
               <li><a href="#">สรุปรายรับ</a></li>
             </ul> 
