@@ -3,7 +3,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
-   <title> Home </title>
+   <title> Header </title>
     <link rel="stylesheet" href="style.css">
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
@@ -300,7 +300,7 @@ nav .navbar .links li .sub-menu li{
 <nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="197">
     <div class="navbar">
       <i class='bx bx-menu'></i>
-      <div class="logo" style="color: #fff;"><a>Home Sport Club</a></div>
+      <div href="home.php" class="logo" style="color: #fff;"><a>Home Sport Club</a></div>
       <div class="nav-links">
         
         <ul class="links">

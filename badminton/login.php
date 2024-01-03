@@ -114,7 +114,7 @@ i{
 
     <div class="box">
     <div class="container">
-        <form method="POST" action="login_check.php">
+        <form method="POST" action="controllers/login_check.php">
         <div class="top">
             <header>เข้าสู่ระบบ</header>
         </div>

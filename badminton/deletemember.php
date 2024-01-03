@@ -2,8 +2,10 @@
 if(isset($_GET['id'])){
 require_once 'condb.php';
 //ประกาศตัวแปรรับค่าจาก param method get
+$condb = new mysqli('localhost', 'root', '', 'badminton');
 $id = $_GET['id'];
-$stmt = $conn->prepare('DELETE FROM member WHERE id=:id');
+// $stmt = $conn->prepare('DELETE FROM member WHERE id=:id');
+$stmt = $condb->prepare('DELETE FROM member WHERE id=:id');
 $stmt->bindParam(':id', $id , PDO::PARAM_INT);
 $stmt->execute();
  

@@ -1,5 +1,5 @@
 <?php
-include 'connec.php';
+include '../common/connect.php';
 session_start();
 
 $username = $_POST['username'];
@@ -14,7 +14,7 @@ $result = mysqli_query($conn,$sql);
 
 if( ! mysqli_num_rows($result) ) {
     $_SESSION["Error"] = "Username หรือ Password ไม่ถูกต้อง";
-    $show = header("location:login.php");
+    $show = header("location:../login.php");
     return;
 }
 
@@ -24,7 +24,7 @@ $status= $row['user_type'];
 $_SESSION["name"]=$row['user_name'];
 $_SESSION["tel"]=$row['user_tel'];
 $_SESSION["type"]=$row['user_type'];
-$show = header("location:home.php");
+$show = header("location:../home.php");
 
 echo $show;
 
