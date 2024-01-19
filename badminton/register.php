@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="boostrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/boostrap/css/bootstrap.min.css">
     <title>Register</title>
 </head>
 
@@ -127,19 +127,19 @@
             </div>
             <form method="POST" action="controllers/insert_register.php">
                 <div class="input-field">
-                    <input type="text" class="input" name="firstname" placeholder="ชื่อจริง" maxlength="100" required>
+                    <input type="text" class="input" name="name" placeholder="ชื่อ" maxlength="15" required>
                     <i class='bx bx-user'></i>
                 </div>
-                <div class="input-field">
+                <!-- <div class="input-field">
                     <input type="text" class="input" name="lastname" placeholder="นามสกุล" maxlength="100" required>
                     <i class='bx bx-user'></i>
-                </div>
+                </div> -->
                 <div class="input-field">
                     <input type="tel" class="input" name="telephone" placeholder="เบอร์โทรศัพท์" maxlength="10" required>
                     <i class='bx bx-phone'></i>
                 </div>
                 <div class="input-field">
-                    <input type="text" class="input" name="username" placeholder="Username" maxlength="50" required>
+                    <input type="text" class="input" name="username" placeholder="Username" maxlength="10" required>
                     <i class='bx bx-user'></i>
                 </div>
                 <div class="input-field">

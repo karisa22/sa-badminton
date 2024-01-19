@@ -2,10 +2,10 @@
 <!--ลิงค์ไทวิน-->
 <?php
 session_start();
-include"header.php";
+// echo($_SESSION["type"]);
 if (!isset($_SESSION["type"])) //1 = admin , 2 = member
   header("location:login.php");
-// include"headeradmin.php";
+include"header.php";
 ?>
 
 <!DOCTYPE html>
@@ -15,11 +15,11 @@ if (!isset($_SESSION["type"])) //1 = admin , 2 = member
 <head>
   <meta charset="UTF-8">
   <title> Home </title>
-  <link rel="stylesheet" href="style.css">
+  <!-- <link rel="stylesheet" href="css/style.css"> -->
   <!-- Boxicons CDN Link -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="boostrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/boostrap/css/bootstrap.min.css">
 </head>
 
 <style>
@@ -74,7 +74,7 @@ if (!isset($_SESSION["type"])) //1 = admin , 2 = member
         <div style="font-size: 40px; color: #000; margin-top: 170px;">สนามแบดมินตัน</div>
         <div style="font-size: 24px;  color: #000;">สนามแบดมินตันพื้นยางมาตรฐาน</div>
         <div style="font-size: 24px;  color: #000;">จำนวน 6 คอร์ท</div>
-        <div><a href="courtimage_admin.php"><button type="more" class="btn btn-success">ดูเพิ่มเติม</button></a>
+        <div><a href="courtimage.php"><button type="more" class="btn btn-success">ดูเพิ่มเติม</button></a>
           <button class="btn btn-success" name="booking">จองสนาม</button>
         </div>
       </div>
@@ -89,7 +89,7 @@ if (!isset($_SESSION["type"])) //1 = admin , 2 = member
         <div style="font-size: 40px; color: #000; margin-top: 170px;">สิ่งอำนวยความสะดวก</div>
         <div style="font-size: 24px;  color: #000;">ที่จอดรถ ร้านค้า ห้องน้ำ ที่สูบบุหรี่ </div>
         <div style="font-size: 24px;  color: #000;">........</div>
-        <div><a href="facilities_admin.php"><button class="btn btn-success">ดูเพิ่มเติม</button></a></div>
+        <div><a href="facilities.php"><button class="btn btn-success">ดูเพิ่มเติม</button></a></div>
       </div>
 
       <div class="row">
@@ -97,7 +97,7 @@ if (!isset($_SESSION["type"])) //1 = admin , 2 = member
           <div style="font-size: 40px; color: #000; margin-top: 170px;">ข่าวสาร ประกาศ</div>
           <div style="font-size: 24px;  color: #000;">ข้อมูลข่าวสาร ประกาศเกี่ยวกับสนามแบดมินตัน</div>
           <div style="font-size: 24px;  color: #000;">Home Sport Club</div>
-          <div><a href="advertise_admin.php"><button class="btn btn-success">ดูเพิ่มเติม</button></a></div>
+          <div><a href="advertise.php"><button class="btn btn-success">ดูเพิ่มเติม</button></a></div>
         </div>
         <div class="block-2"><img src="images/17.jpg" style="height: 600px; width: 100%; margin-left: 20px; margin-right: 20px;"></div>
       </div>
@@ -109,7 +109,7 @@ if (!isset($_SESSION["type"])) //1 = admin , 2 = member
           <div style="font-size: 40px; color: #000; margin-top: 170px;">กฏการใช้สนาม</div>
           <div style="font-size: 24px;  color: #000;">กฏกติกาการใช้สนามแบดมินตัน</div>
           <div style="font-size: 24px;  color: #000;">Home Sport Club</div>
-          <div><a href="rules_admin.php"><button class="btn btn-success">ดูเพิ่มเติม</button></a></div>
+          <div><a href="rules.php"><button class="btn btn-success">ดูเพิ่มเติม</button></a></div>
         </div>
 
         <div class="row">
@@ -117,7 +117,7 @@ if (!isset($_SESSION["type"])) //1 = admin , 2 = member
             <div style="font-size: 40px; color: #000; margin-top: 170px;">กิจกรรม</div>
             <div style="font-size: 24px;  color: #000;">กิจกรรมดีๆที่สนามแบดจัดทำขึ้น</div>
             <div style="font-size: 24px;  color: #000;">Home Sport Club</div>
-            <div><a href="activity_admin.php"><button class="btn btn-success">ดูเพิ่มเติม</button></a></div>
+            <div><a href="activity.php"><button class="btn btn-success">ดูเพิ่มเติม</button></a></div>
           </div>
           <div class="block-2"><img src="images/56.jpg" style="height: 600px; width: 100%; margin-left: 20px; margin-right: 20px;"></div>
         </div>

@@ -10,6 +10,7 @@ $lastname = $_GET["lastname"];
 $tel = $_GET["tel"];
 $username = $_GET["username"];
 $password = $_GET["password"];
+}
  
  ?>
 <!DOCTYPE html>
@@ -89,7 +90,6 @@ $password = $_GET["password"];
           <a href="home.php" class="link-secondary">Home</a>
         </form>
     </div>
-  
+    <?php } ?>
 </body>
 </html>
-  <?php } ?>

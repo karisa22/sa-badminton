@@ -21,9 +21,14 @@ if( ! mysqli_num_rows($result) ) {
 $row = mysqli_fetch_array($result);
 $status= $row['user_type'];
 
+$_SESSION["user_id"]=$row['user_id'];
 $_SESSION["name"]=$row['user_name'];
 $_SESSION["tel"]=$row['user_tel'];
 $_SESSION["type"]=$row['user_type'];
+$_SESSION["img"]=$row['image_name'];
+// $_SESSION["create_date"]=$row['create_date'];
+$date=date_create($row['create_date']);
+$_SESSION["create_date"]=date_format($date,"Y/m/d H:i:s");
 $show = header("location:../home.php");
 
 echo $show;
