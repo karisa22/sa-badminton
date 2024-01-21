@@ -12,7 +12,7 @@ if (isset($_POST["submit"])) {
     $result = mysqli_query($conn, $sql);
 
     if ($result) {
-        header("Location: showprofile.php?msg=New record created successfully");
+        header("Location: profile_list.php?msg=New record created successfully");
     } else {
         echo "Failed: " . mysqli_error($conn);
     }
@@ -166,7 +166,7 @@ if (isset($_POST["submit"])) {
                     <div align=center>
                         <button type="submit" class="btn btn-success" name="submit">บันทึก</button>
 
-                        <a href="showprofile.php" class="btn btn-danger">ยกเลิก</a>
+                        <a href="profile_list.php" class="btn btn-danger">ยกเลิก</a>
                     </div>
                     <div><br></div>
                 </div>

@@ -24,7 +24,7 @@ if (!isset($_SESSION["type"])) //1 = admin , 2 = member
         Welcome
     </div> -->
     <div class="card">
-        <img src="images/user_1.jpg" alt="John" style="width:100%">
+        <img src="images/85.png" alt="John" style="width:100%">
         <h1><?php echo $_SESSION["user_id"]; ?></h1>
         <p class="title">Name : <?php echo $_SESSION["name"]; ?></p>
         <p>Tel : <?php echo $_SESSION["tel"]; ?></p>

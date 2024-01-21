@@ -2,7 +2,7 @@
 $style = "";
 if ($_SESSION["type"] == 2) {
   $style = "style='display:none;'"; //ซ่อนหน้าจอส่วนที่ไม่ได้เป็น admin
-} 
+}
 ?>
 
 <!DOCTYPE html>
@@ -364,34 +364,34 @@ if ($_SESSION["type"] == 2) {
         <ul class="links">
           <li><a href="home.php">หน้าแรก</a></li>
           <li>
-            <a href="#">เกี่ยวกับสนาม</a>
+            <a>เกี่ยวกับสนาม</a>
             <i class='bx bxs-chevron-down htmlcss-arrow arrow  '></i>
             <ul class="htmlCss-sub-menu sub-menu">
-              <li><a href="#">ข้อมูลสนาม</a></li>
+              <li><a href="courtlist.php">ข้อมูลสนาม</a></li>
               <li><a href="advertise.php">ข่าวสาร</a></li>
               <li><a href="activity.php">กิจกรรม</a></li>
               <li><a href="rules.php">กฏการใช้สนาม</a></li>
               <li><a href="facilities.php">สิ่งอำนวยความสะดวก</a></li>
-
+              <li><a href="#" <?php echo $style; ?>>จัดการเว็บไซต์</a></li>
           </li>
         </ul>
         </li>
         <li>
-          <a href="#">จองสนาม</a>
+          <a>จองสนาม</a>
           <i class='bx bxs-chevron-down js-arrow arrow '></i>
           <ul class="js-sub-menu sub-menu">
-            <li><a href="courtlist.php">ภาพสนาม</a></li>
-            <li><a href="booking_list.php">การจองของฉัน</a></li>
-            <li><a href="courtlist.php" <?php echo $style;?>>การจองทั้งหมด</a></li>
-            <li><a href="payment_list.php">ชำระค่าบริการ</a></li>
-            <li><a href="summary_report.php" <?php echo $style;?>>สรุปรายรับ</a></li>
+            <li><a href="booking_list.php">รายการการจอง</a></li>
+            <!-- <li><a href="courtlist.php" <?php echo $style; ?>>การจองทั้งหมด</a></li> -->
+            <li><a href="payment_list.php">รายการชำระเงิน</a></li>
+            <li><a href="summary_report.php" <?php echo $style; ?>>สรุปรายรับ</a></li>
           </ul>
         </li>
-        <li><a href="#">บัญชีของฉัน</a>
+        <li>
+          <a>บัญชีของฉัน</a>
           <i class='bx bxs-chevron-down js-arrow arrow '></i>
           <ul class="js-sub-menu sub-menu">
-            <li><a href="profile.php">Profile</a></li>
-            <li><a href="showprofile.php" <?php echo $style;?>>ข้อมูลผู้ใช้</a></li>
+            <li><a href="profile.php">โปรไฟล์</a></li>
+            <li><a href="profile_list.php" <?php echo $style; ?>>จัดการข้อมูลผู้ใช้</a></li>
             <li><a href="logout.php">ออกจากระบบ</a></li>
           </ul>
         </li>

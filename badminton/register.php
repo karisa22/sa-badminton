@@ -38,12 +38,23 @@
             min-height: 90vh;
         }
 
-        .container {
+        /* .container {
             width: 400px;
             display: flex;
             flex-direction: column;
             padding: 0 15px 0 15px;
 
+        } */
+
+        .container {
+            width: 500px;
+            display: flex;
+            flex-direction: column;
+            padding: 0 15px 0 15px;
+            background: rgba(255, 255, 255, 0.1);
+            /*backdrop-filter: blur(10px);*/
+            border-radius: 25px;
+            background-color: skyblue;
         }
 
         span {
@@ -122,10 +133,13 @@
     <div class="box">
         <div class="container">
 
-            <div class="top">
+            <!-- <div class="top">
                 <header>สมัครสมาชิก</header>
-            </div>
+            </div> -->
             <form method="POST" action="controllers/insert_register.php">
+                <div class="top">
+                    <header>สมัครสมาชิก</header>
+                </div>
                 <div class="input-field">
                     <input type="text" class="input" name="name" placeholder="ชื่อ" maxlength="15" required>
                     <i class='bx bx-user'></i>

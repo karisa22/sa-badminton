@@ -50,10 +50,10 @@
 
         <div class="row g-2">
             <?php 
-                $query = $db->query("SELECT * FROM rules ORDER BY uploaded_on DESC");
+                $query = $db->query("SELECT * FROM m_image WHERE activity_id = '5' ORDER BY create_date DESC");
                 if ($query->num_rows > 0) {
                     while($row = $query->fetch_assoc()) {
-                        $imageURL = 'uploads/'.$row['rules_name'];
+                        $imageURL = 'uploads/'.$row['image_name'];
                     ?>
                     <div class="">
                         <div align = "center">

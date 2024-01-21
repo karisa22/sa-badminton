@@ -63,7 +63,8 @@ $user_id = $_SESSION["user_id"];
     <div class="container">
         <br>
         <h1>รายการชำระเงิน</h1>
-        <!-- <a href="addadmin.php" type="button" class="btn btn-primary">เพิ่มข้อมูล</a> <BR> -->
+
+        
         <table>
             <BR>
             <thead>

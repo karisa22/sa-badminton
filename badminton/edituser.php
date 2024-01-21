@@ -15,7 +15,7 @@ if (isset($_POST["submit"])) {
   $result = mysqli_query($conn, $sql);
 
   if ($result) {
-    header("Location: showprofile.php?msg=Data updated successfully");
+    header("Location: profile_list.php?msg=Data updated successfully");
   } else {
     echo "Failed: " . mysqli_error($conn);
   }
@@ -59,7 +59,7 @@ if (isset($_POST["submit"])) {
     ?>
 
     <div class="container d-flex justify-content-center">
-      <form action="showprofile.php" method="post" style="width:50vw; min-width:300px;">
+      <form action="profile_list.php" method="post" style="width:50vw; min-width:300px;">
         <div class="row mb-3">
           <div class="col">
             <label class="form-label">First Name:</label>
@@ -88,7 +88,7 @@ if (isset($_POST["submit"])) {
         
         <div>
           <button type="submit" class="btn btn-success" name="submit">Update</button>
-          <a href="showprofile.php" class="btn btn-danger">Cancel</a>
+          <a href="profile_list.php" class="btn btn-danger">Cancel</a>
         </div>
       </form>
     </div>

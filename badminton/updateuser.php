@@ -10,5 +10,5 @@
 	$password=$_POST['password'];
  
 	mysqli_query($conn,"update `member` set firstname='$firstname', lastname='$lastname' , tel='$tel' , username='$username' , password='$password' where id='$id'");
-	header('location:showprofile.php');
+	header('location:profile_list.php');
 ?>

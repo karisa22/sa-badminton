@@ -10,6 +10,7 @@ include "header.php";
 $user_id = $_SESSION["user_id"];
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -69,9 +70,90 @@ $user_id = $_SESSION["user_id"];
 
     <div class="container">
         <br>
-        <h1>จัดการการจอง</h1> 
-        <a href="addcourt.php" type="button" class="btn btn-primary" <?php echo $style;?>>จองสนาม</a> <BR>
-        <a href="addcourt.php" type="button" class="btn btn-primary" <?php echo $style;?>>แก้ไขการจอง</a> <BR>
+        <h1>จัดการการจอง</h1>
+        <a href="add_booking.php" type="button" class="btn btn-primary" >จองสนาม</a> <BR>
+
+        <table>
+            <BR>
+            <thead>
+                <tr>
+                    <td width="10%">court_id</td>
+                    <td width="10%">start_time</td>
+                    <td width="10%">end_time</td>
+                    <td width="10%">type</td>
+                    <td width="10%">status</td>
+                    <td width="10%">amount</td>
+                    <td width="10%">ชำระเงิน</td>
+                    <td width="10%">ยกเลิก</td>
+                </tr>
+            </thead>
+            <tbody>
+
+                <?php
+                $sql = "";
+                if ($_SESSION["type"] == 1) {
+                    $sql = "SELECT
+                            tb.booking_id,
+                            tb.court_id,
+                            tb.booking_start_time,
+                            tb.booking_end_time,
+                            tb.booking_status,
+                            tb.booking_amount,
+                            mpt.payment_type_name,
+                            tb.create_date
+                        FROM
+                            `t_booking` tb
+                        LEFT JOIN `m_payment_type` mpt ON
+                            mpt.payment_type_id = tb.payment_type_id
+                        ORDER BY tb.create_date DESC;";
+                } else {
+                    $sql = "SELECT
+                            tb.booking_id,
+                            tb.court_id,
+                            tb.booking_start_time,
+                            tb.booking_end_time,
+                            tb.booking_status,
+                            tb.booking_amount,
+                            mpt.payment_type_name,
+                            tb.create_date
+                        FROM
+                            `t_booking` tb
+                        LEFT JOIN `m_payment_type` mpt ON
+                            mpt.payment_type_id = tb.payment_type_id
+                        WHERE tb.create_by = $user_id
+                        ORDER BY tb.create_date DESC;";
+                }
+                $result = mysqli_query($conn, $sql);
+                if (!mysqli_num_rows($result)) {
+                    return;
+                }
+                while ($row = mysqli_fetch_assoc($result)) {
+
+                    echo "<td>" . $row["court_id"] .  "</td> ";
+                    echo "<td>" . $row["booking_start_time"] .  "</td> ";
+                    echo "<td>" . $row["booking_end_time"] .  "</td> ";
+                    echo "<td>" . $row["payment_type_name"] .  "</td> ";
+                    if ($row["booking_status"] == 1) {
+                        echo "<td> รอชำระเงิน </td> ";
+                    } else if($row["booking_status"] == 2){
+                        echo "<td> ชำระเงินแล้ว </td> ";
+                    } else {
+                        echo "<td> ยกเลิก </td> ";
+                    }
+                    echo "<td>" . $row["booking_amount"] .  "</td> ";
+                    //ยินยัน
+                    echo "<td><a href='controllers/submit_booking.php?id=$row[booking_id]' onclick=\"return confirm('ต้องการยืนยันการชำรเงินใช่ไหม!!!')\">ยืนยันการชำระเงิน</a></td> ";
+                    //ลบข้อมูล
+                    echo "<td><a href='controllers/cancel_booking.php?id=$row[booking_id]' onclick=\"return confirm('ต้องการลบข้อมูลใช่ไหม!!!')\">ยกเลิกการจอง</a></td> ";
+                    echo "</tr>";
+                }
+                echo "</table>";
+                //5. close connection
+                mysqli_close($conn);
+                ?>
+            </tbody>
+        </table>
+
         <table>
             <BR>
             <thead>
@@ -105,67 +187,44 @@ $user_id = $_SESSION["user_id"];
                 </tr>
             </thead>
             <tbody>
-
                 <?php
-                    $date=date("Y-m-d");
+                $date = date("Y-m-d");
 
-                    $i = 0;
-                    while($i < 7){
-                        echo "<td>" .$date . "</td> ";
+                $i = 0;
+                while ($i < 3) {
+                    echo "<td>" . $date . "</td> ";
 
-                        echo "<td>ว่าง</td> ";
-                        echo "<td>ว่าง</td> ";
-                        echo "<td>ว่าง</td> ";
-                        echo "<td>ว่าง</td> ";
+                    echo "<td>ว่าง</td> ";
+                    echo "<td>ว่าง</td> ";
+                    echo "<td>ว่าง</td> ";
+                    echo "<td>ว่าง</td> ";
 
-                        echo "<td>ว่าง</td> ";
-                        echo "<td>ว่าง</td> ";
-                        echo "<td>ว่าง</td> ";
-                        echo "<td>ว่าง</td> ";
+                    echo "<td>ว่าง</td> ";
+                    echo "<td>ว่าง</td> ";
+                    echo "<td>ว่าง</td> ";
+                    echo "<td>ว่าง</td> ";
 
-                        echo "<td>ว่าง</td> ";
-                        echo "<td>ว่าง</td> ";
-                        echo "<td>ว่าง</td> ";
-                        echo "<td>ว่าง</td> ";
+                    echo "<td>ว่าง</td> ";
+                    echo "<td>ว่าง</td> ";
+                    echo "<td>ว่าง</td> ";
+                    echo "<td>ว่าง</td> ";
 
-                        echo "<td>ว่าง</td> ";
-                        echo "<td>ว่าง</td> ";
-                        echo "<td>ว่าง</td> ";
-                        echo "<td>ว่าง</td> ";
+                    echo "<td>ว่าง</td> ";
+                    echo "<td>ว่าง</td> ";
+                    echo "<td>ว่าง</td> ";
+                    echo "<td>ว่าง</td> ";
 
-                        echo "<td>ว่าง</td> ";
-                        echo "<td>ว่าง</td> ";
-                        echo "<td>ว่าง</td> ";
-                        echo "<td>ว่าง</td> ";
+                    echo "<td>ว่าง</td> ";
+                    echo "<td>ว่าง</td> ";
+                    echo "<td>ว่าง</td> ";
+                    echo "<td>ว่าง</td> ";
 
-                        echo "</tr>";
-                        $date=date("Y-m-d", strtotime("+1 day",strtotime($date)));
-                        $i++;
-                    }
-                    echo "</table>";
-                    
-
-                // $sql = "SELECT * FROM `m_court`";
-                // $result = mysqli_query($conn, $sql);
-                // while ($row = mysqli_fetch_assoc($result)) {
-
-                //     echo "<td>" . $row["court_id"] .  "</td> ";
-                //     echo "<td>" . $row["court_name"] .  "</td> ";
-                //     // echo "<td>" . $row["court_image"] .  "</td> ";
-                //     echo "<td> <img src='uploads/" .  $row['court_image']  . "'/>   </td>";
-                //     // echo "<td>" . $row["court_status"] .  "</td> ";
-                //     echo "<td>" . ($row['court_status'] == "1" ? 'ปิดปรับปรุง' :  'พร้อมใช้งาน') .  "</td> ";
-
-                //     if($_SESSION["type"]==1){
-                //         echo "<td><a href='edit.php?id=$row[court_id]' onclick=\"return confirm('ต้องการแก้ไขข้อมูลใช่ไหม!!!')\">แก้ไข</a></td> ";
-                //     }
-                    
-
-                //     echo "</tr>";
-                // }
-                // echo "</table>";
-                //5. close connection
-                mysqli_close($conn);
+                    echo "</tr>";
+                    $date = date("Y-m-d", strtotime("+1 day", strtotime($date)));
+                    $i++;
+                }
+                echo "</table>";
+                // mysqli_close($conn);
                 ?>
             </tbody>
         </table>

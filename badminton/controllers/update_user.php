@@ -19,8 +19,8 @@ if (
   $result = mysqli_query($conn, $sql);
 
   if ($result) {
-    // header("Location: ../showprofile.php?msg=Data updated successfully");
-    header("Location: ../showprofile.php");
+    // header("Location: ../profile_list.php?msg=Data updated successfully");
+    header("Location: ../profile_list.php");
   } else {
     echo "Failed: " . mysqli_error($conn);
   }

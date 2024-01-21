@@ -66,7 +66,7 @@ include "header.php";
 
     <div class="container">
         <br>
-        <h1>ข้อมูลผู้ใช้</h1> <a href="addadmin.php" type="button" class="btn btn-primary">เพิ่มข้อมูล</a> <BR>
+        <h1>ข้อมูลผู้ใช้</h1> <a href="addadmin.php" type="button" class="btn btn-primary">เพิ่มข้อมูลผู้ดูแล</a> <BR>
         <table>
             <BR>
             <thead>

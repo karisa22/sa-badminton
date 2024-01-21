@@ -1,16 +1,8 @@
 <?php
 if (isset($_GET['id'])) {
     require_once '../common/connect.php';
-    //ประกาศตัวแปรรับค่าจาก param method get
-    // $condb = new mysqli('localhost', 'root', '', 'badminton');
     $id = $_GET['id'];
-    // $stmt = $conn->prepare('DELETE FROM member WHERE id=:id');
-    // $stmt = $condb->prepare('DELETE FROM member WHERE id=:id');
-    // $stmt->bindParam(':id', $id , PDO::PARAM_INT);
-    // $stmt->execute();
-
-    // $sql = "SELECT * FROM `t_user`";
-    $sql = "DELETE FROM t_user WHERE user_id='$id'";
+    $sql = "UPDATE t_booking SET `booking_status`=3 WHERE booking_id='$id'";
     $result = mysqli_query($conn, $sql);
     
     //  sweet alert 
@@ -23,10 +15,10 @@ if (isset($_GET['id'])) {
         echo '<script>
              setTimeout(function() {
               swal({
-                  title: "ลบข้อมูลสำเร็จ",
+                  title: "ยกเลิกการจองสำเร็จ",
                   type: "success"
               }, function() {
-                  window.location = "../profile_list.php"; //หน้าที่ต้องการให้กระโดดไป
+                  window.location = "../booking_list.php"; //หน้าที่ต้องการให้กระโดดไป
               });
             }, 1000);
         </script>';
@@ -37,7 +29,7 @@ if (isset($_GET['id'])) {
                   title: "เกิดข้อผิดพลาด",
                   type: "error"
               }, function() {
-                  window.location = "../profile_list.php"; //หน้าที่ต้องการให้กระโดดไป
+                  window.location = "../booking_list.php"; //หน้าที่ต้องการให้กระโดดไป
               });
             }, 1000);
         </script>';

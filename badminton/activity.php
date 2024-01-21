@@ -48,10 +48,10 @@
 
         <div class="row g-2 mt-1">
             <?php 
-                $query = $db->query("SELECT * FROM activity ORDER BY uploaded_on DESC");
+                $query = $db->query("SELECT * FROM m_image WHERE activity_id = '3' ORDER BY create_date DESC");
                 if ($query->num_rows > 0) {
                     while($row = $query->fetch_assoc()) {
-                        $imageURL = 'uploads/'.$row['activity_name'];
+                        $imageURL = 'uploads/'.$row['image_name'];
                     ?>
                     <div class="col-sm-4">
                         <div>

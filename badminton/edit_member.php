@@ -5,6 +5,8 @@ if (!isset($_SESSION["type"])) //1 = admin , 2 = member
     header("location:login.php");
 if ($_SESSION["type"]!=1) //admin only
     header("location:home.php");
+if (!isset($_GET['id'])) //1 = admin , 2 = member
+    header("location:profile_list.php");
 $id = $_GET['id'];
 $sql = "SELECT * FROM t_user WHERE user_id='$id'";
 $result = mysqli_query($conn, $sql);
@@ -78,7 +80,7 @@ $image=$row['image_name'];
         </div>
 
         <button type="submit" class="btn btn-primary">Update</button>
-        <a href="showprofile.php" class="link-secondary">Home</a>
+        <a href="profile_list.php" class="link-secondary">Home</a>
       </form>
     </div>
   <?php } ?>
