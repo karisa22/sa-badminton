@@ -78,7 +78,7 @@ $user_id = $_SESSION["user_id"];
                     <td width="5%">ID</td>
                     <td width="16%">Court Name</td>
                     <td width="16%">Court Image</td>
-                    <td width="14%">Court Status</td>
+                    <td width="14%" <?php echo $style;?>>Court Status</td>
                     <td width="5%" <?php echo $style;?>>แก้ไข</td>
                 </tr>
             </thead>
@@ -90,14 +90,19 @@ $user_id = $_SESSION["user_id"];
                 $result = mysqli_query($conn, $sql);
                 while ($row = mysqli_fetch_assoc($result)) {
 
+                    if($_SESSION["type"]!=1 && $row['court_status'] == "1"){
+                        continue;
+                    }
+
                     echo "<td>" . $row["court_id"] .  "</td> ";
                     echo "<td>" . $row["court_name"] .  "</td> ";
                     // echo "<td>" . $row["court_image"] .  "</td> ";
                     echo "<td> <img src='uploads/" .  $row['court_image']  . "'/>   </td>";
                     // echo "<td>" . $row["court_status"] .  "</td> ";
-                    echo "<td>" . ($row['court_status'] == "1" ? 'ปิดปรับปรุง' :  'พร้อมใช้งาน') .  "</td> ";
+                    // echo "<td>" . ($row['court_status'] == "1" ? 'ปิดปรับปรุง' :  'พร้อมใช้งาน') .  "</td> ";
 
                     if($_SESSION["type"]==1){
+                        echo "<td>" . ($row['court_status'] == "1" ? 'ปิดปรับปรุง' :  'พร้อมใช้งาน') .  "</td> ";
                         echo "<td><a href='edit.php?id=$row[court_id]' onclick=\"return confirm('ต้องการแก้ไขข้อมูลใช่ไหม!!!')\">แก้ไข</a></td> ";
                     }
                     

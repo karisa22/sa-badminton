@@ -395,7 +395,7 @@ if ($_SESSION["type"] == 2) {
             <li><a href="logout.php">ออกจากระบบ</a></li>
           </ul>
         </li>
-        <li><a href="contact.php">ติดต่อผู้ให้บริการ</a></li>
+        <li><a href="contact.php">ติดต่อเรา</a></li>
 
         </ul>
       </div>
