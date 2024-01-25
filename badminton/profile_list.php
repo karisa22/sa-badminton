@@ -1,12 +1,4 @@
 <?php
-// // Create connection
-// $condb = new mysqli('localhost', 'root', '', 'badminton');
-
-// // Check Connection
-
-
-// $sql = "SELECT * FROM member";
-// $result = $condb->query($sql);
 include 'common/connect.php';
 session_start();
 if (!isset($_SESSION["type"])) //1 = admin , 2 = member

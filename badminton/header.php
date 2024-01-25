@@ -372,7 +372,7 @@ if ($_SESSION["type"] == 2) {
               <li><a href="activity.php">กิจกรรม</a></li>
               <li><a href="rules.php">กฏการใช้สนาม</a></li>
               <li><a href="facilities.php">สิ่งอำนวยความสะดวก</a></li>
-              <li><a href="#" <?php echo $style; ?>>จัดการเว็บไซต์</a></li>
+              <li><a href="web_manage.php" <?php echo $style; ?>>จัดการเว็บไซต์</a></li>
           </li>
         </ul>
         </li>

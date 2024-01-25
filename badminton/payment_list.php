@@ -85,9 +85,36 @@ $user_id = $_SESSION["user_id"];
                 <?php
                 $sql = "";
                 if ($_SESSION["type"] == 1) {
-                    $sql = "SELECT * FROM `t_payment`";
+                    $sql = "SELECT
+                            tp.payment_id,
+                            tp.payment_amount,
+                            tp.image_name,
+                            tp.paid_date,
+                            tp.create_date,
+                            tp.create_by,
+                            tp.del,
+                            tu.user_name
+                        FROM
+                            t_payment tp
+                        LEFT JOIN t_user tu ON
+                            tp.create_by = tu.user_id";
                 } else {
-                    $sql = "SELECT * FROM `t_payment` WHERE create_by = $user_id AND del = 0";
+                    // $sql = "SELECT * FROM `t_payment` WHERE create_by = $user_id AND del = 0";
+                    $sql = "SELECT
+                            tp.payment_id,
+                            tp.payment_amount,
+                            tp.image_name,
+                            tp.paid_date,
+                            tp.create_date,
+                            tp.create_by,
+                            tp.del,
+                            tu.user_name
+                        FROM
+                            t_payment tp
+                        LEFT JOIN t_user tu ON
+                            tp.create_by = tu.user_id
+                        WHERE
+                            tp.del = 0;";
                 }
                 $result = mysqli_query($conn, $sql);
                 if (!mysqli_num_rows($result)) {
@@ -98,14 +125,14 @@ $user_id = $_SESSION["user_id"];
                     echo "<td>" . $row["payment_id"] .  "</td> ";
                     echo "<td>" . $row["payment_amount"] .  "</td> ";
                     if ($row["image_name"] != "") {
-                        echo "<td> <img style='width:50%' src='images/" .  $row['image_name']  . "'/>    </td>";
+                        echo "<td> <img style='width:50%' src='uploads/" .  $row['image_name']  . "'/>    </td>";
                     } else {
                         echo "<td> ไม่พบรูปภาพ </td> ";
                     }
                     echo "<td>" . $row["paid_date"] .  "</td> ";
                     echo "<td>" . $row["create_date"] .  "</td> ";
                     if ($_SESSION["type"] == 1){
-                        echo "<td>" . $row["create_by"] .  "</td> ";
+                        echo "<td>" . $row["user_name"] .  "</td> ";
                         if($row["del"]==0){
                             echo "<td>ใช้งาน</td> ";
                         }else{
@@ -113,7 +140,18 @@ $user_id = $_SESSION["user_id"];
                         }
                     }
                     //แก้ไขข้อมูลส่่ง member_id ที่จะแก้ไขไปที่ฟอร์ม
-                    echo "<td><a href='edit_member.php?id=$row[payment_id]' onclick=\"return confirm('ต้องการแก้ไขข้อมูลใช่ไหม!!!')\">อัพโหลดสลิป</a></td> ";
+                    // echo "<td><a href='edit_member.php?id=$row[payment_id]' onclick=\"return confirm('ต้องการแก้ไขข้อมูลใช่ไหม!!!')\">อัพโหลดสลิป</a></td> ";
+                    
+                    echo "<td><form action=\"controllers/upload_image.php\" method=\"POST\" enctype=\"multipart/form-data\">
+                            <div class=\"text-center justify-content-center align-items-center p-4 border-2 border-dashed rounded-3\">
+                                <input type=\"file\" name=\"file\" class=\"form-control streched-link\" onchange=\"form.submit()\" accept=\"image/gif, image/jpeg, image/png\">
+                            </div>
+                            <div class=\"d-sm-flex justify-content-end\">
+                            
+                            
+                            </div>
+                            <br>
+                        </form></td>";
 
                     //ลบข้อมูล
                     echo "<td><a href='controllers/cancel_payment.php?id=$row[payment_id]' onclick=\"return confirm('ต้องการลบข้อมูลใช่ไหม!!!')\">ยกเลิกการจอง</a></td> ";

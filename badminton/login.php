@@ -65,10 +65,18 @@ session_destroy();
 
         header {
             color: #fff;
+            font-size: 40px;
+            display: flex;
+            justify-content: center;
+            padding: 20px 0 10px 0;
+        }
+
+        .header2 {
+            color: #fff;
             font-size: 50px;
             display: flex;
             justify-content: center;
-            padding: 10px 0 10px 0;
+            padding: 10px 0 30px 0;
         }
 
         .input-field .input {
@@ -121,6 +129,7 @@ session_destroy();
             <form method="POST" action="controllers/login_check.php">
                 <div class="top">
                     <header>เข้าสู่ระบบ</header>
+                    <label class="header2">Home Sport Club</label>
                 </div>
 
                 <div class="input-field">

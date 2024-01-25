@@ -77,14 +77,14 @@ $user_id = $_SESSION["user_id"];
             <BR>
             <thead>
                 <tr>
-                    <td width="10%">court_id</td>
-                    <td width="10%">start_time</td>
-                    <td width="10%">end_time</td>
-                    <td width="10%">type</td>
-                    <td width="10%">status</td>
-                    <td width="10%">amount</td>
-                    <td width="10%">ชำระเงิน</td>
-                    <td width="10%">ยกเลิก</td>
+                    <td width="10%">ชื่อสนาม</td>
+                    <td width="10%">เวลาเริ่มจอง</td>
+                    <td width="10%">เวลาสิ้นสุดการจอง</td>
+                    <td width="10%">ประเภทการจ่ายเงิน</td>
+                    <td width="10%">สถานะการจอง</td>
+                    <td width="10%">จำนวนเงิน</td>
+                    <td width="10%">ยืนยันการจอง</td>
+                    <td width="10%">ยกเลิกการจอง</td>
                 </tr>
             </thead>
             <tbody>

@@ -2,7 +2,7 @@
 if (isset($_GET['id'])) {
     require_once '../common/connect.php';
     $id = $_GET['id'];
-    $sql = "DELETE FROM t_user WHERE user_id='$id'";
+    $sql = "DELETE FROM m_image WHERE image_id='$id'";
     $result = mysqli_query($conn, $sql);
     
     //  sweet alert 
@@ -18,7 +18,7 @@ if (isset($_GET['id'])) {
                   title: "ลบข้อมูลสำเร็จ",
                   type: "success"
               }, function() {
-                  window.location = "../profile_list.php"; //หน้าที่ต้องการให้กระโดดไป
+                  window.location = "../web_manage.php"; //หน้าที่ต้องการให้กระโดดไป
               });
             }, 1000);
         </script>';
@@ -29,7 +29,7 @@ if (isset($_GET['id'])) {
                   title: "เกิดข้อผิดพลาด",
                   type: "error"
               }, function() {
-                  window.location = "../profile_list.php"; //หน้าที่ต้องการให้กระโดดไป
+                  window.location = "../web_manage.php"; //หน้าที่ต้องการให้กระโดดไป
               });
             }, 1000);
         </script>';
