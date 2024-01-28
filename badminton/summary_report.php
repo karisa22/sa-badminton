@@ -9,6 +9,18 @@ if ($_SESSION["type"] != 1)
 include "header.php";
 $user_id = $_SESSION["user_id"];
 $sum_amt = 0;
+// $cur_date = date('Y-m');
+
+$start_date = date('2024-01-01');
+$end_date = date('2024-12-31');
+$status = '%';
+
+if (isset($_POST["submit"])) {
+    $start_date = $_POST['start_date'];
+    $end_date = $_POST['end_date'];
+    $status = $_POST['status'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -64,6 +76,88 @@ $sum_amt = 0;
     .h1 a {
         padding-top: 10px;
     }
+
+    .box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 90vh;
+    }
+
+    .container2 {
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        padding: 10px 15px 0 15px;
+        border-radius: 25px;
+        background-color: skyblue;
+        align-items: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    span {
+        color: #fff;
+        display: center;
+        justify-content: center;
+        padding: 10px 0 10px 0;
+    }
+
+    header {
+        color: #fff;
+        font-size: 50px;
+        display: flex;
+        justify-content: center;
+        padding: 10px 0 10px 0;
+    }
+
+    .input-field .input {
+        height: 55px;
+        width: 100%;
+        border: none;
+        border-radius: 30px;
+        /* color: #fff; */
+        font-size: 20px;
+        /* padding: 0 0 0 0px; */
+        background: rgba(255, 255, 255, 0.1);
+        outline: none;
+        padding: 0 35px 0;
+    }
+
+    i {
+        position: relative;
+        top: -38px;
+        left: 17px;
+        color: #fff;
+    }
+
+    ::-webkit-input-placeholder {
+        color: #fff;
+    }
+
+    .right{
+        width: 100%;
+        text-align: right;
+    }
+
+    .submit {
+        border: none;
+        border-radius: 30px;
+        font-size: 20px;
+        height: 50px;
+        outline: none;
+        width: 100%;
+        color: black;
+        background: rgba(255, 255, 255, 0.7);
+        cursor: pointer;
+        transition: .3s;
+    }
+
+    .submit:hover {
+        color: rgb(255, 255, 255);
+        background-color: rgb(39, 115, 255);
+        box-shadow: 2px 5px 7px 2px rgba(18, 33, 255, 0.2);
+    }
 </style>
 
 <body>
@@ -71,7 +165,52 @@ $sum_amt = 0;
     <div class="container">
         <br>
         <h1>ข้อมูลรายรับ</h1>
-        
+        <div class="container2">
+            <!-- <a href="#" type="button" class="btn btn-primary">เพิ่มกิจกรรม</a>
+            <a href="add_image.php" type="button" class="btn btn-primary">เพิ่มรูปภาพกิจกรรม</a> -->
+            <form action="summary_report.php" method="POST" enctype="multipart/form-data">
+                <div>
+                <div class="input-field">
+                    <label for="date" style="display: block; margin-bottom: 10px;">
+                        วันที่เริ่มต้น (MM/DD/YYYY):
+                    </label>
+                    <input class="input" type="date" name="start_date" value="2024-01-01" required style="padding: 5px; border-radius: 5px; 
+            border: 1px solid #ccc; margin-bottom: 10px;">
+                </div>
+
+                <div class="input-field">
+                    <label for="date" style="display: block; margin-bottom: 10px;">
+                        วันที่สิ้นสุด (MM/DD/YYYY):
+                    </label>
+                    <input class="input" type="date" name="end_date" value="2024-12-31" required style="padding: 5px; border-radius: 5px; 
+            border: 1px solid #ccc; margin-bottom: 10px;">
+                </div>
+                </div>
+
+                <div class="input-field">
+                    <!-- <input type="text" class="input" name="name" placeholder="ชื่อ" maxlength="100" required>
+                    <i class='bx bx-user'></i> -->
+                    <label for="status">เลือกสถานะการชำระเงิน:</label>
+                    <select class="input" id="status" name="status">
+                        <option value="%">ทั้งหมด</option>;
+                        <option value="1">รอการชำระเงิน</option>;
+                        <option value="2">ชำระเงินสำเร็จ</option>;
+                        <option value="3">ยกเลิการจอง</option>;
+                    </select>
+                    <i class='bx'></i>
+                </div>
+
+                <div class="input-field">
+                    <div align=center>
+                        <button type="submit" class="btn btn-success" value="submit" name="submit">ค้นหา</button>
+
+                        <!-- <a href="courtlist.php" class="btn btn-danger">ยกเลิก</a> -->
+                    </div>
+                    <div><br></div>
+                </div>
+
+            </form>
+        </div>
         <table>
             <BR>
             <thead>
@@ -82,12 +221,14 @@ $sum_amt = 0;
                     <!-- <td width="10%">สถานะการจอง</td> -->
                     <td width="10%">วันที่จอง</td>
                     <td width="10%">วิธีการจ่ายเงิน</td>
+                    <td width="10%">สถานะการจอง</td>
                     <td width="10%">จำนวนเงิน</td>
                 </tr>
             </thead>
             <tbody>
 
                 <?php
+                // WHERE tb.booking_status = '1' and tb.create_date like '%$cur_date%'
                 $sql = "SELECT
                             tu.user_name,
                             tu.user_tel,
@@ -102,33 +243,33 @@ $sum_amt = 0;
                             tb.user_id = tu.user_id
                         LEFT JOIN `m_payment_type` mpt ON
                             mpt.payment_type_id = tb.payment_type_id
-                        WHERE tb.booking_status = '1' and tb.create_date like '%2024-01%'
+                        WHERE tb.booking_status LIKE '$status' and ( tb.create_date BETWEEN '$start_date' AND '$end_date' )
                         ORDER BY tb.create_date DESC;";
+                // echo $sql ;
                 $result = mysqli_query($conn, $sql);
                 if (!mysqli_num_rows($result)) {
                     return;
                 }
                 while ($row = mysqli_fetch_assoc($result)) {
 
-                    $sum_amt = $sum_amt + $row["booking_amount"];
+                    if ($row["booking_status"] == 2) {
+                        $sum_amt = $sum_amt + $row["booking_amount"];
+                    }
 
-                    // echo "<td>" . $row["user_name"] .  "</td> ";
-                    // echo "<td>" . $row["user_tel"] .  "</td> ";
-                    // echo "<td>" . $row["court_id"] .  "</td> ";
-                    // if ($row["booking_status"] == 1) {
-                    //     echo "<td>รอการชำระเงิน</td> ";
-                    // } else if ($row["booking_status"] == 2){
-                    //     echo "<td>ชำระแล้ว</td> ";
-                    // } else {
-                    //     echo "<td>ยกเลิการจอง</td> ";
-                    // }
                     echo "<td>" . $row["create_date"] .  "</td> ";
                     echo "<td>" . $row["payment_type_name"] .  "</td> ";
+                    if ($row["booking_status"] == 1) {
+                        echo "<td>รอการชำระเงิน</td> ";
+                    } else if ($row["booking_status"] == 2) {
+                        echo "<td>ชำระเงินสำเร็จ</td> ";
+                    } else {
+                        echo "<td>ยกเลิการจอง</td> ";
+                    }
                     echo "<td>" . $row["booking_amount"] .  "</td> ";
                     echo "</tr>";
                 }
                 echo "</table>";
-                echo "<label>รายรับทั้งหมด " . $sum_amt ." บาท</label>";
+                echo "<label class='right'>รายรับทั้งหมด " . $sum_amt . " บาท</label>";
                 //5. close connection
                 mysqli_close($conn);
                 ?>

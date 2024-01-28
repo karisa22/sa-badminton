@@ -69,17 +69,17 @@ $user_id = $_SESSION["user_id"];
 
     <div class="container">
         <br>
-        <h1>ข้อมูลสนาม</h1> 
-        <a href="addcourt.php" type="button" class="btn btn-primary" <?php echo $style;?>>เพิ่มข้อมูล สนาม</a> <BR>
+        <h1>ข้อมูลสนาม</h1>
+        <a href="add_court.php" type="button" class="btn btn-primary" <?php echo $style; ?>>เพิ่มข้อมูล สนาม</a> <BR>
         <table>
             <BR>
             <thead>
                 <tr>
                     <td width="5%">ID</td>
-                    <td width="16%">Court Name</td>
-                    <td width="16%">Court Image</td>
-                    <td width="14%" <?php echo $style;?>>Court Status</td>
-                    <td width="5%" <?php echo $style;?>>แก้ไข</td>
+                    <td width="16%">ชื่อสนาม</td>
+                    <td width="16%">รูปภาพสนาม</td>
+                    <td width="14%" <?php echo $style; ?>>สถานะของสนาม</td>
+                    <td width="5%" <?php echo $style; ?>>ปรับเปลี่ยนสถานะ</td>
                 </tr>
             </thead>
             <tbody>
@@ -90,7 +90,7 @@ $user_id = $_SESSION["user_id"];
                 $result = mysqli_query($conn, $sql);
                 while ($row = mysqli_fetch_assoc($result)) {
 
-                    if($_SESSION["type"]!=1 && $row['court_status'] == "1"){
+                    if ($_SESSION["type"] != 1 && $row['court_status'] == "1") {
                         continue;
                     }
 
@@ -101,11 +101,11 @@ $user_id = $_SESSION["user_id"];
                     // echo "<td>" . $row["court_status"] .  "</td> ";
                     // echo "<td>" . ($row['court_status'] == "1" ? 'ปิดปรับปรุง' :  'พร้อมใช้งาน') .  "</td> ";
 
-                    if($_SESSION["type"]==1){
+                    if ($_SESSION["type"] == 1) {
                         echo "<td>" . ($row['court_status'] == "1" ? 'ปิดปรับปรุง' :  'พร้อมใช้งาน') .  "</td> ";
-                        echo "<td><a href='edit.php?id=$row[court_id]' onclick=\"return confirm('ต้องการแก้ไขข้อมูลใช่ไหม!!!')\">แก้ไข</a></td> ";
+                        echo "<td><a href='controllers/update_court.php?id=$row[court_id]&court_status=$row[court_status]' onclick=\"return confirm('ต้องการเปลี่ยนสถานะใช่หรือไม่?')\">" . ($row['court_status'] == "1" ? 'เปิดใช้งาน' :  'ปิดใช้งาน') . "</a></td> ";
                     }
-                    
+
 
                     echo "</tr>";
                 }

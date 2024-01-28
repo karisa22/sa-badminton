@@ -3,11 +3,14 @@
 session_start();
 include_once 'dbConfig.php';
 
+$user_id = $_SESSION["user_id"];
+
 // File upload path
 $targetDir = "uploads/";
 
 if (isset($_POST['submit_facilities'])) {
     if (!empty($_FILES["file"]["name"])) {
+        $activity_id = $_POST['activity_id'];
         $fileName = basename($_FILES["file"]["name"]);
         $targetFilePath = $targetDir . $fileName;
         $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
@@ -26,12 +29,12 @@ if (isset($_POST['submit_facilities'])) {
                 )
                 VALUES(
                     $fileName,
-                    3,
+                    $activity_id,
                     NOW(),
                     NOW(),
                     $user_id,
                     $user_id
-                )");
+                );");
                 if ($insert) {
                     $_SESSION['statusMsg'] = "The file <b>" . $fileName . "</b> has been uploaded successfully.";
                     header("location: facilities_admin.php");

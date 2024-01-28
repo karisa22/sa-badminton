@@ -9,7 +9,7 @@ $targetDir = "uploads/";
 
 
 if (isset($_POST["submit"])) {
-    $activity_id = $_POST['activity_id'];
+    $court_name = $_POST['court_name'];
 
 
     if (isset($_POST['submit'])) {
@@ -17,63 +17,45 @@ if (isset($_POST["submit"])) {
             $fileName = basename($_FILES["file"]["name"]);
             $targetFilePath = $targetDir . $fileName;
             $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-    
+
             // Allow certain file formats
             $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'pdf');
             if (in_array($fileType, $allowTypes)) {
                 if (move_uploaded_file($_FILES['file']['tmp_name'], $targetFilePath)) {
-                   
-                    $sql ="INSERT INTO `m_image`(
-                        `image_name`,
-                        `activity_id`,
-                        `create_date`,
-                        `edit_date`,
-                        `create_by`,
-                        `edit_by`
+
+                    $sql = "INSERT INTO `m_court`(
+                        `court_name`,
+                        `court_image`,
+                        `court_status`
                     )
-                    VALUES(
-                        '$fileName',
-                        $activity_id,
-                        NOW(),
-                        NOW(),
-                        $user_id,
-                        $user_id
-                    );";
+                    VALUES( '$court_name', '$fileName', '0');";
                     $result = mysqli_query($conn, $sql);
                     if ($result) {
                         $_SESSION['statusMsg'] = "The file <b>" . $fileName . "</b> has been uploaded successfully.";
-                        header("location: web_manage.php");
+                        header("location: courtlist.php");
                         // echo "successfully: ";
                     } else {
                         $_SESSION['statusMsg'] = "File upload failed, please try again.";
-                        header("location: web_manage.php");
+                        header("location: courtlist.php");
                         // echo "Failed: " . mysqli_error($conn);
                         // echo "failed: 1";
                     }
                 } else {
                     $_SESSION['statusMsg'] = "Sorry, there was an error uploading your file.";
-                    header("location: web_manage.php");
+                    header("location: courtlist.php");
                     // echo "failed: 2";
                 }
             } else {
                 $_SESSION['statusMsg'] = "Sorry, only JPG, JPEG, PNG & GIF files are allowed to upload.";
-                header("location: web_manage.php");
+                header("location: courtlist.php");
                 // echo "failed: 3";
             }
         } else {
             $_SESSION['statusMsg'] = "Please select a file to upload.";
-            header("location: web_manage.php");
+            header("location: courtlist.php");
             // echo "failed: 4";
         }
     }
-
-    // echo "failed: 5";
-
-    // if ($result) {
-    //     header("Location: web_manage.php?msg=New record created successfully");
-    // } else {
-    //     echo "Failed: " . mysqli_error($conn);
-    // }
 }
 
 ?>
@@ -101,7 +83,7 @@ if (isset($_POST["submit"])) {
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
-    <title>Add Image</title>
+    <title>Add Court</title>
 </head>
 
 <body>
@@ -160,7 +142,7 @@ if (isset($_POST["submit"])) {
             width: 100%;
             border: none;
             border-radius: 30px;
-            /* color: #fff; */
+            color: #fff;
             font-size: 20px;
             padding: 0 0 0 45px;
             background: rgba(255, 255, 255, 0.1);
@@ -201,23 +183,12 @@ if (isset($_POST["submit"])) {
     <div class="box">
         <div class="container">
             <div class="top">
-                <header>เพิ่มข้อมูลรูปภาพ</header>
+                <header>เพิ่มสนาม</header>
             </div>
             <!-- <form method="POST" action="add_image.php"> -->
-            <form action="add_image.php" method="POST" enctype="multipart/form-data">
+            <form action="add_court.php" method="POST" enctype="multipart/form-data">
                 <div class="input-field">
-                    <!-- <input type="text" class="input" name="name" placeholder="ชื่อ" maxlength="100" required>
-                    <i class='bx bx-user'></i> -->
-                    <label for="activity">เลือกกิจกรรม:</label>
-                    <select class="input" id="activity" name="activity_id">
-                        <?php
-                        $sql_activity = "SELECT * FROM `t_activity`";
-                        $result_activity = mysqli_query($conn, $sql_activity);
-                        while ($row_court = mysqli_fetch_assoc($result_activity)) {
-                            echo '<option value="' . $row_court["activity_id"] . '">' . $row_court["activity_name"] . '</option>';
-                        }
-                        ?>
-                    </select>
+                    <input type="text" class="input" name="court_name" placeholder="ชื่อสนาม" maxlength="100" required>
                     <i class='bx'></i>
                 </div>
                 <div class="input-field">
@@ -226,27 +197,18 @@ if (isset($_POST["submit"])) {
                         <input type="file" name="file" class="form-control streched-link" accept="image/gif, image/jpeg, image/png ">
                     </div>
                 </div>
-                <!-- <div class="input-field">
-                    <input type="text" class="input" name="username" placeholder="Username" maxlength="50" required>
-                    <i class='bx bx-user'></i>
-                </div>
-                <div class="input-field">
-                    <input type="Password" class="input" name="password" placeholder="Password" maxlength="10" required>
-                    <i class='bx bx-lock-alt'></i>
-                </div> -->
                 <div class="input-field">
                     <div align=center>
                         <button type="submit" class="btn btn-success" value="Upload" name="submit">บันทึก</button>
-                        
-                        <a href="web_manage.php" class="btn btn-danger">ยกเลิก</a>
+
+                        <a href="courtlist.php" class="btn btn-danger">ยกเลิก</a>
                     </div>
                     <div><br></div>
                 </div>
-        </div>
-        </form>
-    </div>
 
-    </div>
+            </form>
+        </div>
+
     </div>
 </body>
 

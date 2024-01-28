@@ -9,6 +9,10 @@ if ($_SESSION["type"] != 1)
     $style = "style='display:none;'"; //ซ่อนหน้าจอส่วนที่ไม่ได้เป็น admin
 $user_id = $_SESSION["user_id"];
 
+$option0 = date("Y-m-d");
+$option1 = date("Y-m-d", strtotime("+1 day", strtotime($option0)));
+$option2 = date("Y-m-d", strtotime("+2 day", strtotime($option0)));
+
 $mindate = date("Y-m-d");
 $mintime = date("h:i");
 $min = $mindate . "T" . $mintime;
@@ -31,14 +35,14 @@ if (isset($_POST["submit"])) {
     $amount = 0;
 
     $user = $user_id;
-    if (!isset($_POST['user'])){
+    if (!isset($_POST['user'])) {
         $user = $_POST['user'];
     }
 
     if ("30 นาที" == $hour) {
         $amount = 75;
         $endtime = date('h:i', strtotime($date . ' + 30 minutes'));
-    } else if ("1 ชั่วโมง" ==$hour) {
+    } else if ("1 ชั่วโมง" == $hour) {
         $amount = 150;
         $endtime = date('h:i', strtotime($date . ' +1 hours'));
     } else if ("1 ชั่วโมง 30 นาที" == $hour) {
@@ -53,7 +57,7 @@ if (isset($_POST["submit"])) {
 
     if ("เงินโอน" == $type) {
         $v_type = 1;
-    } else if ("เงินสด" ==$type) {
+    } else if ("เงินสด" == $type) {
         $v_type = 2;
     } else if ("qrcode" == $type) {
         $v_type = 3;
@@ -186,7 +190,20 @@ if (isset($_POST["submit"])) {
             width: 100%;
             border: none;
             border-radius: 30px;
-            color: #fff;
+            /* color: #fff; */
+            font-size: 20px;
+            padding: 0 0 0 45px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            padding: 0 35px 0;
+        }
+
+        .input2 {
+            height: 55px;
+            width: 30%;
+            border: none;
+            border-radius: 30px;
+            /* color: #fff; */
             font-size: 20px;
             padding: 0 0 0 45px;
             background: rgba(255, 255, 255, 0.1);
@@ -230,64 +247,46 @@ if (isset($_POST["submit"])) {
                 <header>จองสนาม</header>
             </div>
             <form method="POST" action="add_booking.php">
+
                 <div class="input-field">
-                    <input type="number" class="input" placeholder="ชื่อคอร์ท" type="search" list="court" name="court" required>
-                    <datalist id="court">
+                    <!-- <input type="text" class="input" name="name" placeholder="ชื่อ" maxlength="100" required>
+                    <i class='bx bx-user'></i> -->
+                    <label for="status">วันที่ต้องการจอง:</label>
+                    <select class="input" id="status" name="status">
                         <?php
-                        $sql_court = "SELECT * FROM `m_court`";
-                        $result_court = mysqli_query($conn, $sql_court);
-                        while ($row_court = mysqli_fetch_assoc($result_court)) {
-                            echo '<option value="' . $row_court["court_id"] . '">';
-                        }
+                        echo '<option value="0">' . $option0 . '</option>';
+                        echo '<option value="1">' . $option1 . '</option>';
+                        echo '<option value="2">' . $option2 . '</option>';
                         ?>
-                    </datalist>
+                    </select>
                     <i class='bx'></i>
-                </div>
-                <div class="input-field" <?php echo $style; ?>>
-                    <input type="text" class="input" placeholder="หมายเลขผู้ใช้" type="search" list="user" name="user">
-                    <datalist id="user">
-                        <?php
-                        $sql_user = "SELECT * FROM `t_user` WHERE user_type = '2'";
-                        $result_user = mysqli_query($conn, $sql_user);
-                        while ($row_user = mysqli_fetch_assoc($result_user)) {
-                            echo '<option value="' . $row_user["user_id"] . '">';
-                        }
-                        ?>
-                    </datalist>
+                    <div>
+                        <label for="status">เวลา </label>
+                        <select class="input2" id="status" name="status">
+                            <option value="12">12</option>;
+                            <option value="13">13</option>;
+                            <option value="14">14</option>;
+                            <option value="15">15</option>;
+                            <option value="16">16</option>;
+                            <option value="17">17</option>;
+                            <option value="18">18</option>;
+                            <option value="19">19</option>;
+                            <option value="20">20</option>;
+                            <option value="21">21</option>;
+                            <option value="22">22</option>;
+                        </select>
+                        <label for="status"> : </label>
+                        <select class="input2" id="status" name="status">
+                            <option value="0">00</option>;
+                            <!-- <option value="15">15</option>; -->
+                            <option value="30">30</option>;
+                            <!-- <option value="45">45</option>; -->
+                        </select>
+                    </div>
                     <i class='bx'></i>
+                    <!-- SELECT * FROM `t_booking` WHERE booking_start_time >= '2024-01-22 02:25:00' AND booking_end_time <= '2024-01-22 03:05:00'; -->
                 </div>
-                <div class="input-field">
-                    <input class="input" name="date" type="datetime-local" min="<?php echo $min ?>" max="<?php echo $max ?>" required>
-                    <!-- <input type="number" class="input" name="tel" placeholder="เบอร์โทรศัพท์" maxlength="10" required> -->
-                    <i class='bx'></i>
-                </div>
-                <div class="input-field">
-                    <input type="text" class="input" placeholder="จำนวนชั่วโมง" list="hour" name="hour" required>
-                    <datalist id="hour">
-                        <option value="30 นาที"></option>
-                        <option value="1 ชั่วโมง"></option>
-                        <option value="1 ชั่วโมง 30 นาที"></option>
-                        <option value="2 ชั่วโมง"></option>
-                    </datalist>
-                    <i class='bx'></i>
-                </div>
-                <div class="input-field">
-                    <input type="text" class="input" placeholder="วิธีการจ่ายเงิน" type="search" list="type" name="type" required>
-                    <datalist id="type">
-                        <?php
-                        $sql_type = "SELECT * FROM `m_payment_type`";
-                        $result_type = mysqli_query($conn, $sql_type);
-                        while ($row_type = mysqli_fetch_assoc($result_type)) {
-                            echo '<option value="' . $row_type["payment_type_name"] . '">';
-                        }
-                        ?>
-                    </datalist>
-                    <i class='bx'></i>
-                </div>
-                <!-- <div class="input-field">
-                    <input type="number" name="amount" placeholder="จำนวนเงิน" READONLY>
-                    <i class='bx '></i>
-                </div> -->
+
                 <div class="input-field">
                     <div align=center>
                         <button type="submit" class="btn btn-success" name="submit">บันทึก</button>
@@ -296,8 +295,9 @@ if (isset($_POST["submit"])) {
                     </div>
                     <div><br></div>
                 </div>
+
+            </form>
         </div>
-        </form>
     </div>
 </body>
 
