@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = ""; //ถ้าไม่ได้ตั้งรหัสผ่านให้ลบ yourpassword ออก
+$password = "ongsa@112233"; //ถ้าไม่ได้ตั้งรหัสผ่านให้ลบ yourpassword ออก
 $dbname = "badminton";
 
 //

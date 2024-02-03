@@ -129,9 +129,14 @@ $user_id = $_SESSION["user_id"];
                 }
                 while ($row = mysqli_fetch_assoc($result)) {
 
+                    $booking_start_time = date("Y-m-d h:i", strtotime($row["booking_start_time"]));
+                    $booking_end_time = date("Y-m-d h:i", strtotime($row["booking_end_time"]));
+
                     echo "<td>" . $row["court_id"] .  "</td> ";
-                    echo "<td>" . $row["booking_start_time"] .  "</td> ";
-                    echo "<td>" . $row["booking_end_time"] .  "</td> ";
+                    // echo "<td>" . $row["booking_start_time"] .  "</td> ";
+                    // echo "<td>" . $row["booking_end_time"] .  "</td> ";
+                    echo "<td>" . $booking_start_time .  "</td> ";
+                    echo "<td>" . $booking_end_time .  "</td> ";
                     echo "<td>" . $row["payment_type_name"] .  "</td> ";
                     if ($row["booking_status"] == 1) {
                         echo "<td> รอชำระเงิน </td> ";

@@ -2,12 +2,60 @@
 include "common/connect.php";
 
 $style = "";
+$style_booking = "style='display:none;'";
 session_start();
 if (!isset($_SESSION["type"])) //1 = admin , 2 = member
     header("location:login.php");
 if ($_SESSION["type"] != 1)
     $style = "style='display:none;'"; //ซ่อนหน้าจอส่วนที่ไม่ได้เป็น admin
 $user_id = $_SESSION["user_id"];
+$court_busy = array();
+$search_dt = "";
+
+if (isset($_POST["search"])) {
+    $search_date = $_POST["search_date"];
+    $search_hour = $_POST["search_hour"];
+    $search_minuts = $_POST["search_minuts"];
+    $search_dt = $search_date . " " . $search_hour . ":" . $search_minuts . ":00";
+
+    //debug
+    // echo $search_dt;
+
+    $sql_court = "SELECT
+                        *
+                    FROM
+                        `m_court`
+                    WHERE
+                        court_status = 0
+                    ORDER BY
+                        court_id ASC";
+    $result_court = mysqli_query($conn, $sql_court);
+
+    $sql_search = "SELECT
+                        *
+                    FROM
+                        `t_booking`
+                    WHERE
+                        booking_start_time <= '$search_dt' 
+                        AND booking_end_time >= '$search_dt' 
+                        AND booking_status = '2'
+                    ORDER BY
+                        court_id ASC;";
+    $result_search = mysqli_query($conn, $sql_search);
+    while ($row_search = mysqli_fetch_assoc($result_search)) {
+        array_push($court_busy,$row_search["court_id"]);
+    }
+    if (mysqli_num_rows($result_search) != mysqli_num_rows($result_court)) {
+        $style_booking = "";
+    }
+}
+
+//debug
+// foreach ($court_busy as $x) {
+//     echo "$x <br>";
+// }
+
+
 
 $option0 = date("Y-m-d");
 $option1 = date("Y-m-d", strtotime("+1 day", strtotime($option0)));
@@ -20,50 +68,52 @@ $maxdate = date("Y-m-d", strtotime("+3 Days"));
 $maxtime = date("h:i");
 $max = $maxdate . "T" . $maxtime;
 
-// $sql_court = "SELECT * FROM `m_court`";
-// $result_court = mysqli_query($conn, $sql_court);
-
-// $sql_user = "SELECT * FROM `t_user` WHERE user_type = '2'";
-// $result_user = mysqli_query($conn, $sql_user);
-
-if (isset($_POST["submit"])) {
+if (isset($_POST["booking"])) {
     $court = $_POST['court'];
     $date = $_POST['date'];
+    // $date = $search_dt;
     $hour = $_POST['hour'];
     $type = $_POST['type'];
     $v_type = "";
     $amount = 0;
 
     $user = $user_id;
-    if (!isset($_POST['user'])) {
-        $user = $_POST['user'];
-    }
+    // if (!isset($_POST['user'])) {
+    //     $user = $_POST['user'];
+    // }
 
-    if ("30 นาที" == $hour) {
+    $startdate = date("Y-m-d", strtotime($date));
+    $starttime = date("h:i", strtotime($date));
+    
+    $start = $startdate . "T" . $starttime;
+
+    if (0 == $hour) {
         $amount = 75;
         $endtime = date('h:i', strtotime($date . ' + 30 minutes'));
-    } else if ("1 ชั่วโมง" == $hour) {
+    } else if (1 == $hour) {
         $amount = 150;
         $endtime = date('h:i', strtotime($date . ' +1 hours'));
-    } else if ("1 ชั่วโมง 30 นาที" == $hour) {
+    } else if (2 == $hour) {
         $amount = 225;
         $endtime = date('h:i', strtotime($date . ' + 90 minutes'));
-    } else if ("2 ชั่วโมง" == $hour) {
+    } else if (3 == $hour) {
         $amount = 300;
         $endtime = date('h:i', strtotime($date . ' +2 hours'));
     }
-    $enddate = date("Y-m-d");
-    $end = $enddate . "T" . $endtime;
+    // $enddate = date($date);
+    $end = $startdate . "T" . $endtime;
 
-    if ("เงินโอน" == $type) {
-        $v_type = 1;
-    } else if ("เงินสด" == $type) {
-        $v_type = 2;
-    } else if ("qrcode" == $type) {
-        $v_type = 3;
-    } else if ("บัตรเครดิต" == $type) {
-        $v_type = 4;
-    }
+    $v_type = $type;
+
+    // if ("เงินโอน" == $type) {
+    //     $v_type = 1;
+    // } else if ("เงินสด" == $type) {
+    //     $v_type = 2;
+    // } else if ("qrcode" == $type) {
+    //     $v_type = 3;
+    // } else if ("บัตรเครดิต" == $type) {
+    //     $v_type = 4;
+    // }
 
     $sql = "INSERT INTO `t_booking`(
         `user_id`,
@@ -84,7 +134,7 @@ if (isset($_POST["submit"])) {
     VALUES(
         $user,
         $court,
-        '$date',
+        '$start',
         '$end',
         $v_type,
         NULL,
@@ -251,18 +301,18 @@ if (isset($_POST["submit"])) {
                 <div class="input-field">
                     <!-- <input type="text" class="input" name="name" placeholder="ชื่อ" maxlength="100" required>
                     <i class='bx bx-user'></i> -->
-                    <label for="status">วันที่ต้องการจอง:</label>
-                    <select class="input" id="status" name="status">
+                    <label for="search_date">วันที่ต้องการจอง:</label>
+                    <select class="input" id="search_date" name="search_date">
                         <?php
-                        echo '<option value="0">' . $option0 . '</option>';
-                        echo '<option value="1">' . $option1 . '</option>';
-                        echo '<option value="2">' . $option2 . '</option>';
+                        echo '<option value="' . $option0 . '">' . $option0 . '</option>';
+                        echo '<option value="' . $option1 . '">' . $option1 . '</option>';
+                        echo '<option value="' . $option2 . '">' . $option2 . '</option>';
                         ?>
                     </select>
                     <i class='bx'></i>
                     <div>
-                        <label for="status">เวลา </label>
-                        <select class="input2" id="status" name="status">
+                        <label for="search_hour">เวลา </label>
+                        <select class="input2" id="search_hour" name="search_hour">
                             <option value="12">12</option>;
                             <option value="13">13</option>;
                             <option value="14">14</option>;
@@ -275,9 +325,9 @@ if (isset($_POST["submit"])) {
                             <option value="21">21</option>;
                             <option value="22">22</option>;
                         </select>
-                        <label for="status"> : </label>
-                        <select class="input2" id="status" name="status">
-                            <option value="0">00</option>;
+                        <label for="search_minuts"> : </label>
+                        <select class="input2" id="search_minuts" name="search_minuts">
+                            <option value="00">00</option>;
                             <!-- <option value="15">15</option>; -->
                             <option value="30">30</option>;
                             <!-- <option value="45">45</option>; -->
@@ -289,13 +339,74 @@ if (isset($_POST["submit"])) {
 
                 <div class="input-field">
                     <div align=center>
-                        <button type="submit" class="btn btn-success" name="submit">บันทึก</button>
+                        <button type="submit" class="btn btn-success" name="search">ค้นหาสนาม</button>
 
-                        <a href="booking_list.php" class="btn btn-danger">ยกเลิก</a>
+                        <!-- <a href="booking_list.php" class="btn btn-danger">ยกเลิก</a> -->
                     </div>
                     <div><br></div>
                 </div>
 
+            </form>
+            <form method="POST" action="add_booking.php" <?php echo $style_booking; ?>>
+
+                <div class="input-field">
+                    <!-- <input type="text" class="input" name="name" placeholder="ชื่อ" maxlength="100" required>
+                    <i class='bx bx-user'></i> -->
+                    <input style='display:none;' value="<?php echo $search_dt; ?>" type="text" class="input" name="date">
+                    <label >เวลา:<?php echo $search_dt; ?></label>
+                    <br>
+                    <label for="court">สนามที่ว่าง:</label>
+                    <select class="input" id="court" name="court">
+                        <?php
+
+                        while ($row_court = mysqli_fetch_assoc($result_court)) {
+                            if (in_array($row_court["court_id"], $court_busy))
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                echo '<option value="' . $row_court["court_id"] . '">' . $row_court["court_name"] . '</option>';
+                            }
+                        }
+
+                        ?>
+                    </select>
+                    <i class='bx'></i>
+                </div>
+
+                <div class="input-field">
+                    <label for="hour">จำนวนชั่วโมงที่ต้องการจอง:</label>
+                    <select class="input" id="search_date" name="hour">
+                        <option value="0">30 นาที</option>
+                        <option value="1">1 ชั่วโมง</option>
+                        <option value="2">1 ชั่วโมง 30 นาที</option>
+                        <option value="3">2 ชั่วโมง</option>
+                    </select>
+                    <i class='bx'></i>
+                </div>
+
+                <div class="input-field">
+                    <label for="type">วิธีการจ่ายเงิน:</label>
+                    <select class="input" id="type" name="type">
+                        <?php
+                        $sql_type = "SELECT * FROM `m_payment_type`";
+                        $result_type = mysqli_query($conn, $sql_type);
+                        while ($row_type = mysqli_fetch_assoc($result_type)) {
+                            echo '<option value="' . $row_type["payment_type_id"] . '">'. $row_type["payment_type_name"] .'</option>';
+                        }
+                        ?>
+                    </select>
+                    </div>
+
+                <div class="input-field">
+                    <div align=center>
+                        <button type="submit" class="btn btn-success" name="booking">จองสนาม</button>
+
+                        <!-- <a href="booking_list.php" class="btn btn-danger">ยกเลิก</a> -->
+                    </div>
+                    <div><br></div>
+                </div>
             </form>
         </div>
     </div>

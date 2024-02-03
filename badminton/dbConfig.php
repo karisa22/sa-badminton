@@ -3,7 +3,7 @@
 // Database configuration
 $dbHost = "localhost";
 $dbUsername = "root";
-$dbPassword = "";
+$dbPassword = "ongsa@112233";
 $dbName = "badminton";
 
 // Create database connection

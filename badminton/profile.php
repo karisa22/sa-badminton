@@ -30,10 +30,10 @@ if (!isset($_SESSION["type"])) //1 = admin , 2 = member
         <p>Tel : <?php echo $_SESSION["tel"]; ?></p>
         <p>Type : <?php echo $_SESSION["type"]==1?"Admin":"Member"; ?></p>
         <p>Create Date : <?php echo $_SESSION["create_date"]; ?></p>
-        <a href="#"><i class="fa fa-dribbble"></i></a>
+        <!-- <a href="#"><i class="fa fa-dribbble"></i></a>
         <a href="#"><i class="fa fa-twitter"></i></a>
         <a href="#"><i class="fa fa-linkedin"></i></a>
-        <a href="#"><i class="fa fa-facebook"></i></a>
+        <a href="#"><i class="fa fa-facebook"></i></a> -->
         <p><button>Contact</button></p>
     </div>
 

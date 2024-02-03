@@ -96,12 +96,12 @@ if (isset($_POST["submit"])) {
         margin-right: auto;
     }
 
-    span {
+    /*span {
         color: #fff;
         display: center;
         justify-content: center;
         padding: 10px 0 10px 0;
-    }
+    }*/
 
     header {
         color: #fff;
@@ -195,7 +195,7 @@ if (isset($_POST["submit"])) {
                         <option value="%">ทั้งหมด</option>;
                         <option value="1">รอการชำระเงิน</option>;
                         <option value="2">ชำระเงินสำเร็จ</option>;
-                        <option value="3">ยกเลิการจอง</option>;
+                        <option value="3">ยกเลิกการจอง</option>;
                     </select>
                     <i class='bx'></i>
                 </div>
@@ -280,8 +280,8 @@ if (isset($_POST["submit"])) {
 
     <?php include "footer.php" ?>
 
-    <script src="http://getbootstrap.com/2.3.2/assets/js/jquery.js"></script>
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <!-- <script src="http://getbootstrap.com/2.3.2/assets/js/jquery.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script> -->
 </body>
 
 </html>

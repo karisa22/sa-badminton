@@ -60,7 +60,7 @@ include "header.php";
         <br>
         <h1>จัดการหน้าเว็บไซต์</h1>
         <div>
-            <a href="#" type="button" class="btn btn-primary">เพิ่มกิจกรรม</a>
+            <!-- <a href="#" type="button" class="btn btn-primary">เพิ่มกิจกรรม</a> -->
             <a href="add_image.php" type="button" class="btn btn-primary">เพิ่มรูปภาพกิจกรรม</a>
         </div>
         <BR>
