@@ -80,7 +80,7 @@ $image=$row['image_name'];
         </div>
 
         <button type="submit" class="btn btn-primary">Update</button>
-        <a href="profile_list.php" class="link-secondary">Home</a>
+        <a href="profile_list.php" class="link-secondary">Back</a>
       </form>
     </div>
   <?php } ?>

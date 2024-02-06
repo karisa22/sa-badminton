@@ -33,6 +33,7 @@ if (isset($_POST["submit"])) {
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/boostrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/mytable.css">
 </head>
 <style>
     /* Googlefont Poppins CDN Link */
@@ -56,7 +57,7 @@ if (isset($_POST["submit"])) {
         margin: 5px;
     }
 
-    table {
+    /* table {
         margin: 5px;
         width: 100%;
         border-collapse: collapse;
@@ -66,7 +67,7 @@ if (isset($_POST["submit"])) {
     td {
         border: 1px solid #5D6D7E;
         text-align: center;
-    }
+    } */
 
     thead {
         background-color: #64C5D7;
@@ -164,7 +165,7 @@ if (isset($_POST["submit"])) {
 
     <div class="container">
         <br>
-        <h1>ข้อมูลรายรับ</h1>
+        <h1>สรุปรายรับ</h1>
         <div class="container2">
             <!-- <a href="#" type="button" class="btn btn-primary">เพิ่มกิจกรรม</a>
             <a href="add_image.php" type="button" class="btn btn-primary">เพิ่มรูปภาพกิจกรรม</a> -->
@@ -195,7 +196,7 @@ if (isset($_POST["submit"])) {
                         <option value="%">ทั้งหมด</option>;
                         <option value="1">รอการชำระเงิน</option>;
                         <option value="2">ชำระเงินสำเร็จ</option>;
-                        <option value="3">ยกเลิกการจอง</option>;
+                        <!-- <option value="3">ยกเลิกการจอง</option>; -->
                     </select>
                     <i class='bx'></i>
                 </div>
@@ -211,7 +212,7 @@ if (isset($_POST["submit"])) {
 
             </form>
         </div>
-        <table>
+        <table id="customers">
             <BR>
             <thead>
                 <tr>
@@ -219,10 +220,10 @@ if (isset($_POST["submit"])) {
                     <td width="10%">เบอร์โทร</td>
                     <td width="10%">สนามที่จอง</td> -->
                     <!-- <td width="10%">สถานะการจอง</td> -->
-                    <td width="10%">วันที่จอง</td>
-                    <td width="10%">วิธีการจ่ายเงิน</td>
-                    <td width="10%">สถานะการจอง</td>
-                    <td width="10%">จำนวนเงิน</td>
+                    <th width="10%">วันที่จอง</th>
+                    <th width="10%">วิธีการจ่ายเงิน</th>
+                    <th width="10%">สถานะการจอง</th>
+                    <th width="10%">จำนวนเงิน</th>
                 </tr>
             </thead>
             <tbody>
@@ -243,7 +244,7 @@ if (isset($_POST["submit"])) {
                             tb.user_id = tu.user_id
                         LEFT JOIN `m_payment_type` mpt ON
                             mpt.payment_type_id = tb.payment_type_id
-                        WHERE tb.booking_status LIKE '$status' and ( tb.create_date BETWEEN '$start_date' AND '$end_date' )
+                        WHERE tb.booking_status LIKE '$status' AND ( tb.create_date BETWEEN '$start_date' AND '$end_date' ) AND NOT booking_status = 3
                         ORDER BY tb.create_date DESC;";
                 // echo $sql ;
                 $result = mysqli_query($conn, $sql);
@@ -252,9 +253,10 @@ if (isset($_POST["submit"])) {
                 }
                 while ($row = mysqli_fetch_assoc($result)) {
 
-                    if ($row["booking_status"] == 2) {
-                        $sum_amt = $sum_amt + $row["booking_amount"];
-                    }
+                    $sum_amt = $sum_amt + $row["booking_amount"];
+                    // if ($row["booking_status"] == 2) {
+                    //     $sum_amt = $sum_amt + $row["booking_amount"];
+                    // }
 
                     echo "<td>" . $row["create_date"] .  "</td> ";
                     echo "<td>" . $row["payment_type_name"] .  "</td> ";
@@ -265,7 +267,7 @@ if (isset($_POST["submit"])) {
                     } else {
                         echo "<td>ยกเลิการจอง</td> ";
                     }
-                    echo "<td>" . $row["booking_amount"] .  "</td> ";
+                    echo "<td style='text-align: right;' >" . $row["booking_amount"] .  "</td> ";
                     echo "</tr>";
                 }
                 echo "</table>";

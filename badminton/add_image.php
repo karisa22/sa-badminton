@@ -127,7 +127,9 @@ if (isset($_POST["submit"])) {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 90vh;
+            min-height: 100vh;
+            background-image: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.4)), url("img_sys/badminton-bg.jpg");
+            background-size: 100% ;
         }
 
         .container {
@@ -136,7 +138,12 @@ if (isset($_POST["submit"])) {
             flex-direction: column;
             padding: 0 15px 0 15px;
             border-radius: 25px;
-            background-color: skyblue;
+            /* background-color: skyblue; */
+            /* background-color: #337ab7; */
+            /* background-color: #6495ED; */
+            /* background-color: #1E90FF; */
+            /* background-color: #87CEFA; */
+            background-color: #25A4FF;
 
         }
 

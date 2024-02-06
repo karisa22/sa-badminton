@@ -109,7 +109,9 @@ if (isset($_POST["submit"])) {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 90vh;
+            min-height: 100vh;
+            background-image: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url("img_sys/badminton-bg3.jpg");
+            background-size: 100% ;
         }
 
         .container {

@@ -23,7 +23,7 @@ if (!isset($_SESSION["type"])) //1 = admin , 2 = member
     <!-- <div>
         Welcome
     </div> -->
-    <div class="card">
+    <div style='margin-top: 40px; margin-bottom: 35px;' class="card">
         <img src="images/85.png" alt="John" style="width:100%">
         <h1><?php echo $_SESSION["user_id"]; ?></h1>
         <p class="title">Name : <?php echo $_SESSION["name"]; ?></p>
@@ -34,7 +34,7 @@ if (!isset($_SESSION["type"])) //1 = admin , 2 = member
         <a href="#"><i class="fa fa-twitter"></i></a>
         <a href="#"><i class="fa fa-linkedin"></i></a>
         <a href="#"><i class="fa fa-facebook"></i></a> -->
-        <p><button>Contact</button></p>
+        <!-- <p><button>Contact</button></p> -->
     </div>
 
 </body>

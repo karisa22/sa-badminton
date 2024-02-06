@@ -20,6 +20,7 @@ $user_id = $_SESSION["user_id"];
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/boostrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/mytable.css">
 </head>
 <style>
     /* Googlefont Poppins CDN Link */
@@ -37,7 +38,7 @@ $user_id = $_SESSION["user_id"];
         min-height: 100vh;
     }
 
-    table {
+    /* table {
         width: 100%;
         border-collapse: collapse;
     }
@@ -46,7 +47,7 @@ $user_id = $_SESSION["user_id"];
     td {
         border: 1px solid #5D6D7E;
         text-align: center;
-    }
+    } */
 
     thead {
         background-color: #64C5D7;
@@ -65,19 +66,20 @@ $user_id = $_SESSION["user_id"];
         <h1>รายการชำระเงิน</h1>
 
         
-        <table>
+        <table id="customers">
             <BR>
             <thead>
                 <tr>
-                    <td width="5%">ID</td>
-                    <td width="10%">จำนวนเงิน</td>
-                    <td width="10%">รูปภาพ slip</td>
-                    <td width="10%">วันที่จ่ายเงิน</td>
-                    <td width="10%">วันที่สร้างข้อมูล</td>
-                    <td width="10%" <?php echo $style; ?>>ผู้สร้างข้อมูล</td>
-                    <td width="10%" <?php echo $style; ?>>สถานะข้อมูล</td>
-                    <td width="8%">ยืนยันการจอง</td>
-                    <td width="8%">ยกเลิก</td>
+                    <th width="5%">ID</th>
+                    <th width="5%">รหัสการจอง</th>
+                    <th width="5%">จำนวนเงิน</th>
+                    <th width="15%">รูปภาพ slip</th>
+                    <th width="7%">วันที่จ่ายเงิน</th>
+                    <th width="7%">วันที่สร้างข้อมูล</th>
+                    <th width="7%" <?php echo $style; ?>>ผู้สร้างข้อมูล</th>
+                    <!-- <th width="10%" <?php echo $style; ?>>สถานะข้อมูล</th> -->
+                    <!-- <th width="8%">ยืนยันการจอง</th>
+                    <th width="8%">ยกเลิก</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -86,18 +88,21 @@ $user_id = $_SESSION["user_id"];
                 $sql = "";
                 if ($_SESSION["type"] == 1) {
                     $sql = "SELECT
-                            tp.payment_id,
-                            tp.payment_amount,
-                            tp.image_name,
-                            tp.paid_date,
-                            tp.create_date,
-                            tp.create_by,
-                            tp.del,
-                            tu.user_name
-                        FROM
-                            t_payment tp
-                        LEFT JOIN t_user tu ON
-                            tp.create_by = tu.user_id";
+                                tp.payment_id,
+                                tp.payment_amount,
+                                tp.image_name,
+                                tp.paid_date,
+                                tp.create_date,
+                                tp.create_by,
+                                tb.booking_id,
+                                tp.del,
+                                tu.user_name
+                            FROM
+                                t_payment tp
+                            LEFT JOIN t_user tu ON
+                                tp.create_by = tu.user_id
+                            LEFT JOIN t_booking tb ON
+                                tp.payment_id = tb.payment_id";
                 } else {
                     // $sql = "SELECT * FROM `t_payment` WHERE create_by = $user_id AND del = 0";
                     $sql = "SELECT
@@ -107,14 +112,17 @@ $user_id = $_SESSION["user_id"];
                             tp.paid_date,
                             tp.create_date,
                             tp.create_by,
+                            tb.booking_id,
                             tp.del,
                             tu.user_name
                         FROM
                             t_payment tp
                         LEFT JOIN t_user tu ON
                             tp.create_by = tu.user_id
+                        LEFT JOIN t_booking tb ON
+                            tp.payment_id = tb.payment_id
                         WHERE
-                            tp.del = 0;";
+                            tp.del = 0 AND tp.create_by = '$user_id';";
                 }
                 $result = mysqli_query($conn, $sql);
                 if (!mysqli_num_rows($result)) {
@@ -123,9 +131,10 @@ $user_id = $_SESSION["user_id"];
                 while ($row = mysqli_fetch_assoc($result)) {
 
                     echo "<td>" . $row["payment_id"] .  "</td> ";
-                    echo "<td>" . $row["payment_amount"] .  "</td> ";
+                    echo "<td>" . $row["booking_id"] .  "</td> ";
+                    echo "<td style='text-align: right;'>" . $row["payment_amount"] .  "</td> ";
                     if ($row["image_name"] != "") {
-                        echo "<td> <img style='width:50%' src='uploads/" .  $row['image_name']  . "'/>    </td>";
+                        echo "<td> <img style='width:80%' src='uploads/" .  $row['image_name']  . "'/>    </td>";
                     } else {
                         echo "<td> ไม่พบรูปภาพ </td> ";
                     }
@@ -133,28 +142,28 @@ $user_id = $_SESSION["user_id"];
                     echo "<td>" . $row["create_date"] .  "</td> ";
                     if ($_SESSION["type"] == 1){
                         echo "<td>" . $row["user_name"] .  "</td> ";
-                        if($row["del"]==0){
-                            echo "<td>ใช้งาน</td> ";
-                        }else{
-                            echo "<td>ยกเลิก</td> ";
-                        }
+                        // if($row["del"]==0){
+                        //     echo "<td>ใช้งาน</td> ";
+                        // }else{
+                        //     echo "<td>ยกเลิก</td> ";
+                        // }
                     }
                     //แก้ไขข้อมูลส่่ง member_id ที่จะแก้ไขไปที่ฟอร์ม
                     // echo "<td><a href='edit_member.php?id=$row[payment_id]' onclick=\"return confirm('ต้องการแก้ไขข้อมูลใช่ไหม!!!')\">อัพโหลดสลิป</a></td> ";
                     
-                    echo "<td><form action=\"controllers/upload_image.php\" method=\"POST\" enctype=\"multipart/form-data\">
-                            <div class=\"text-center justify-content-center align-items-center p-4 border-2 border-dashed rounded-3\">
-                                <input type=\"file\" name=\"file\" class=\"form-control streched-link\" onchange=\"form.submit()\" accept=\"image/gif, image/jpeg, image/png\">
-                            </div>
-                            <div class=\"d-sm-flex justify-content-end\">
+                    // echo "<td><form action=\"controllers/upload_image.php\" method=\"POST\" enctype=\"multipart/form-data\">
+                    //         <div class=\"text-center justify-content-center align-items-center p-4 border-2 border-dashed rounded-3\">
+                    //             <input type=\"file\" name=\"file\" class=\"form-control streched-link\" onchange=\"form.submit()\" accept=\"image/gif, image/jpeg, image/png\">
+                    //         </div>
+                    //         <div class=\"d-sm-flex justify-content-end\">
                             
                             
-                            </div>
-                            <br>
-                        </form></td>";
+                    //         </div>
+                    //         <br>
+                    //     </form></td>";
 
-                    //ลบข้อมูล
-                    echo "<td><a href='controllers/cancel_payment.php?id=$row[payment_id]' onclick=\"return confirm('ต้องการลบข้อมูลใช่ไหม!!!')\">ยกเลิกการจอง</a></td> ";
+                    // //ลบข้อมูล
+                    // echo "<td><a href='controllers/cancel_payment.php?id=$row[payment_id]' onclick=\"return confirm('ต้องการลบข้อมูลใช่ไหม!!!')\">ยกเลิกการจอง</a></td> ";
                     echo "</tr>";
                 }
                 echo "</table>";

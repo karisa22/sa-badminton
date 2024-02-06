@@ -5,7 +5,7 @@ session_start();
 // echo($_SESSION["type"]);
 if (!isset($_SESSION["type"])) //1 = admin , 2 = member
   header("location:login.php");
-include"header.php";
+include "header.php";
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +59,7 @@ include"header.php";
 </style>
 
 <body>
-  <script src="script.js"></script>
+  <!-- <script src="script.js"></script> -->
   <div style=" margin-left: 20px; margin-right: 20px;">
     <img src="images/10.jpg" style="height: 700px; width: 100%; ">
     <br>
@@ -75,8 +75,9 @@ include"header.php";
         <div style="font-size: 40px; color: #000; margin-top: 170px;">สนามแบดมินตัน</div>
         <div style="font-size: 24px;  color: #000;">สนามแบดมินตันพื้นยางมาตรฐาน</div>
         <div style="font-size: 24px;  color: #000;">จำนวน 6 คอร์ท</div>
-        <div><a href="courtimage.php"><button type="more" class="btn btn-success">ดูเพิ่มเติม</button></a>
-          <button class="btn btn-success" name="booking">จองสนาม</button>
+        <div>
+          <a href="courtlist.php"><button href="courtimage.php" type="more" class="btn btn-success">ดูเพิ่มเติม</button></a>
+          <a href="booking_list.php"><button class="btn btn-success" name="booking">จองสนาม</button></a>
         </div>
       </div>
       <div class="block-2"><img src="images/12.jpg" style="height: 600px; width: 100%; margin-left: 20px; margin-right: 20px;"></div>
@@ -100,7 +101,7 @@ include"header.php";
           <div style="font-size: 24px;  color: #000;">Home Sport Club</div>
           <div><a href="advertise.php"><button class="btn btn-success">ดูเพิ่มเติม</button></a></div>
         </div>
-        <div class="block-2"><img src="images/17.jpg" style="height: 600px; width: 100%; margin-left: 20px; margin-right: 20px;"></div>
+        <div class="block-2"><img src="img_sys/news.jpg" style="height: 600px; width: 100%; margin-left: 20px; margin-right: 20px;"></div>
       </div>
 
       <div class="row">
@@ -130,7 +131,7 @@ include"header.php";
 
 <?php include("footer.php"); ?>
 <script src="http://getbootstrap.com/2.3.2/assets/js/jquery.js"></script>
-<script src="/bootstrap/js/bootstrap.min.js"></script>
+<!-- <script src="/bootstrap/js/bootstrap.min.js"></script> -->
 
 </body>
 

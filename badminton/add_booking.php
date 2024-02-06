@@ -38,7 +38,7 @@ if (isset($_POST["search"])) {
                     WHERE
                         booking_start_time <= '$search_dt' 
                         AND booking_end_time >= '$search_dt' 
-                        AND booking_status = '2'
+                        AND booking_status = '2' OR booking_status = '1'
                     ORDER BY
                         court_id ASC;";
     $result_search = mysqli_query($conn, $sql_search);
@@ -50,23 +50,10 @@ if (isset($_POST["search"])) {
     }
 }
 
-//debug
-// foreach ($court_busy as $x) {
-//     echo "$x <br>";
-// }
-
-
-
+date_default_timezone_set('Asia/Bangkok');
 $option0 = date("Y-m-d");
 $option1 = date("Y-m-d", strtotime("+1 day", strtotime($option0)));
 $option2 = date("Y-m-d", strtotime("+2 day", strtotime($option0)));
-
-$mindate = date("Y-m-d");
-$mintime = date("h:i");
-$min = $mindate . "T" . $mintime;
-$maxdate = date("Y-m-d", strtotime("+3 Days"));
-$maxtime = date("h:i");
-$max = $maxdate . "T" . $maxtime;
 
 if (isset($_POST["booking"])) {
     $court = $_POST['court'];
@@ -83,37 +70,45 @@ if (isset($_POST["booking"])) {
     // }
 
     $startdate = date("Y-m-d", strtotime($date));
-    $starttime = date("h:i", strtotime($date));
+    $starttime = date("H:i", strtotime($date));
     
     $start = $startdate . "T" . $starttime;
 
-    if (0 == $hour) {
-        $amount = 75;
-        $endtime = date('h:i', strtotime($date . ' + 30 minutes'));
-    } else if (1 == $hour) {
-        $amount = 150;
-        $endtime = date('h:i', strtotime($date . ' +1 hours'));
-    } else if (2 == $hour) {
-        $amount = 225;
-        $endtime = date('h:i', strtotime($date . ' + 90 minutes'));
-    } else if (3 == $hour) {
-        $amount = 300;
-        $endtime = date('h:i', strtotime($date . ' +2 hours'));
+    $time = date('H:i:s',strtotime("5 PM"));
+    if($starttime < $time){ //check promotions
+        if (0 == $hour) {
+            $amount = 50;
+            $endtime = date('H:i', strtotime($date . ' + 30 minutes'));
+        } else if (1 == $hour) {
+            $amount = 100;
+            $endtime = date('H:i', strtotime($date . ' +1 hours'));
+        } else if (2 == $hour) {
+            $amount = 150;
+            $endtime = date('H:i', strtotime($date . ' + 90 minutes'));
+        } else if (3 == $hour) {
+            $amount = 200;
+            $endtime = date('H:i', strtotime($date . ' +2 hours'));
+        }
+    }else{
+        if (0 == $hour) {
+            $amount = 75;
+            $endtime = date('H:i', strtotime($date . ' + 30 minutes'));
+        } else if (1 == $hour) {
+            $amount = 150;
+            $endtime = date('H:i', strtotime($date . ' +1 hours'));
+        } else if (2 == $hour) {
+            $amount = 225;
+            $endtime = date('H:i', strtotime($date . ' + 90 minutes'));
+        } else if (3 == $hour) {
+            $amount = 300;
+            $endtime = date('H:i', strtotime($date . ' +2 hours'));
+        }
     }
+
     // $enddate = date($date);
     $end = $startdate . "T" . $endtime;
 
     $v_type = $type;
-
-    // if ("เงินโอน" == $type) {
-    //     $v_type = 1;
-    // } else if ("เงินสด" == $type) {
-    //     $v_type = 2;
-    // } else if ("qrcode" == $type) {
-    //     $v_type = 3;
-    // } else if ("บัตรเครดิต" == $type) {
-    //     $v_type = 4;
-    // }
 
     $sql = "INSERT INTO `t_booking`(
         `user_id`,
@@ -147,6 +142,8 @@ if (isset($_POST["booking"])) {
         $user_id,
         '0'
     );";
+    // echo $sql;
+    // return;
     $result = mysqli_query($conn, $sql);
 
     if ($result) {
@@ -207,7 +204,9 @@ if (isset($_POST["booking"])) {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 90vh;
+            min-height: 100vh;
+            background-image: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url("img_sys/badminton-bg2.jpg");
+            background-size: 100% ;
         }
 
         .container {
@@ -216,7 +215,13 @@ if (isset($_POST["booking"])) {
             flex-direction: column;
             padding: 0 15px 0 15px;
             border-radius: 25px;
-            background-color: skyblue;
+            /* background-color: skyblue; */
+            /* background-color: #337ab7; */
+            /* background-color: #6495ED; */
+            /* background-color: #1E90FF; */
+            /* background-color: #0099ff; */
+            background-color: #25A4FF;
+            /* background-color: #87CEFA; */
 
         }
 
@@ -322,8 +327,8 @@ if (isset($_POST["booking"])) {
                             <option value="18">18</option>;
                             <option value="19">19</option>;
                             <option value="20">20</option>;
-                            <option value="21">21</option>;
-                            <option value="22">22</option>;
+                            <!-- <option value="21">21</option>;
+                            <option value="22">22</option>; -->
                         </select>
                         <label for="search_minuts"> : </label>
                         <select class="input2" id="search_minuts" name="search_minuts">
@@ -341,7 +346,7 @@ if (isset($_POST["booking"])) {
                     <div align=center>
                         <button type="submit" class="btn btn-success" name="search">ค้นหาสนาม</button>
 
-                        <!-- <a href="booking_list.php" class="btn btn-danger">ยกเลิก</a> -->
+                        <a href="booking_list.php" class="btn btn-danger">ยกเลิก</a>
                     </div>
                     <div><br></div>
                 </div>

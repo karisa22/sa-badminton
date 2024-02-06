@@ -35,7 +35,7 @@ if (!isset($_SESSION["type"])) //1 = admin , 2 = member
 <style type="text/css">
 	.block-1 {
 		width: 37%;
-		height: 853px;
+		height: 100%;
 		margin-left: 20px;
 		margin-top: 10px;
 		margin-right: 20px;
@@ -45,8 +45,8 @@ if (!isset($_SESSION["type"])) //1 = admin , 2 = member
 	}
 
 	.block-2 {
-		width: 58.5%;
-		height: 853px;
+		width: 56%;
+		height: 100%;
 		margin-top: 10px;
 		margin-right: 20px;
 		margin: 20px;
@@ -56,7 +56,7 @@ if (!isset($_SESSION["type"])) //1 = admin , 2 = member
 
 <body>
 	<div class="block-1">
-		<div style="font-size: 40px; color: #666666; margin-top: 250px;  text-shadow: 3px 2px rgb(90, 222, 245);">ติดต่อเรา</div>
+		<div style="font-size: 40px; color: #666666; margin-top: 25%;  text-shadow: 3px 2px rgb(90, 222, 245);">ติดต่อเรา</div>
 
 		<div style="font-size: 24px;  color: #666666;">ทีมงานของเรายินดีเป็นอย่างยิ่งสำหรับการให้ข้อมูลและตอบข้อสงสัย</div>
 		<div style="font-size: 24px;  color: #666666;">โปรดติดต่อเราเมื่อคุณต้องการความช่วยเหลือ</div>
@@ -67,10 +67,7 @@ if (!isset($_SESSION["type"])) //1 = admin , 2 = member
 		<div style="font-size: 20px;  color: #666666;">ต.บ้านสวน อ.เมือง จ.ชลบุรี 20000</div>
 	</div>
 
-	<div class="block-2"><img src="images/10.jpg" style="height: 858px; width: 100%;"></div>
-
-
-	</div>
+	<div class="block-2"><img src="images/10.jpg" style=" width: 100%;"></div>
 </body>
 
 </html>

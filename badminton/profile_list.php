@@ -16,6 +16,7 @@ include "header.php";
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/boostrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/mytable.css">
 </head>
 <style>
     /* Googlefont Poppins CDN Link */
@@ -33,7 +34,7 @@ include "header.php";
         min-height: 100vh;
     }
 
-    table {
+    /* table {
         width: 100%;
         border-collapse: collapse;
     }
@@ -42,7 +43,7 @@ include "header.php";
     td {
         border: 1px solid #5D6D7E;
         text-align: center;
-    }
+    } */
 
     thead {
         background-color: #64C5D7;
@@ -58,43 +59,43 @@ include "header.php";
 
     <div class="container">
         <br>
-        <h1>ข้อมูลผู้ใช้</h1> <a href="addadmin.php" type="button" class="btn btn-primary">เพิ่มข้อมูลผู้ดูแล</a> <BR>
-        <table>
+        <h1>จัดการข้อมูลผู้ใช้</h1> <a href="addadmin.php" type="button" class="btn btn-primary">เพิ่มข้อมูลผู้ดูแล</a> <BR>
+        <table id="customers">
             <BR>
             <thead>
                 <tr>
-                    <td width="5%">ID</td>
-                    <td width="16%">ชื่อ</td>
-                    <td width="16%">เบอร์โทร</td>
-                    <td width="14%">ประเภท</td>
-                    <td width="15%">Username</td>
-                    <td width="15%">วันที่สร้าง</td>
-                    <td width="5%">สถานะ</td>
-                    <td width="10%">แก้ไข</td>
-                    <td width="10%">ลบ</td>
+                    <th width="5%">ID</th>
+                    <th width="16%">ชื่อ</th>
+                    <th width="16%">เบอร์โทร</th>
+                    <th width="14%">ประเภท</th>
+                    <th width="15%">Username</th>
+                    <th width="15%">วันที่สร้าง</th>
+                    <th width="5%">สถานะ</th>
+                    <th width="10%">แก้ไข</th>
+                    <th width="10%">ลบ</th>
                 </tr>
             </thead>
             <tbody>
 
                 <?php
 
-                $sql = "SELECT * FROM `t_user`";
+                $sql = "SELECT * FROM `t_user` WHERE del = '0'";
                 $result = mysqli_query($conn, $sql);
                 while ($row = mysqli_fetch_assoc($result)) {
 
                     echo "<td>" . $row["user_id"] .  "</td> ";
                     echo "<td>" . $row["user_name"] .  "</td> ";
                     echo "<td>" . $row["user_tel"] .  "</td> ";
-                    if($row["user_type"]==1){
+                    if ($row["user_type"] == 1) {
                         echo "<td>" . "Admin" .  "</td> ";
-                    }else{
+                    } else {
                         echo "<td>" . "Member" .  "</td> ";
                     }
                     echo "<td>" . $row["user_username"] .  "</td> ";
                     echo "<td>" . $row["create_date"] .  "</td> ";
-                    if($row["del"]==0){
+                    if ($row["del"] == 0) {
                         echo "<td>" . "ใช้งาน" .  "</td> ";
-                    }else{
+                    } else {
                         echo "<td>" . "ไม่ใช้งาน" .  "</td> ";
                     }
                     //แก้ไขข้อมูลส่่ง member_id ที่จะแก้ไขไปที่ฟอร์ม

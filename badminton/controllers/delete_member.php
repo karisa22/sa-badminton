@@ -2,7 +2,8 @@
 if (isset($_GET['id'])) {
     require_once '../common/connect.php';
     $id = $_GET['id'];
-    $sql = "DELETE FROM t_user WHERE user_id='$id'";
+    // $sql = "DELETE FROM t_user WHERE user_id='$id'";
+    $sql = "UPDATE `t_user` SET `del` = '1' WHERE `user_id` = '$id' ";
     $result = mysqli_query($conn, $sql);
     
     //  sweet alert 

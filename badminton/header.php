@@ -11,7 +11,7 @@ if ($_SESSION["type"] == 2) {
 
 <head>
   <meta charset="UTF-8">
-  <title> Header </title>
+  <!-- <title> Header </title> -->
   <link rel="stylesheet" href="css/style.css">
   <!-- Boxicons CDN Link -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
@@ -71,7 +71,7 @@ if ($_SESSION["type"] == 2) {
   }
 
   nav .navbar .nav-links {
-    line-height: 70px;
+    /* line-height: 70px; */
     height: 100%;
   }
 
@@ -146,7 +146,7 @@ if ($_SESSION["type"] == 2) {
   }
 
   .navbar .links li .htmlCss-more-sub-menu {
-    /* line-height: 40px; */
+    line-height: 40px;
   }
 
   .navbar .links li .sub-menu .more-sub-menu {
@@ -231,7 +231,7 @@ if ($_SESSION["type"] == 2) {
 
   @media (max-width:800px) {
     nav {
-      /* position: relative; */
+      position: relative;
     }
 
     .navbar .bx-menu {
@@ -380,6 +380,7 @@ if ($_SESSION["type"] == 2) {
           <a>จองสนาม</a>
           <i class='bx bxs-chevron-down js-arrow arrow '></i>
           <ul class="js-sub-menu sub-menu">
+            <li><a href="booking_table.php">ตารางการจอง</a></li>
             <li><a href="booking_list.php">รายการการจอง</a></li>
             <!-- <li><a href="courtlist.php" <?php echo $style; ?>>การจองทั้งหมด</a></li> -->
             <li><a href="payment_list.php">รายการชำระเงิน</a></li>
@@ -401,15 +402,7 @@ if ($_SESSION["type"] == 2) {
       </div>
     </div>
   </nav>
-
-  <body>
-
-    <!--ปิด navtionbar-->
-
-
-
-
-
-  </body>
+</body>
+<script src="script.js"></script>
 
 </html>

@@ -16,6 +16,7 @@ include "header.php";
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/boostrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/mytable.css">
 </head>
 <style>
     /* Googlefont Poppins CDN Link */
@@ -33,7 +34,7 @@ include "header.php";
         min-height: 100vh;
     }
 
-    table {
+    /* table {
         width: 100%;
         border-collapse: collapse;
     }
@@ -42,7 +43,7 @@ include "header.php";
     td {
         border: 1px solid #5D6D7E;
         text-align: center;
-    }
+    } */
 
     thead {
         background-color: #64C5D7;
@@ -64,16 +65,16 @@ include "header.php";
             <a href="add_image.php" type="button" class="btn btn-primary">เพิ่มรูปภาพกิจกรรม</a>
         </div>
         <BR>
-        <table>
+        <table id="customers">
             <BR>
             <thead>
                 <tr>
-                    <td width="30%">รูปภาพ</td>
-                    <td width="10%">ชื่อกิจกรรม</td>
-                    <td width="10%">ข้อมูลกิจกรรม</td>
-                    <td width="10%">วันที่สร้าง</td>
-                    <td width="10%">สถานะ</td>
-                    <td width="10%">ลบ</td>
+                    <th width="30%">รูปภาพ</th>
+                    <th width="10%">ชื่อกิจกรรม</th>
+                    <th width="10%">ข้อมูลกิจกรรม</th>
+                    <th width="10%">วันที่สร้าง</th>
+                    <th width="10%">สถานะ</th>
+                    <th width="10%">ลบ</th>
                 </tr>
             </thead>
             <tbody>
@@ -96,7 +97,7 @@ include "header.php";
                 $result = mysqli_query($conn, $sql);
                 while ($row = mysqli_fetch_assoc($result)) {
                     if ($row["image_name"] != "") {
-                        echo "<td> <img style='padding: 5px; width:50%' src='uploads/" .  $row['image_name']  . "'/>    </td>";
+                        echo "<td style='text-align-last: center;'> <img style='padding: 5px; width:50%' src='uploads/" .  $row['image_name']  . "'/>    </td>";
                     } else {
                         echo "<td> ไม่พบรูปภาพ </td> ";
                     }

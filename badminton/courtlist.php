@@ -20,6 +20,7 @@ $user_id = $_SESSION["user_id"];
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/boostrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/mytable.css">
 </head>
 <style>
     /* Googlefont Poppins CDN Link */
@@ -43,7 +44,7 @@ $user_id = $_SESSION["user_id"];
         margin: 5px;
     }
 
-    table {
+    /* table {
         margin: 5px;
         width: 100%;
         border-collapse: collapse;
@@ -53,7 +54,7 @@ $user_id = $_SESSION["user_id"];
     td {
         border: 1px solid #5D6D7E;
         text-align: center;
-    }
+    } */
 
     thead {
         background-color: #64C5D7;
@@ -71,15 +72,15 @@ $user_id = $_SESSION["user_id"];
         <br>
         <h1>ข้อมูลสนาม</h1>
         <a href="add_court.php" type="button" class="btn btn-primary" <?php echo $style; ?>>เพิ่มข้อมูล สนาม</a> <BR>
-        <table>
+        <table id="customers">
             <BR>
             <thead>
                 <tr>
-                    <td width="5%">ID</td>
-                    <td width="16%">ชื่อสนาม</td>
-                    <td width="16%">รูปภาพสนาม</td>
-                    <td width="14%" <?php echo $style; ?>>สถานะของสนาม</td>
-                    <td width="5%" <?php echo $style; ?>>ปรับเปลี่ยนสถานะ</td>
+                    <th width="5%">ID</th>
+                    <th width="16%">ชื่อสนาม</th>
+                    <th width="16%">รูปภาพสนาม</th>
+                    <th width="14%" <?php echo $style; ?>>สถานะของสนาม</th>
+                    <th width="5%" <?php echo $style; ?>>ปรับเปลี่ยนสถานะ</th>
                 </tr>
             </thead>
             <tbody>

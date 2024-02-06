@@ -21,6 +21,7 @@ $user_id = $_SESSION["user_id"];
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/boostrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/mytable.css">
 </head>
 <style>
     /* Googlefont Poppins CDN Link */
@@ -44,7 +45,7 @@ $user_id = $_SESSION["user_id"];
         margin: 5px;
     }
 
-    table {
+    /* table {
         margin: 5px;
         width: 100%;
         border-collapse: collapse;
@@ -54,7 +55,7 @@ $user_id = $_SESSION["user_id"];
     td {
         border: 1px solid #5D6D7E;
         text-align: center;
-    }
+    } */
 
     thead {
         background-color: #64C5D7;
@@ -70,21 +71,24 @@ $user_id = $_SESSION["user_id"];
 
     <div class="container">
         <br>
-        <h1>จัดการการจอง</h1>
+        <h1>รายการการจอง</h1>
         <a href="add_booking.php" type="button" class="btn btn-primary" >จองสนาม</a> <BR>
 
-        <table>
+        <table id="customers">
             <BR>
             <thead>
                 <tr>
-                    <td width="10%">ชื่อสนาม</td>
-                    <td width="10%">เวลาเริ่มจอง</td>
-                    <td width="10%">เวลาสิ้นสุดการจอง</td>
-                    <td width="10%">ประเภทการจ่ายเงิน</td>
-                    <td width="10%">สถานะการจอง</td>
-                    <td width="10%">จำนวนเงิน</td>
-                    <td width="10%">ยืนยันการจอง</td>
-                    <td width="10%">ยกเลิกการจอง</td>
+                    <th width="9%">หมายเลขการจอง</th>
+                    <th width="9%">ชื่อสนาม</th>
+                    <th width="9%">ผู้จองสนาม</th>
+                    <th width="9%">เวลาเริ่มจอง</th>
+                    <th width="9%">เวลาสิ้นสุดการจอง</th>
+                    <th width="9%">ประเภทการจ่ายเงิน</th>
+                    <th width="9%">สถานะการจอง</th>
+                    <th width="9%">จำนวนเงิน</th>
+                    <th width="9%">ยืนยันการชำระเงิน</th>
+                    <th width="9%" <?php echo $style; ?>>ยืนยันการจอง</th>
+                    <th width="9%">ยกเลิกการจอง</th>
                 </tr>
             </thead>
             <tbody>
@@ -93,33 +97,45 @@ $user_id = $_SESSION["user_id"];
                 $sql = "";
                 if ($_SESSION["type"] == 1) {
                     $sql = "SELECT
-                            tb.booking_id,
-                            tb.court_id,
-                            tb.booking_start_time,
-                            tb.booking_end_time,
-                            tb.booking_status,
-                            tb.booking_amount,
-                            mpt.payment_type_name,
-                            tb.create_date
-                        FROM
-                            `t_booking` tb
-                        LEFT JOIN `m_payment_type` mpt ON
-                            mpt.payment_type_id = tb.payment_type_id
-                        ORDER BY tb.create_date DESC;";
+                                tb.booking_id,
+                                tb.user_id,
+                                tu.user_name,
+                                tb.court_id,
+                                tb.booking_start_time,
+                                tb.booking_end_time,
+                                tb.booking_status,
+                                tb.booking_amount,
+                                tb.payment_id,
+                                mpt.payment_type_id,
+                                mpt.payment_type_name,
+                                tb.create_date
+                            FROM
+                                `t_booking` tb
+                            LEFT JOIN `m_payment_type` mpt ON
+                                mpt.payment_type_id = tb.payment_type_id
+                            LEFT JOIN `t_user` tu ON
+                                tu.user_id = tb.user_id
+                            ORDER BY tb.create_date DESC;";
                 } else {
                     $sql = "SELECT
                             tb.booking_id,
+                            tb.user_id,
+                            tu.user_name,
                             tb.court_id,
                             tb.booking_start_time,
                             tb.booking_end_time,
                             tb.booking_status,
                             tb.booking_amount,
+                            tb.payment_id,
+                            mpt.payment_type_id,
                             mpt.payment_type_name,
                             tb.create_date
                         FROM
                             `t_booking` tb
                         LEFT JOIN `m_payment_type` mpt ON
                             mpt.payment_type_id = tb.payment_type_id
+                        LEFT JOIN `t_user` tu ON
+                            tu.user_id = tb.user_id
                         WHERE tb.create_by = $user_id
                         ORDER BY tb.create_date DESC;";
                 }
@@ -129,107 +145,55 @@ $user_id = $_SESSION["user_id"];
                 }
                 while ($row = mysqli_fetch_assoc($result)) {
 
-                    $booking_start_time = date("Y-m-d h:i", strtotime($row["booking_start_time"]));
-                    $booking_end_time = date("Y-m-d h:i", strtotime($row["booking_end_time"]));
+                    $booking_start_time = date("Y-m-d H:i", strtotime($row["booking_start_time"]));
+                    $booking_end_time = date("Y-m-d H:i", strtotime($row["booking_end_time"]));
 
+                    echo "<td>" . $row["booking_id"] .  "</td> ";
                     echo "<td>" . $row["court_id"] .  "</td> ";
+                    echo "<td>" . $row["user_name"] .  "</td> ";
                     // echo "<td>" . $row["booking_start_time"] .  "</td> ";
                     // echo "<td>" . $row["booking_end_time"] .  "</td> ";
                     echo "<td>" . $booking_start_time .  "</td> ";
                     echo "<td>" . $booking_end_time .  "</td> ";
                     echo "<td>" . $row["payment_type_name"] .  "</td> ";
                     if ($row["booking_status"] == 1) {
-                        echo "<td> รอชำระเงิน </td> ";
+                        if(!isset($row["payment_id"])){
+                            echo "<td> รอชำระเงิน </td> ";
+                        }else{
+                            echo "<td> รอยืนยัน </td> ";
+                        }
                     } else if($row["booking_status"] == 2){
                         echo "<td> ชำระเงินแล้ว </td> ";
                     } else {
                         echo "<td> ยกเลิก </td> ";
                     }
-                    echo "<td>" . $row["booking_amount"] .  "</td> ";
-                    //ยินยัน
-                    echo "<td><a href='controllers/submit_booking.php?id=$row[booking_id]' onclick=\"return confirm('ต้องการยืนยันการชำรเงินใช่ไหม!!!')\">ยืนยันการชำระเงิน</a></td> ";
-                    //ลบข้อมูล
-                    echo "<td><a href='controllers/cancel_booking.php?id=$row[booking_id]' onclick=\"return confirm('ต้องการลบข้อมูลใช่ไหม!!!')\">ยกเลิกการจอง</a></td> ";
+                    echo "<td style='text-align: right;'>" . $row["booking_amount"] .  "</td> ";
+
+                    
+
+                    if ($row["booking_status"] == 1) { //รายการยกเลิกไปแล้ว
+                        if(!isset($row["payment_id"])){
+                            echo "<td><a href='submit_payment.php?id=$row[booking_id]'>ยืนยันการชำระเงิน</a></td> ";
+                        }else{
+                            echo "<td>  </td> ";
+                        }
+                        if($_SESSION["type"]==1){
+                            echo "<td><a href='controllers/update_booking.php?id=$row[booking_id]' onclick=\"return confirm('ยืนยันการจองใช่หรือไม่')\">ยืนยัน</a></td> ";
+                        }
+                        //ลบข้อมูล
+                        echo "<td><a href='controllers/cancel_booking.php?id=$row[booking_id]' onclick=\"return confirm('ยกเลิกการจองใช่หรือไม่')\">ยกเลิกการจอง</a></td> ";
+                    }else{
+                        echo "<td>  </td> ";
+                        if($_SESSION["type"]==1){
+                            echo "<td>  </td> ";
+                        }
+                        echo "<td>  </td> ";
+                    }
                     echo "</tr>";
                 }
                 echo "</table>";
                 //5. close connection
                 mysqli_close($conn);
-                ?>
-            </tbody>
-        </table>
-
-        <table>
-            <BR>
-            <thead>
-                <tr>
-                    <td width="10%">Date</td>
-
-                    <td width="5%">12:00-12:30</td>
-                    <td width="5%">12:30-13:00</td>
-                    <td width="5%">13:00-13:30</td>
-                    <td width="5%">13:30-14:00</td>
-
-                    <td width="5%">14:00-14:30</td>
-                    <td width="5%">14:30-15:00</td>
-                    <td width="5%">15:00-15:30</td>
-                    <td width="5%">15:30-16:00</td>
-
-                    <td width="5%">16:00-16:30</td>
-                    <td width="5%">16:30-17:00</td>
-                    <td width="5%">17:00-17:30</td>
-                    <td width="5%">17:30-18:00</td>
-
-                    <td width="5%">18:00-18:30</td>
-                    <td width="5%">18:30-19:00</td>
-                    <td width="5%">19:00-19:30</td>
-                    <td width="5%">19:30-20:00</td>
-
-                    <td width="5%">20:00-20:30</td>
-                    <td width="5%">20:30-21:00</td>
-                    <td width="5%">21:00-21:30</td>
-                    <td width="5%">21:30-22:00</td>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $date = date("Y-m-d");
-
-                $i = 0;
-                while ($i < 3) {
-                    echo "<td>" . $date . "</td> ";
-
-                    echo "<td>ว่าง</td> ";
-                    echo "<td>ว่าง</td> ";
-                    echo "<td>ว่าง</td> ";
-                    echo "<td>ว่าง</td> ";
-
-                    echo "<td>ว่าง</td> ";
-                    echo "<td>ว่าง</td> ";
-                    echo "<td>ว่าง</td> ";
-                    echo "<td>ว่าง</td> ";
-
-                    echo "<td>ว่าง</td> ";
-                    echo "<td>ว่าง</td> ";
-                    echo "<td>ว่าง</td> ";
-                    echo "<td>ว่าง</td> ";
-
-                    echo "<td>ว่าง</td> ";
-                    echo "<td>ว่าง</td> ";
-                    echo "<td>ว่าง</td> ";
-                    echo "<td>ว่าง</td> ";
-
-                    echo "<td>ว่าง</td> ";
-                    echo "<td>ว่าง</td> ";
-                    echo "<td>ว่าง</td> ";
-                    echo "<td>ว่าง</td> ";
-
-                    echo "</tr>";
-                    $date = date("Y-m-d", strtotime("+1 day", strtotime($date)));
-                    $i++;
-                }
-                echo "</table>";
-                // mysqli_close($conn);
                 ?>
             </tbody>
         </table>
