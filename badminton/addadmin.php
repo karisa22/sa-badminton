@@ -58,7 +58,8 @@ if (isset($_POST["submit"])) {
         }
 
         body {
-            background-image: url("images/7.jpg");
+            /* background-image: url("images/7.jpg"); */
+            background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("images/7.jpg");
             background-size: cover;
             background-position: center;
             background-attachment: fixed;

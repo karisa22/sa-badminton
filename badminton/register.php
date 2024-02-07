@@ -119,7 +119,8 @@
             display: center;
             width: 100%;
             flex-direction: row;
-            justify-content: space-between;
+            /* justify-content: space-between; */
+            justify-content: center;
             color: #fff;
             font-size: 18px;
             margin-top: 20px;
@@ -165,11 +166,13 @@
                     <input type="submit" class="submit" value="บันทึก">
 
                 </div>
-                <div class="two-col">
-                    <div class="two">
-                        <span>มีบัญชีผู้ใช้อยู่แล้ว? &nbsp;
+                <div class="regis">
+                    <div><br></div>
+                    <div align="center">
+                        <span center>มีบัญชีผู้ใช้อยู่แล้ว? &nbsp;
                             <label><a href="login.php">เข้าสู่ระบบ</a></label></span>
                     </div>
+                    <div><br></div>
                 </div>
             </form>
         </div>

@@ -90,7 +90,7 @@ include "header.php";
       <div class="block-1">
         <div style="font-size: 40px; color: #000; margin-top: 170px;">สิ่งอำนวยความสะดวก</div>
         <div style="font-size: 24px;  color: #000;">ที่จอดรถ ร้านค้า ห้องน้ำ ที่สูบบุหรี่ </div>
-        <div style="font-size: 24px;  color: #000;">........</div>
+        <!-- <div style="font-size: 24px;  color: #000;">........</div> -->
         <div><a href="facilities.php"><button class="btn btn-success">ดูเพิ่มเติม</button></a></div>
       </div>
 

@@ -137,6 +137,7 @@ if (isset($_POST["submit"])) {
     }
 
     .right{
+        font-size: 20px;
         width: 100%;
         text-align: right;
     }
@@ -166,6 +167,7 @@ if (isset($_POST["submit"])) {
     <div class="container">
         <br>
         <h1>สรุปรายรับ</h1>
+        <br>
         <div class="container2">
             <!-- <a href="#" type="button" class="btn btn-primary">เพิ่มกิจกรรม</a>
             <a href="add_image.php" type="button" class="btn btn-primary">เพิ่มรูปภาพกิจกรรม</a> -->
@@ -212,6 +214,7 @@ if (isset($_POST["submit"])) {
 
             </form>
         </div>
+        <br>
         <table id="customers">
             <BR>
             <thead>
@@ -271,7 +274,7 @@ if (isset($_POST["submit"])) {
                     echo "</tr>";
                 }
                 echo "</table>";
-                echo "<label class='right'>รายรับทั้งหมด " . $sum_amt . " บาท</label>";
+                echo "<br><label class='right'>รายรับทั้งหมด " . $sum_amt . " บาท</label>";
                 //5. close connection
                 mysqli_close($conn);
                 ?>

@@ -38,12 +38,12 @@ if (isset($_POST["search"])) {
                     WHERE
                         booking_start_time <= '$search_dt' 
                         AND booking_end_time >= '$search_dt' 
-                        AND booking_status = '2' OR booking_status = '1'
+                        AND NOT booking_status = '3'
                     ORDER BY
                         court_id ASC;";
     $result_search = mysqli_query($conn, $sql_search);
     while ($row_search = mysqli_fetch_assoc($result_search)) {
-        array_push($court_busy,$row_search["court_id"]);
+        array_push($court_busy, $row_search["court_id"]);
     }
     if (mysqli_num_rows($result_search) != mysqli_num_rows($result_court)) {
         $style_booking = "";
@@ -71,11 +71,11 @@ if (isset($_POST["booking"])) {
 
     $startdate = date("Y-m-d", strtotime($date));
     $starttime = date("H:i", strtotime($date));
-    
+
     $start = $startdate . "T" . $starttime;
 
-    $time = date('H:i:s',strtotime("5 PM"));
-    if($starttime < $time){ //check promotions
+    $time = date('H:i:s', strtotime("5 PM"));
+    if ($starttime < $time) { //check promotions
         if (0 == $hour) {
             $amount = 50;
             $endtime = date('H:i', strtotime($date . ' + 30 minutes'));
@@ -89,7 +89,7 @@ if (isset($_POST["booking"])) {
             $amount = 200;
             $endtime = date('H:i', strtotime($date . ' +2 hours'));
         }
-    }else{
+    } else {
         if (0 == $hour) {
             $amount = 75;
             $endtime = date('H:i', strtotime($date . ' + 30 minutes'));
@@ -205,8 +205,8 @@ if (isset($_POST["booking"])) {
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-image: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url("img_sys/badminton-bg2.jpg");
-            background-size: 100% ;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url("img_sys/badminton-bg2.jpg");
+            background-size: 100%;
         }
 
         .container {
@@ -215,13 +215,7 @@ if (isset($_POST["booking"])) {
             flex-direction: column;
             padding: 0 15px 0 15px;
             border-radius: 25px;
-            /* background-color: skyblue; */
-            /* background-color: #337ab7; */
-            /* background-color: #6495ED; */
-            /* background-color: #1E90FF; */
-            /* background-color: #0099ff; */
             background-color: #25A4FF;
-            /* background-color: #87CEFA; */
 
         }
 
@@ -264,6 +258,10 @@ if (isset($_POST["booking"])) {
             background: rgba(255, 255, 255, 0.1);
             outline: none;
             padding: 0 35px 0;
+        }
+
+        .text20 {
+            font-size: 20px;
         }
 
         i {
@@ -317,6 +315,7 @@ if (isset($_POST["booking"])) {
                     <i class='bx'></i>
                     <div>
                         <label for="search_hour">เวลา </label>
+
                         <select class="input2" id="search_hour" name="search_hour">
                             <option value="12">12</option>;
                             <option value="13">13</option>;
@@ -358,19 +357,16 @@ if (isset($_POST["booking"])) {
                     <!-- <input type="text" class="input" name="name" placeholder="ชื่อ" maxlength="100" required>
                     <i class='bx bx-user'></i> -->
                     <input style='display:none;' value="<?php echo $search_dt; ?>" type="text" class="input" name="date">
-                    <label >เวลา:<?php echo $search_dt; ?></label>
+                    <div align=center><label class="text20">วันเวลาที่เลือก <?php echo $search_dt; ?></label></div>
                     <br>
                     <label for="court">สนามที่ว่าง:</label>
                     <select class="input" id="court" name="court">
                         <?php
 
                         while ($row_court = mysqli_fetch_assoc($result_court)) {
-                            if (in_array($row_court["court_id"], $court_busy))
-                            {
+                            if (in_array($row_court["court_id"], $court_busy)) {
                                 continue;
-                            }
-                            else
-                            {
+                            } else {
                                 echo '<option value="' . $row_court["court_id"] . '">' . $row_court["court_name"] . '</option>';
                             }
                         }
@@ -398,16 +394,18 @@ if (isset($_POST["booking"])) {
                         $sql_type = "SELECT * FROM `m_payment_type`";
                         $result_type = mysqli_query($conn, $sql_type);
                         while ($row_type = mysqli_fetch_assoc($result_type)) {
-                            echo '<option value="' . $row_type["payment_type_id"] . '">'. $row_type["payment_type_name"] .'</option>';
+                            echo '<option value="' . $row_type["payment_type_id"] . '">' . $row_type["payment_type_name"] . '</option>';
                         }
                         ?>
                     </select>
-                    </div>
+                </div>
 
                 <div class="input-field">
+                    <div><br></div>
                     <div align=center>
                         <button type="submit" class="btn btn-success" name="booking">จองสนาม</button>
-
+                        <br>
+                        <div>*การจองจะถูกยกเลิกทุกๆ 30 นาที ถ้าไม่ได้จ่ายเงิน</div>
                         <!-- <a href="booking_list.php" class="btn btn-danger">ยกเลิก</a> -->
                     </div>
                     <div><br></div>

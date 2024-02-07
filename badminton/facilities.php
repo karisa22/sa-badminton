@@ -37,16 +37,6 @@
         <div class="row mt-2">
            
         </div>
-        <div class="row">
-            <?php  if (!empty($_SESSION['statusMsg'])) { ?>
-                <div class="alert alert-success" role="alert">
-                    <?php 
-                        echo $_SESSION['statusMsg']; 
-                        unset($_SESSION['statusMsg']);
-                    ?>
-                </div>
-            <?php } ?>
-        </div>
 
         <div class="row g-2">
             <?php 

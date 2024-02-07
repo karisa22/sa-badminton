@@ -94,6 +94,8 @@ $user_id = $_SESSION["user_id"];
             <tbody>
 
                 <?php
+                $date_now = date("Y-m-d");
+
                 $sql = "";
                 if ($_SESSION["type"] == 1) {
                     $sql = "SELECT
@@ -101,6 +103,7 @@ $user_id = $_SESSION["user_id"];
                                 tb.user_id,
                                 tu.user_name,
                                 tb.court_id,
+                                mc.court_name,
                                 tb.booking_start_time,
                                 tb.booking_end_time,
                                 tb.booking_status,
@@ -115,6 +118,9 @@ $user_id = $_SESSION["user_id"];
                                 mpt.payment_type_id = tb.payment_type_id
                             LEFT JOIN `t_user` tu ON
                                 tu.user_id = tb.user_id
+                            LEFT JOIN `m_court` mc ON
+                                mc.court_id = tb.court_id
+                            WHERE tb.booking_start_time > '$date_now'
                             ORDER BY tb.create_date DESC;";
                 } else {
                     $sql = "SELECT
@@ -122,6 +128,7 @@ $user_id = $_SESSION["user_id"];
                             tb.user_id,
                             tu.user_name,
                             tb.court_id,
+                            mc.court_name,
                             tb.booking_start_time,
                             tb.booking_end_time,
                             tb.booking_status,
@@ -136,7 +143,9 @@ $user_id = $_SESSION["user_id"];
                             mpt.payment_type_id = tb.payment_type_id
                         LEFT JOIN `t_user` tu ON
                             tu.user_id = tb.user_id
-                        WHERE tb.create_by = $user_id
+                        LEFT JOIN `m_court` mc ON
+                            mc.court_id = tb.court_id
+                        WHERE tb.create_by = $user_id AND tb.booking_start_time > '$date_now'
                         ORDER BY tb.create_date DESC;";
                 }
                 $result = mysqli_query($conn, $sql);
@@ -149,7 +158,7 @@ $user_id = $_SESSION["user_id"];
                     $booking_end_time = date("Y-m-d H:i", strtotime($row["booking_end_time"]));
 
                     echo "<td>" . $row["booking_id"] .  "</td> ";
-                    echo "<td>" . $row["court_id"] .  "</td> ";
+                    echo "<td>" . $row["court_name"] .  "</td> ";
                     echo "<td>" . $row["user_name"] .  "</td> ";
                     // echo "<td>" . $row["booking_start_time"] .  "</td> ";
                     // echo "<td>" . $row["booking_end_time"] .  "</td> ";

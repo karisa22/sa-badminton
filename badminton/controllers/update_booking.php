@@ -12,7 +12,7 @@ if (isset($_GET['id'])) {
                             WHERE
                                 `booking_id` = $id;";
 
-    $result = mysqli_query($conn, $sql);
+    $result = mysqli_query($conn, $sql_update);
 
     //  sweet alert 
     echo '
@@ -24,7 +24,7 @@ if (isset($_GET['id'])) {
         echo '<script>
              setTimeout(function() {
               swal({
-                  title: "เปลี่ยนสถานะสำเร็จ",
+                  title: "การจองสำเร็จ",
                   type: "success"
               }, function() {
                   window.location = "../booking_list.php"; //หน้าที่ต้องการให้กระโดดไป

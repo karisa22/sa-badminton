@@ -19,6 +19,12 @@ $sql_court = "SELECT
                     court_status = 0
                 ORDER BY
                     court_id ASC";
+// $sql_court = "SELECT
+//                     *
+//                 FROM
+//                     `m_court`
+//                 ORDER BY
+//                     court_id ASC";
 $result_court = mysqli_query($conn, $sql_court);
 $result_query = mysqli_query($conn, $sql_court);
 
@@ -73,6 +79,8 @@ if (isset($_POST["search"])) { // seleect dropdown
 } else {
     $row_obj = $result_query->fetch_assoc();
     $default_court_id =  array_values($row_obj)[0];
+    $default_court_name =  array_values($row_obj)[1];
+    $court_name = $default_court_name;
     $sql = "SELECT
         tb.booking_id,
         tb.user_id,
@@ -180,7 +188,8 @@ if (isset($_POST["search"])) { // seleect dropdown
         </form>
 
         <div>
-            <label <?php echo $style_booking; ?>>คุณเลือกสนาม <?php echo $court_name; ?></label>
+        <BR>
+            <label>กำลังแสดง <?php echo $court_name; ?></label>
         </div>
 
         <table id="customers">

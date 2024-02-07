@@ -34,17 +34,6 @@
 <body>
     
     <div class="container">
-        
-        <div class="row">
-            <?php  if (!empty($_SESSION['statusMsg'])) { ?>
-                <div class="alert alert-success" role="alert">
-                    <?php 
-                        echo $_SESSION['statusMsg']; 
-                        unset($_SESSION['statusMsg']);
-                    ?>
-                </div>
-            <?php } ?>
-        </div>
 
         <div class="row g-2 mt-1">
             <?php 
