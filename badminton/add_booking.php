@@ -1,5 +1,6 @@
 <?php
 include "common/connect.php";
+date_default_timezone_set('Asia/Bangkok');
 
 $style = "";
 $style_booking = "style='display:none;'";
@@ -11,12 +12,21 @@ if ($_SESSION["type"] != 1)
 $user_id = $_SESSION["user_id"];
 $court_busy = array();
 $search_dt = "";
+$price = "";
 
 if (isset($_POST["search"])) {
     $search_date = $_POST["search_date"];
     $search_hour = $_POST["search_hour"];
     $search_minuts = $_POST["search_minuts"];
     $search_dt = $search_date . " " . $search_hour . ":" . $search_minuts . ":00";
+
+    $mytime = date('H:i:s', strtotime($search_hour . ":" . $search_minuts));
+    $timecheck = date('H:i:s', strtotime("5 PM"));
+    if ($mytime < $timecheck) { //check promotions
+        $price = 100;
+    }else{
+        $price = 150;
+    }
 
     //debug
     // echo $search_dt;
@@ -50,7 +60,6 @@ if (isset($_POST["search"])) {
     }
 }
 
-date_default_timezone_set('Asia/Bangkok');
 $option0 = date("Y-m-d");
 $option1 = date("Y-m-d", strtotime("+1 day", strtotime($option0)));
 $option2 = date("Y-m-d", strtotime("+2 day", strtotime($option0)));
@@ -358,6 +367,7 @@ if (isset($_POST["booking"])) {
                     <i class='bx bx-user'></i> -->
                     <input style='display:none;' value="<?php echo $search_dt; ?>" type="text" class="input" name="date">
                     <div align=center><label class="text20">วันเวลาที่เลือก <?php echo $search_dt; ?></label></div>
+                    <div align=center><label class="text20">ราคาชั่วโมงละ <?php echo $price; ?> บาท</label></div>
                     <br>
                     <label for="court">สนามที่ว่าง:</label>
                     <select class="input" id="court" name="court">

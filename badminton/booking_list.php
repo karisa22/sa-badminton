@@ -8,6 +8,7 @@ if ($_SESSION["type"] != 1)
     $style = "style='display:none;'"; //ซ่อนหน้าจอส่วนที่ไม่ได้เป็น admin
 include "header.php";
 $user_id = $_SESSION["user_id"];
+date_default_timezone_set('Asia/Bangkok');
 ?>
 
 
@@ -186,14 +187,14 @@ $user_id = $_SESSION["user_id"];
                         }else{
                             echo "<td>  </td> ";
                         }
-                        if($_SESSION["type"]==1){
+                        if($_SESSION["type"]==1){ // check admin or member
                             echo "<td><a href='controllers/update_booking.php?id=$row[booking_id]' onclick=\"return confirm('ยืนยันการจองใช่หรือไม่')\">ยืนยัน</a></td> ";
                         }
                         //ลบข้อมูล
                         echo "<td><a href='controllers/cancel_booking.php?id=$row[booking_id]' onclick=\"return confirm('ยกเลิกการจองใช่หรือไม่')\">ยกเลิกการจอง</a></td> ";
                     }else{
                         echo "<td>  </td> ";
-                        if($_SESSION["type"]==1){
+                        if($_SESSION["type"]==1){ // check admin or member
                             echo "<td>  </td> ";
                         }
                         echo "<td>  </td> ";

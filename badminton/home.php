@@ -4,7 +4,7 @@
 session_start();
 // echo($_SESSION["type"]);
 if (!isset($_SESSION["type"])) //1 = admin , 2 = member
-  header("location:login.php");
+  header("location:login.php"); //ส่งกลับไปหน้า login
 include "header.php";
 ?>
 

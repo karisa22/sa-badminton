@@ -4,7 +4,7 @@ $style = "";
 $style_booking = "style='display:none;'";
 session_start();
 if (!isset($_SESSION["type"])) //1 = admin , 2 = member
-    header("location:login.php");
+    header("location:login.php");//ส่งกลับไปหน้า login
 if ($_SESSION["type"] != 1)
     $style = "style='display:none;'"; //ซ่อนหน้าจอส่วนที่ไม่ได้เป็น admin
 include "header.php";
@@ -36,7 +36,7 @@ $endtimes = date('H:i:s', strtotime("+ 30 minutes", strtotime($times)));
 $date_time_sarr = array();
 $date_time_earr = array();
 
-$date1 = date("Y-m-d");
+$date1 = date("Y-m-d"); // วันเวลาปัจจุบัน
 $date2 = date('Y-m-d', strtotime("+ 1 day", strtotime($date1)));
 $date3 = date('Y-m-d', strtotime("+ 2 day", strtotime($date1)));
 $date4 = date('Y-m-d', strtotime("+ 3 day", strtotime($date1)));
@@ -45,7 +45,7 @@ $date4 = date('Y-m-d', strtotime("+ 3 day", strtotime($date1)));
 $result = "";
 $court_name = "";
 
-if (isset($_POST["search"])) { // seleect dropdown
+if (isset($_POST["search"])) { // select dropdown (เลือก court)
     $style_booking = "";
     $search = $_POST["search"];
     $court_r = explode(",",$search);
@@ -71,12 +71,12 @@ if (isset($_POST["search"])) { // seleect dropdown
             LEFT JOIN `t_user` tu ON
                 tu.user_id = tb.user_id
             WHERE tb.booking_status LIKE '%' 
-                AND ( tb.create_date BETWEEN '$date1' AND '$date4' )
+                AND ( tb.booking_start_time BETWEEN '$date1' AND '$date4' )
                 AND tb.court_id = '$court_id'
                 AND NOT booking_status = 3
             ORDER BY tb.create_date ASC;";
     $result = mysqli_query($conn, $sql);
-} else {
+} else { //เข้าหน้าจอครั้งแรก
     $row_obj = $result_query->fetch_assoc();
     $default_court_id =  array_values($row_obj)[0];
     $default_court_name =  array_values($row_obj)[1];
@@ -100,7 +100,7 @@ if (isset($_POST["search"])) { // seleect dropdown
     LEFT JOIN `t_user` tu ON
         tu.user_id = tb.user_id
     WHERE tb.booking_status LIKE '%' 
-        AND ( tb.create_date BETWEEN '$date1' AND '$date4' ) 
+        AND ( tb.booking_start_time BETWEEN '$date1' AND '$date4' ) 
         AND tb.court_id = '$default_court_id'
         AND NOT booking_status = 3
     ORDER BY tb.create_date ASC;";
@@ -219,12 +219,12 @@ if (isset($_POST["search"])) { // seleect dropdown
                     array_push($date_time_earr, strval($row["booking_end_time"]));
                 }
 
-                //debug
+                // debug
                 // for ($x = 0; $x < sizeof($date_time_sarr); $x++) {
                 //     echo "$date_time_sarr[$x] $date_time_earr[$x] <br>";
                 // }
 
-                //debug
+                // debug
                 // foreach($date_time_sarr as $myresult) {
                 //     echo $myresult, '<br>';
                 // }
@@ -248,9 +248,9 @@ if (isset($_POST["search"])) { // seleect dropdown
                     if (in_array($check_sday1, $date_time_sarr)) {
                         $bool_day1 = true;
                     }
-                    if ($bool_day1) {
+                    if ($bool_day1) {//ใส่สีแดง
                         echo "<td style='background-color: #FFB6C1;'>ติดจอง</td> ";
-                    } else {
+                    } else {//ใส่สีเขียว
                         echo "<td style='background-color: #90EE90;'>ว่าง</td> ";
                     }
                     if (in_array($check_eday1, $date_time_earr)) {
@@ -260,24 +260,24 @@ if (isset($_POST["search"])) { // seleect dropdown
                     if (in_array($check_sday2, $date_time_sarr)) {
                         $bool_day2 = true;
                     }
-                    if ($bool_day2) {
+                    if ($bool_day2) {//ใส่สีแดง
                         echo "<td style='background-color: #FFB6C1;'>ติดจอง</td> ";
-                    } else {
+                    } else {//ใส่สีเขียว
                         echo "<td style='background-color: #90EE90;'>ว่าง</td> ";
                     }
                     if (in_array($check_eday2, $date_time_earr)) {
                         $bool_day2 = false;
                     }
 
-                    if (in_array($check_sday3, $date_time_sarr)) {
+                    if (in_array($check_sday3, $date_time_sarr)) {//เช็คเวลาเริ่ม
                         $bool_day3 = true;
                     }
-                    if ($bool_day3) {
+                    if ($bool_day3) {//ใส่สีแดง
                         echo "<td style='background-color: #FFB6C1;'>ติดจอง</td> ";
-                    } else {
+                    } else {//ใส่สีเขียว
                         echo "<td style='background-color: #90EE90;'>ว่าง</td> ";
                     }
-                    if (in_array($check_eday3, $date_time_earr)) {
+                    if (in_array($check_eday3, $date_time_earr)) {//เช็คเวลาสิ้นสุด
                         $bool_day3 = false;
                     }
 
