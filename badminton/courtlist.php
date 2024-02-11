@@ -39,8 +39,8 @@ $user_id = $_SESSION["user_id"];
     }
 
     img {
-        width: 200px;
-        height: 150px;
+        width: 300px;
+        /* height: 150px; */
         margin: 5px;
     }
 
@@ -78,7 +78,7 @@ $user_id = $_SESSION["user_id"];
                 <tr>
                     <th width="5%">ID</th>
                     <th width="16%">ชื่อสนาม</th>
-                    <th width="16%">รูปภาพสนาม</th>
+                    <th width="25%">รูปภาพสนาม</th>
                     <th width="14%" <?php echo $style; ?>>สถานะของสนาม</th>
                     <th width="5%" <?php echo $style; ?>>ปรับเปลี่ยนสถานะ</th>
                 </tr>

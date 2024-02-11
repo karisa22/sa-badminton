@@ -20,7 +20,7 @@ if (isset($_POST["submit"])) {
     
             // Allow certain file formats
             $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'pdf');
-            if (in_array($fileType, $allowTypes)) {
+            if (in_array(strtolower($fileType), $allowTypes)) {
                 if (move_uploaded_file($_FILES['file']['tmp_name'], $targetFilePath)) {
                    
                     $sql ="INSERT INTO `m_image`(

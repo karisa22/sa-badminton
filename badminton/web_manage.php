@@ -85,9 +85,10 @@ include "header.php";
                 $sql = "SELECT
                             mi.image_id,
                             mi.image_name,
+                            mi.create_date,
                             ta.activity_name,
                             ta.activity_desc,
-                            ta.create_date,
+                            -- ta.create_date,
                             ta.del
                         FROM
                             m_image mi

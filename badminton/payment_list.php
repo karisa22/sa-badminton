@@ -102,7 +102,8 @@ $user_id = $_SESSION["user_id"];
                             LEFT JOIN t_user tu ON
                                 tp.create_by = tu.user_id
                             LEFT JOIN t_booking tb ON
-                                tp.payment_id = tb.payment_id";
+                                tp.payment_id = tb.payment_id
+                            ORDER BY tp.create_date DESC";
                 } else {
                     // $sql = "SELECT * FROM `t_payment` WHERE create_by = $user_id AND del = 0";
                     $sql = "SELECT
@@ -122,7 +123,8 @@ $user_id = $_SESSION["user_id"];
                         LEFT JOIN t_booking tb ON
                             tp.payment_id = tb.payment_id
                         WHERE
-                            tp.del = 0 AND tp.create_by = '$user_id';";
+                            tp.del = 0 AND tp.create_by = '$user_id'
+                        ORDER BY tp.create_date DESC;";
                 }
                 $result = mysqli_query($conn, $sql);
                 if (!mysqli_num_rows($result)) {

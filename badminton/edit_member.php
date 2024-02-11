@@ -149,7 +149,7 @@ $image = $row['image_name'];
     <div class="box">
       <div class="container">
         <div class="top">
-          <header>Edit Profile</header>
+          <header>แก้ไขข้อมูลผู้ใช้</header>
         </div>
         <form method="POST" action="add_booking.php">
 
@@ -159,12 +159,12 @@ $image = $row['image_name'];
           </div>
 
           <div class="mb-3">
-            <label class="form-label">Name</label>
+            <label class="form-label">ชื่อ</label>
             <input type="text" class="form-control" name="name" value="<?php echo $name ?>">
           </div>
 
           <div class="mb-3">
-            <label class="form-label">Telephone</label>
+            <label class="form-label">เบอร์โทรศัพท์</label>
             <input type="text" class="form-control" name="tel" value="<?php echo $tel ?>">
           </div>
 
@@ -180,8 +180,8 @@ $image = $row['image_name'];
 
           <div class="input-field">
             <div align=center>
-              <button type="submit" class="btn btn-success">Update</button>
-              <a href="profile_list.php" class="btn btn-danger">Back</a>
+              <button type="submit" class="btn btn-success">ตกลง</button>
+              <a href="profile_list.php" class="btn btn-danger">ยกเลิก</a>
             </div>
             <div><br></div>
           </div>

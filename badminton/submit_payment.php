@@ -279,7 +279,7 @@ if (!mysqli_num_rows($result_query_booking)) {
     <div class="box">
         <div class="container">
             <div class="top">
-                <header>ยืนยันการจ่ายเงิน</header>
+                <header>ยืนยันการชำระเงิน</header>
             </div>
             <div><img class="center" src='img_sys/transfer.jpg' /></div>
             <form action="submit_payment.php" method="POST" enctype="multipart/form-data">
