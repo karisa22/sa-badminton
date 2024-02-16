@@ -81,7 +81,7 @@ include "header.php";
 
                 <?php
 
-                // $sql = "SELECT * FROM `m_image`";
+                // $sql = "SELECT * FROM `image`";
                 $sql = "SELECT
                             mi.image_id,
                             mi.image_name,
@@ -91,8 +91,8 @@ include "header.php";
                             -- ta.create_date,
                             ta.del
                         FROM
-                            m_image mi
-                        LEFT JOIN t_activity ta ON
+                            image mi
+                        LEFT JOIN activity ta ON
                             mi.activity_id = ta.activity_id
                         ORDER BY ta.activity_name ASC;";
                 $result = mysqli_query($conn, $sql);

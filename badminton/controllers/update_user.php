@@ -15,13 +15,13 @@ if (
   $result = "";
   if (empty($_POST['password'])) {
 
-    $sql = "UPDATE `t_user` SET `user_name`='$name',`user_tel`='$tel',`user_username`='$username' WHERE user_id = $id";
+    $sql = "UPDATE `user` SET `user_name`='$name',`user_tel`='$tel',`user_username`='$username' WHERE user_id = $id";
 
     $result = mysqli_query($conn, $sql);
   } else {
     $password = hash('sha256', $_POST['password']);
 
-    $sql = "UPDATE `t_user` SET `user_name`='$name',`user_tel`='$tel',`user_username`='$username' ,`user_password`='$password' WHERE user_id = $id";
+    $sql = "UPDATE `user` SET `user_name`='$name',`user_tel`='$tel',`user_username`='$username' ,`user_password`='$password' WHERE user_id = $id";
 
     $result = mysqli_query($conn, $sql);
   }

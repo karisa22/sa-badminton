@@ -2,7 +2,7 @@
 if (isset($_GET['id'])) {
     require_once '../common/connect.php';
     $id = $_GET['id'];
-    $sql = "UPDATE t_payment SET `del`=1 WHERE payment_id='$id'";
+    $sql = "UPDATE receipt SET `del`=1 WHERE payment_id='$id'";
     $result = mysqli_query($conn, $sql);
     
     //  sweet alert 

@@ -2,7 +2,7 @@
 if (isset($_GET['id'])) {
     require_once '../common/connect.php';
     $id = $_GET['id'];
-    $sql = "UPDATE t_booking SET `booking_status`=3 WHERE booking_id='$id'";
+    $sql = "UPDATE booking SET `booking_status`=3 WHERE booking_id='$id'";
     $result = mysqli_query($conn, $sql);
     
     //  sweet alert 

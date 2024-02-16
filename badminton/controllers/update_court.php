@@ -3,9 +3,9 @@ if (isset($_GET['id'])) {
     require_once '../common/connect.php';
     $id = $_GET['id'];
     $court_status = $_GET['court_status']== "1" ? 0 : 1;
-    // $sql = "DELETE FROM t_user WHERE user_id='$id'";
+    // $sql = "DELETE FROM user WHERE user_id='$id'";
     $sql = "UPDATE
-            m_court
+            court
         SET
             court_status = $court_status
         WHERE

@@ -8,7 +8,7 @@ if ($_SESSION["type"]!=1) //admin only
 if (!isset($_GET['id'])) //1 = admin , 2 = member
     header("location:profile_list.php");
 $id = $_GET['id'];
-$sql = "SELECT * FROM t_user WHERE user_id='$id'";
+$sql = "SELECT * FROM user WHERE user_id='$id'";
 $result = mysqli_query($conn, $sql);
 
 $row = mysqli_fetch_array($result);

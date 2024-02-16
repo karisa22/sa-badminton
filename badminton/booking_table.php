@@ -14,7 +14,7 @@ date_default_timezone_set('Asia/Bangkok');
 $sql_court = "SELECT
                     *
                 FROM
-                    `m_court`
+                    `court`
                 WHERE
                     court_status = 0
                 ORDER BY
@@ -22,7 +22,7 @@ $sql_court = "SELECT
 // $sql_court = "SELECT
 //                     *
 //                 FROM
-//                     `m_court`
+//                     `court`
 //                 ORDER BY
 //                     court_id ASC";
 $result_court = mysqli_query($conn, $sql_court);
@@ -60,15 +60,15 @@ if (isset($_POST["search"])) { // select dropdown (เลือก court)
                 tb.booking_start_time,
                 tb.booking_end_time,
                 tb.booking_status,
-                tb.booking_amount,
+                tb.booking_price,
                 mpt.payment_type_id,
                 mpt.payment_type_name,
                 tb.create_date
             FROM
-                `t_booking` tb
-            LEFT JOIN `m_payment_type` mpt ON
+                `booking` tb
+            LEFT JOIN `payment_type` mpt ON
                 mpt.payment_type_id = tb.payment_type_id
-            LEFT JOIN `t_user` tu ON
+            LEFT JOIN `user` tu ON
                 tu.user_id = tb.user_id
             WHERE tb.booking_status LIKE '%' 
                 AND ( tb.booking_start_time BETWEEN '$date1' AND '$date4' )
@@ -89,15 +89,15 @@ if (isset($_POST["search"])) { // select dropdown (เลือก court)
         tb.booking_start_time,
         tb.booking_end_time,
         tb.booking_status,
-        tb.booking_amount,
+        tb.booking_price,
         mpt.payment_type_id,
         mpt.payment_type_name,
         tb.create_date
     FROM
-        `t_booking` tb
-    LEFT JOIN `m_payment_type` mpt ON
+        `booking` tb
+    LEFT JOIN `payment_type` mpt ON
         mpt.payment_type_id = tb.payment_type_id
-    LEFT JOIN `t_user` tu ON
+    LEFT JOIN `user` tu ON
         tu.user_id = tb.user_id
     WHERE tb.booking_status LIKE '%' 
         AND ( tb.booking_start_time BETWEEN '$date1' AND '$date4' ) 

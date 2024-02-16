@@ -19,7 +19,7 @@ if (isset($_POST['submit_facilities'])) {
         $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'pdf');
         if (in_array($fileType, $allowTypes)) {
             if (move_uploaded_file($_FILES['file']['tmp_name'], $targetFilePath)) {
-                $insert = $db->query("INSERT INTO `m_image`(
+                $insert = $db->query("INSERT INTO `image`(
                     `image_name`,
                     `activity_id`,
                     `create_date`,

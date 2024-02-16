@@ -8,6 +8,8 @@ if ($_SESSION["type"] != 1)
     $style = "style='display:none;'"; //ซ่อนหน้าจอส่วนที่ไม่ได้เป็น admin
 include "header.php";
 $user_id = $_SESSION["user_id"];
+$paid_amt = 0;
+$wait_amt = 0;
 $sum_amt = 0;
 // $cur_date = date('Y-m');
 
@@ -238,14 +240,14 @@ if (isset($_POST["submit"])) {
                             tu.user_tel,
                             tb.court_id,
                             tb.booking_status,
-                            tb.booking_amount,
+                            tb.booking_price,
                             mpt.payment_type_name,
                             tb.create_date
                         FROM
-                            `t_booking` tb
-                        LEFT JOIN `t_user` tu ON
+                            `booking` tb
+                        LEFT JOIN `user` tu ON
                             tb.user_id = tu.user_id
-                        LEFT JOIN `m_payment_type` mpt ON
+                        LEFT JOIN `payment_type` mpt ON
                             mpt.payment_type_id = tb.payment_type_id
                         WHERE tb.booking_status LIKE '$status' AND ( tb.create_date BETWEEN '$start_date' AND '$end_date' ) AND NOT booking_status = 3
                         ORDER BY tb.create_date DESC;";
@@ -256,25 +258,30 @@ if (isset($_POST["submit"])) {
                 }
                 while ($row = mysqli_fetch_assoc($result)) {
 
-                    $sum_amt = $sum_amt + $row["booking_amount"];
+                    
                     // if ($row["booking_status"] == 2) {
-                    //     $sum_amt = $sum_amt + $row["booking_amount"];
+                    //     $sum_amt = $sum_amt + $row["booking_price"];
                     // }
 
                     echo "<td>" . $row["create_date"] .  "</td> ";
                     echo "<td>" . $row["payment_type_name"] .  "</td> ";
                     if ($row["booking_status"] == 1) {
+                        $wait_amt = $wait_amt + $row["booking_price"];
                         echo "<td>รอการชำระเงิน</td> ";
                     } else if ($row["booking_status"] == 2) {
+                        $paid_amt = $paid_amt + $row["booking_price"];
                         echo "<td>ชำระเงินสำเร็จ</td> ";
                     } else {
                         echo "<td>ยกเลิการจอง</td> ";
                     }
-                    echo "<td style='text-align: right;' >" . $row["booking_amount"] .  "</td> ";
+                    echo "<td style='text-align: right;' >" . $row["booking_price"] .  "</td> ";
                     echo "</tr>";
                 }
+                $sum_amt = $wait_amt+$paid_amt;
                 echo "</table>";
-                echo "<br><label class='right'>รายรับทั้งหมด " . $sum_amt . " บาท</label>";
+                echo "<br><label class='right'>รอการชำระเงิน " . $wait_amt . " บาท</label>";
+                echo "<br><label class='right'>ชำระเงินแล้ว " . $paid_amt . " บาท</label>";
+                echo "<br><label class='right'>รวมทั้งหมด " . $sum_amt . " บาท</label>";
                 //5. close connection
                 mysqli_close($conn);
                 ?>

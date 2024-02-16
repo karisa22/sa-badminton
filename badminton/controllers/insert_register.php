@@ -11,7 +11,7 @@ $password = hash('sha256', $_POST['password']);
 
 
 //check user
-$sqlSel = "SELECT * FROM t_user WHERE user_username='$username' limit 1";
+$sqlSel = "SELECT * FROM user WHERE user_username='$username' limit 1";
 $resultSel = mysqli_query($conn,$sqlSel);
 if(mysqli_num_rows($resultSel) ) {
     // $_SESSION["Error"] = "Username มีการใช้งานแล้ว";
@@ -22,7 +22,7 @@ if(mysqli_num_rows($resultSel) ) {
 }
 
 //คำสั่งเพิ่มข้อมูลลงตาราง user
-$sql = "INSERT INTO t_user(user_name, user_tel, user_username, user_password, user_type , image_name , create_date , edit_date , create_by , edit_by , del ) 
+$sql = "INSERT INTO user(user_name, user_tel, user_username, user_password, user_type , image_name , create_date , edit_date , create_by , edit_by , del ) 
 Values('$name', '$tel', '$username' , '$password' , 2 , NULL , now() , now() , 0 , 0 , 0)";
 $result = mysqli_query($conn , $sql);
 if($result){

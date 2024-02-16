@@ -4,6 +4,7 @@ date_default_timezone_set('Asia/Bangkok');
 
 $style = "";
 $style_booking = "style='display:none;'";
+$style_booked = "style='display:none;'";
 session_start();
 if (!isset($_SESSION["type"])) //1 = admin , 2 = member
     header("location:login.php");
@@ -13,6 +14,17 @@ $user_id = $_SESSION["user_id"];
 $court_busy = array();
 $search_dt = "";
 $price = "";
+
+$option0 = date("Y-m-d");
+$option1 = date("Y-m-d", strtotime("+1 day", strtotime($option0)));
+$option2 = date("Y-m-d", strtotime("+2 day", strtotime($option0)));
+
+// echo date("H:i:s");
+// return;
+
+$search_date = $option0;
+$search_hour = "12";
+$search_minuts = "00";
 
 if (isset($_POST["search"])) {
     $search_date = $_POST["search_date"];
@@ -24,7 +36,7 @@ if (isset($_POST["search"])) {
     $timecheck = date('H:i:s', strtotime("5 PM"));
     if ($mytime < $timecheck) { //check promotions
         $price = 100;
-    }else{
+    } else {
         $price = 150;
     }
 
@@ -34,7 +46,7 @@ if (isset($_POST["search"])) {
     $sql_court = "SELECT
                         *
                     FROM
-                        `m_court`
+                        `court`
                     WHERE
                         court_status = 0
                     ORDER BY
@@ -44,10 +56,10 @@ if (isset($_POST["search"])) {
     $sql_search = "SELECT
                         *
                     FROM
-                        `t_booking`
+                        `booking`
                     WHERE
                         booking_start_time <= '$search_dt' 
-                        AND booking_end_time >= '$search_dt' 
+                        AND booking_end_time > '$search_dt' 
                         AND NOT booking_status = '3'
                     ORDER BY
                         court_id ASC;";
@@ -58,11 +70,11 @@ if (isset($_POST["search"])) {
     if (mysqli_num_rows($result_search) != mysqli_num_rows($result_court)) {
         $style_booking = "";
     }
+} else if (isset($_POST["search_date"]) || isset($_POST["search_hour"]) || isset($_POST["search_minuts"])) {
+    $search_date = $_POST["search_date"];
+    $search_hour = $_POST["search_hour"];
+    $search_minuts = $_POST["search_minuts"];
 }
-
-$option0 = date("Y-m-d");
-$option1 = date("Y-m-d", strtotime("+1 day", strtotime($option0)));
-$option2 = date("Y-m-d", strtotime("+2 day", strtotime($option0)));
 
 if (isset($_POST["booking"])) {
     $court = $_POST['court'];
@@ -119,46 +131,58 @@ if (isset($_POST["booking"])) {
 
     $v_type = $type;
 
-    $sql = "INSERT INTO `t_booking`(
-        `user_id`,
-        `court_id`,
-        `booking_start_time`,
-        `booking_end_time`,
-        `payment_type_id`,
-        `payment_id`,
-        `booking_status`,
-        `booking_amount`,
-        `promotion_id`,
-        `create_date`,
-        `edit_date`,
-        `create_by`,
-        `edit_by`,
-        `del`
-    )
-    VALUES(
-        $user,
-        $court,
-        '$start',
-        '$end',
-        $v_type,
-        NULL,
-        '1',
-        $amount,
-        NULL,
-        NOW(),
-        NULL,
-        $user_id,
-        $user_id,
-        '0'
-    );";
-    // echo $sql;
-    // return;
-    $result = mysqli_query($conn, $sql);
+    $sql_check_insert = "SELECT
+                            booking_id
+                        FROM
+                            `booking`
+                        WHERE
+                            booking_start_time < '$end' 
+                        AND booking_end_time >= '$end'";
+    $result_check_insert = mysqli_query($conn, $sql_check_insert);
+    if (mysqli_num_rows($result_check_insert) == 0) {
+        $sql = "INSERT INTO `booking`(
+            `user_id`,
+            `court_id`,
+            `booking_start_time`,
+            `booking_end_time`,
+            `payment_type_id`,
+            `payment_id`,
+            `booking_status`,
+            `booking_price`,
+            `promotion_id`,
+            `create_date`,
+            `edit_date`,
+            `create_by`,
+            `edit_by`,
+            `del`
+        )
+        VALUES(
+            $user,
+            $court,
+            '$start',
+            '$end',
+            $v_type,
+            NULL,
+            '1',
+            $amount,
+            NULL,
+            NOW(),
+            NULL,
+            $user_id,
+            $user_id,
+            '0'
+        );";
+        // echo $sql;
+        // return;
+        $result = mysqli_query($conn, $sql);
 
-    if ($result) {
-        header("Location: booking_list.php?msg=New record created successfully");
+        if ($result) {
+            header("Location: booking_list.php?msg=New record created successfully");
+        } else {
+            echo "Failed: " . mysqli_error($conn);
+        }
     } else {
-        echo "Failed: " . mysqli_error($conn);
+        $style_booked = "";
     }
 }
 
@@ -270,7 +294,12 @@ if (isset($_POST["booking"])) {
         }
 
         .text20 {
-            font-size: 20px;
+            font-size: 16px;
+        }
+
+        .text18 {
+            font-size: 18px;
+            color: red;
         }
 
         i {
@@ -314,41 +343,143 @@ if (isset($_POST["booking"])) {
                     <!-- <input type="text" class="input" name="name" placeholder="ชื่อ" maxlength="100" required>
                     <i class='bx bx-user'></i> -->
                     <label for="search_date">วันที่ต้องการจอง:</label>
-                    <select class="input" id="search_date" name="search_date">
+                    <select onchange="this.form.submit()" class="input" id="search_date" name="search_date">
                         <?php
-                        echo '<option value="' . $option0 . '">' . $option0 . '</option>';
-                        echo '<option value="' . $option1 . '">' . $option1 . '</option>';
-                        echo '<option value="' . $option2 . '">' . $option2 . '</option>';
+                        if ($option0 == $search_date) {
+                            echo '<option value="' . $option0 . '" selected>' . $option0 . '</option>';
+                        } else {
+                            echo '<option value="' . $option0 . '">' . $option0 . '</option>';
+                        }
+
+                        if ($option1 == $search_date) {
+                            echo '<option value="' . $option1 . '" selected>' . $option1 . '</option>';
+                        } else {
+                            echo '<option value="' . $option1 . '">' . $option1 . '</option>';
+                        }
+
+                        if ($option2 == $search_date) {
+                            echo '<option value="' . $option2 . '" selected>' . $option2 . '</option>';
+                        } else {
+                            echo '<option value="' . $option2 . '">' . $option2 . '</option>';
+                        }
                         ?>
                     </select>
                     <i class='bx'></i>
                     <div>
                         <label for="search_hour">เวลา </label>
 
-                        <select class="input2" id="search_hour" name="search_hour">
-                            <option value="12">12</option>;
-                            <option value="13">13</option>;
-                            <option value="14">14</option>;
-                            <option value="15">15</option>;
-                            <option value="16">16</option>;
-                            <option value="17">17</option>;
-                            <option value="18">18</option>;
-                            <option value="19">19</option>;
-                            <option value="20">20</option>;
-                            <!-- <option value="21">21</option>;
-                            <option value="22">22</option>; -->
+                        <select onchange="this.form.submit()" class="input2" id="search_hour" name="search_hour">
+                            <?php
+
+                            $search_date_check = 0;
+                            if ($search_date == date("Y-m-d")) {
+                                $search_date_check = date("H");
+                            }
+
+                            if ($search_date_check <= 12) {
+                                if ($search_hour == "12") {
+                                    echo '<option value="12" selected>12</option>';
+                                } else {
+                                    echo '<option value="12" >12</option>';
+                                }
+                            }
+
+                            if ($search_date_check <= 13) {
+                                if ($search_hour == "13") {
+                                    echo '<option value="13" selected>13</option>';
+                                } else {
+                                    echo '<option value="13" >13</option>';
+                                }
+                            }
+
+                            if ($search_date_check <= 14) {
+                                if ($search_hour == "14") {
+                                    echo '<option value="14" selected>14</option>';
+                                } else {
+                                    echo '<option value="14" >14</option>';
+                                }
+                            }
+
+                            if ($search_date_check <= 15) {
+                                if ($search_hour == "15") {
+                                    echo '<option value="15" selected>15</option>';
+                                } else {
+                                    echo '<option value="15" >15</option>';
+                                }
+                            }
+
+                            if ($search_date_check <= 16) {
+                                if ($search_hour == "16") {
+                                    echo '<option value="16" selected>16</option>';
+                                } else {
+                                    echo '<option value="16" >16</option>';
+                                }
+                            }
+
+                            if ($search_date_check <= 17) {
+                                if ($search_hour == "17") {
+                                    echo '<option value="17" selected>17</option>';
+                                } else {
+                                    echo '<option value="17" >17</option>';
+                                }
+                            }
+
+                            if ($search_date_check <= 18) {
+                                if ($search_hour == "18") {
+                                    echo '<option value="18" selected>18</option>';
+                                } else {
+                                    echo '<option value="18" >18</option>';
+                                }
+                            }
+
+                            if ($search_date_check <= 19) {
+                                if ($search_hour == "19") {
+                                    echo '<option value="19" selected>19</option>';
+                                } else {
+                                    echo '<option value="19" >19</option>';
+                                }
+                            }
+
+                            if ($search_date_check <= 20) {
+                                if ($search_hour == "20") {
+                                    echo '<option value="20" selected>20</option>';
+                                } else {
+                                    echo '<option value="20" >20</option>';
+                                }
+                            }
+                            ?>
                         </select>
                         <label for="search_minuts"> : </label>
-                        <select class="input2" id="search_minuts" name="search_minuts">
-                            <option value="00">00</option>;
-                            <!-- <option value="15">15</option>; -->
-                            <option value="30">30</option>;
-                            <!-- <option value="45">45</option>; -->
+                        <select onchange="this.form.submit()" class="input2" id="search_minuts" name="search_minuts">
+                            <?php
+                            if ($search_minuts == "00") {
+                                echo '<option value="00" selected>00</option>';
+                            } else {
+                                echo '<option value="00">00</option>';
+                            }
+
+                            if ($search_minuts == "30") {
+                                echo '<option value="30" selected>30</option>';
+                            } else {
+                                echo '<option value="30">30</option>';
+                            }
+                            ?>
                         </select>
                     </div>
                     <i class='bx'></i>
-                    <!-- SELECT * FROM `t_booking` WHERE booking_start_time >= '2024-01-22 02:25:00' AND booking_end_time <= '2024-01-22 03:05:00'; -->
+                    <!-- SELECT * FROM `booking` WHERE booking_start_time >= '2024-01-22 02:25:00' AND booking_end_time <= '2024-01-22 03:05:00'; -->
                 </div>
+
+                <!-- <div align=center><label class="text20">วันเวลาที่เลือก <?php echo $search_dt; ?></label></div> -->
+                <div align=center><label class="text20">ราคาชั่วโมงละ 150 บาท / 30 นาที 75 บาท</label></div>
+                <div align=center><label class="text20">ถ้าจองก่อน 17:00 น. ราคาชั่วโมงละ 100 บาท / 30 นาที 50 บาท</label></div>
+                <br>
+
+                <div <?php echo $style_booked; ?>>
+                    <div align=center><label class="text18">***มีการจองไปแล้ว โปรดเช็คตารางการจองอีกรอบ***</label></div>
+                    <br>
+                </div>
+
 
                 <div class="input-field">
                     <div align=center>
@@ -366,9 +497,7 @@ if (isset($_POST["booking"])) {
                     <!-- <input type="text" class="input" name="name" placeholder="ชื่อ" maxlength="100" required>
                     <i class='bx bx-user'></i> -->
                     <input style='display:none;' value="<?php echo $search_dt; ?>" type="text" class="input" name="date">
-                    <div align=center><label class="text20">วันเวลาที่เลือก <?php echo $search_dt; ?></label></div>
-                    <div align=center><label class="text20">ราคาชั่วโมงละ <?php echo $price; ?> บาท</label></div>
-                    <br>
+
                     <label for="court">สนามที่ว่าง:</label>
                     <select class="input" id="court" name="court">
                         <?php
@@ -401,7 +530,7 @@ if (isset($_POST["booking"])) {
                     <label for="type">วิธีการจ่ายเงิน:</label>
                     <select class="input" id="type" name="type">
                         <?php
-                        $sql_type = "SELECT * FROM `m_payment_type`";
+                        $sql_type = "SELECT * FROM `payment_type`";
                         $result_type = mysqli_query($conn, $sql_type);
                         while ($row_type = mysqli_fetch_assoc($result_type)) {
                             echo '<option value="' . $row_type["payment_type_id"] . '">' . $row_type["payment_type_name"] . '</option>';

@@ -23,7 +23,7 @@ if (isset($_POST["submit"])) {
             if (in_array(strtolower($fileType), $allowTypes)) {
                 if (move_uploaded_file($_FILES['file']['tmp_name'], $targetFilePath)) {
                    
-                    $sql ="INSERT INTO `m_image`(
+                    $sql ="INSERT INTO `image`(
                         `image_name`,
                         `activity_id`,
                         `create_date`,
@@ -218,7 +218,7 @@ if (isset($_POST["submit"])) {
                     <label for="activity">เลือกกิจกรรม:</label>
                     <select class="input" id="activity" name="activity_id">
                         <?php
-                        $sql_activity = "SELECT * FROM `t_activity`";
+                        $sql_activity = "SELECT * FROM `activity`";
                         $result_activity = mysqli_query($conn, $sql_activity);
                         while ($row_court = mysqli_fetch_assoc($result_activity)) {
                             echo '<option value="' . $row_court["activity_id"] . '">' . $row_court["activity_name"] . '</option>';

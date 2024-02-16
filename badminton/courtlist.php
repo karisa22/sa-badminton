@@ -76,8 +76,8 @@ $user_id = $_SESSION["user_id"];
             <BR>
             <thead>
                 <tr>
-                    <th width="5%">ID</th>
-                    <th width="16%">ชื่อสนาม</th>
+                    <!-- <th width="5%">ID</th> -->
+                    <th width="10%">ชื่อสนาม</th>
                     <th width="25%">รูปภาพสนาม</th>
                     <th width="14%" <?php echo $style; ?>>สถานะของสนาม</th>
                     <th width="5%" <?php echo $style; ?>>ปรับเปลี่ยนสถานะ</th>
@@ -87,7 +87,7 @@ $user_id = $_SESSION["user_id"];
 
                 <?php
 
-                $sql = "SELECT * FROM `m_court`";
+                $sql = "SELECT * FROM `court`";
                 $result = mysqli_query($conn, $sql);
                 while ($row = mysqli_fetch_assoc($result)) {
 
@@ -95,7 +95,7 @@ $user_id = $_SESSION["user_id"];
                         continue;
                     }
 
-                    echo "<td>" . $row["court_id"] .  "</td> ";
+                    // echo "<td>" . $row["court_id"] .  "</td> ";
                     echo "<td>" . $row["court_name"] .  "</td> ";
                     // echo "<td>" . $row["court_image"] .  "</td> ";
                     echo "<td> <img src='uploads/" .  $row['court_image']  . "'/>   </td>";

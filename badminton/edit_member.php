@@ -8,7 +8,7 @@ if ($_SESSION["type"] != 1) //admin only
 if (!isset($_GET['id'])) //1 = admin , 2 = member
   header("location:profile_list.php");
 $id = $_GET['id'];
-$sql = "SELECT * FROM t_user WHERE user_id='$id'";
+$sql = "SELECT * FROM user WHERE user_id='$id'";
 $result = mysqli_query($conn, $sql);
 
 $row = mysqli_fetch_array($result);
@@ -151,7 +151,7 @@ $image = $row['image_name'];
         <div class="top">
           <header>แก้ไขข้อมูลผู้ใช้</header>
         </div>
-        <form method="POST" action="add_booking.php">
+        <form class="" action="controllers/update_user.php" method="post" enctype="multipart/form-data">
 
           <div class="mb-3" style='display:none;'>
             <label class="form-label">id</label>

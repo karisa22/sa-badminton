@@ -8,7 +8,7 @@ $password = hash('sha256', $_POST['password']);
 // echo hash('sha256', $_POST['password']);
 
 
-$sql = "SELECT * FROM t_user WHERE user_username='$username' and user_password ='$password' and del = 0 limit 1";
+$sql = "SELECT * FROM user WHERE user_username='$username' and user_password ='$password' and del = 0 limit 1";
 
 $result = mysqli_query($conn,$sql);
 

@@ -10,7 +10,7 @@ $last_id = "";
 
 if (isset($_POST["submit"])) {
     $booking_id = $_POST['booking_id'];
-    $booking_amount = $_POST['booking_amount'];
+    $booking_price = $_POST['booking_price'];
 
     // echo "failed: 1";
     // return;
@@ -26,8 +26,8 @@ if (isset($_POST["submit"])) {
         if (in_array($fileType, $allowTypes)) {
             if (move_uploaded_file($_FILES['file']['tmp_name'], $targetFilePath)) {
 
-                $sql_insert = "INSERT INTO `t_payment`(
-                    `payment_amount`,
+                $sql_insert = "INSERT INTO `receipt`(
+                    `payment_price`,
                     `image_name`,
                     `paid_date`,
                     `create_date`,
@@ -35,7 +35,7 @@ if (isset($_POST["submit"])) {
                     `del`
                 )
                 VALUES(
-                    '$booking_amount',
+                    '$booking_price',
                     '$fileName',
                     NOW(),
                     NOW(),
@@ -50,7 +50,7 @@ if (isset($_POST["submit"])) {
                 }
 
                 $sql_update = "UPDATE
-                                `t_booking`
+                                `booking`
                             SET
                                 `payment_id` = '$last_id' , edit_date = NOW()
                             WHERE
@@ -81,15 +81,15 @@ if (isset($_POST["submit"])) {
             // echo "failed: 3";
         }
     } else {
-        $sql_insert = "INSERT INTO `t_payment`(
-            `payment_amount`,
+        $sql_insert = "INSERT INTO `receipt`(
+            `payment_price`,
             `paid_date`,
             `create_date`,
             `create_by`,
             `del`
         )
         VALUES(
-            '$booking_amount',
+            '$booking_price',
             NOW(),
             NOW(),
             '$user_id',
@@ -102,7 +102,7 @@ if (isset($_POST["submit"])) {
         }
 
         $sql_update = "UPDATE
-                        `t_booking`
+                        `booking`
                     SET
                         `payment_id` = '$last_id' , edit_date = NOW()
                     WHERE
@@ -126,15 +126,15 @@ $sql_query_booking = "SELECT
             tb.booking_start_time,
             tb.booking_end_time,
             tb.booking_status,
-            tb.booking_amount,
+            tb.booking_price,
             mpt.payment_type_id,
             mpt.payment_type_name,
             tb.create_date
         FROM
-            `t_booking` tb
-        LEFT JOIN `m_payment_type` mpt ON
+            `booking` tb
+        LEFT JOIN `payment_type` mpt ON
             mpt.payment_type_id = tb.payment_type_id
-        LEFT JOIN `t_user` tu ON
+        LEFT JOIN `user` tu ON
             tu.user_id = tb.user_id
         WHERE tb.booking_id = $id
         ORDER BY tb.create_date DESC;";
@@ -290,7 +290,7 @@ if (!mysqli_num_rows($result_query_booking)) {
                 </div>
                 <div class="input-field">
                     <label>จำนวนเงิน</label>
-                    <input type="number" step=".01" value="<?php echo $row["booking_amount"]; ?>" class="input" name="booking_amount" placeholder="จำนวนเงิน" maxlength="100" required>
+                    <input type="number" step=".01" value="<?php echo $row["booking_price"]; ?>" class="input" name="booking_price" placeholder="จำนวนเงิน" maxlength="100" readonly="readonly">
                     <!-- <i class='bx'></i> -->
                 </div>
                 <div class="input-field">

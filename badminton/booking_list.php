@@ -108,18 +108,18 @@ date_default_timezone_set('Asia/Bangkok');
                                 tb.booking_start_time,
                                 tb.booking_end_time,
                                 tb.booking_status,
-                                tb.booking_amount,
+                                tb.booking_price,
                                 tb.payment_id,
                                 mpt.payment_type_id,
                                 mpt.payment_type_name,
                                 tb.create_date
                             FROM
-                                `t_booking` tb
-                            LEFT JOIN `m_payment_type` mpt ON
+                                `booking` tb
+                            LEFT JOIN `payment_type` mpt ON
                                 mpt.payment_type_id = tb.payment_type_id
-                            LEFT JOIN `t_user` tu ON
+                            LEFT JOIN `user` tu ON
                                 tu.user_id = tb.user_id
-                            LEFT JOIN `m_court` mc ON
+                            LEFT JOIN `court` mc ON
                                 mc.court_id = tb.court_id
                             WHERE tb.booking_start_time > '$date_now'
                             ORDER BY tb.create_date DESC;";
@@ -133,18 +133,18 @@ date_default_timezone_set('Asia/Bangkok');
                             tb.booking_start_time,
                             tb.booking_end_time,
                             tb.booking_status,
-                            tb.booking_amount,
+                            tb.booking_price,
                             tb.payment_id,
                             mpt.payment_type_id,
                             mpt.payment_type_name,
                             tb.create_date
                         FROM
-                            `t_booking` tb
-                        LEFT JOIN `m_payment_type` mpt ON
+                            `booking` tb
+                        LEFT JOIN `payment_type` mpt ON
                             mpt.payment_type_id = tb.payment_type_id
-                        LEFT JOIN `t_user` tu ON
+                        LEFT JOIN `user` tu ON
                             tu.user_id = tb.user_id
-                        LEFT JOIN `m_court` mc ON
+                        LEFT JOIN `court` mc ON
                             mc.court_id = tb.court_id
                         WHERE tb.create_by = $user_id AND tb.booking_start_time > '$date_now'
                         ORDER BY tb.create_date DESC;";
@@ -177,7 +177,7 @@ date_default_timezone_set('Asia/Bangkok');
                     } else {
                         echo "<td> ยกเลิก </td> ";
                     }
-                    echo "<td style='text-align: right;'>" . $row["booking_amount"] .  "</td> ";
+                    echo "<td style='text-align: right;'>" . $row["booking_price"] .  "</td> ";
 
                     
 
@@ -187,9 +187,13 @@ date_default_timezone_set('Asia/Bangkok');
                         }else{
                             echo "<td>  </td> ";
                         }
-                        if($_SESSION["type"]==1){ // check admin or member
+
+                        if($_SESSION["type"]==1 && isset($row["payment_id"])){ // check admin or member
                             echo "<td><a href='controllers/update_booking.php?id=$row[booking_id]' onclick=\"return confirm('ยืนยันการจองใช่หรือไม่')\">ยืนยัน</a></td> ";
+                        }else if($_SESSION["type"]==1){
+                            echo "<td>  </td> ";
                         }
+                        
                         //ลบข้อมูล
                         echo "<td><a href='controllers/cancel_booking.php?id=$row[booking_id]' onclick=\"return confirm('ยกเลิกการจองใช่หรือไม่')\">ยกเลิกการจอง</a></td> ";
                     }else{

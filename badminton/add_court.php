@@ -23,7 +23,7 @@ if (isset($_POST["submit"])) {
             if (in_array($fileType, $allowTypes)) {
                 if (move_uploaded_file($_FILES['file']['tmp_name'], $targetFilePath)) {
 
-                    $sql = "INSERT INTO `m_court`(
+                    $sql = "INSERT INTO `court`(
                         `court_name`,
                         `court_image`,
                         `court_status`

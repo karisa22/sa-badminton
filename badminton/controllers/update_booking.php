@@ -4,9 +4,9 @@ if (isset($_GET['id'])) {
     require_once '../common/connect.php';
     $user_id = $_SESSION["user_id"];
     $id = $_GET['id'];
-    // $sql = "DELETE FROM t_user WHERE user_id='$id'";
+    // $sql = "DELETE FROM user WHERE user_id='$id'";
     $sql_update = "UPDATE
-                                `t_booking`
+                                `booking`
                             SET
                                 `booking_status` = '2' , edit_date = NOW() , edit_by = '$user_id'
                             WHERE

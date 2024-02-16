@@ -70,7 +70,7 @@ $user_id = $_SESSION["user_id"];
             <BR>
             <thead>
                 <tr>
-                    <th width="5%">ID</th>
+                    <!-- <th width="5%">ID</th> -->
                     <th width="5%">รหัสการจอง</th>
                     <th width="5%">จำนวนเงิน</th>
                     <th width="15%">รูปภาพ slip</th>
@@ -89,7 +89,7 @@ $user_id = $_SESSION["user_id"];
                 if ($_SESSION["type"] == 1) {
                     $sql = "SELECT
                                 tp.payment_id,
-                                tp.payment_amount,
+                                tp.payment_price,
                                 tp.image_name,
                                 tp.paid_date,
                                 tp.create_date,
@@ -98,17 +98,17 @@ $user_id = $_SESSION["user_id"];
                                 tp.del,
                                 tu.user_name
                             FROM
-                                t_payment tp
-                            LEFT JOIN t_user tu ON
+                                receipt tp
+                            LEFT JOIN user tu ON
                                 tp.create_by = tu.user_id
-                            LEFT JOIN t_booking tb ON
+                            LEFT JOIN booking tb ON
                                 tp.payment_id = tb.payment_id
-                            ORDER BY tp.create_date DESC";
+                            ORDER BY tb.booking_id DESC , tp.create_date DESC";
                 } else {
                     // $sql = "SELECT * FROM `t_payment` WHERE create_by = $user_id AND del = 0";
                     $sql = "SELECT
                             tp.payment_id,
-                            tp.payment_amount,
+                            tp.payment_price,
                             tp.image_name,
                             tp.paid_date,
                             tp.create_date,
@@ -117,14 +117,14 @@ $user_id = $_SESSION["user_id"];
                             tp.del,
                             tu.user_name
                         FROM
-                            t_payment tp
-                        LEFT JOIN t_user tu ON
+                            receipt tp
+                        LEFT JOIN user tu ON
                             tp.create_by = tu.user_id
-                        LEFT JOIN t_booking tb ON
+                        LEFT JOIN booking tb ON
                             tp.payment_id = tb.payment_id
                         WHERE
                             tp.del = 0 AND tp.create_by = '$user_id'
-                        ORDER BY tp.create_date DESC;";
+                        ORDER BY tb.booking_id DESC , tp.create_date DESC;";
                 }
                 $result = mysqli_query($conn, $sql);
                 if (!mysqli_num_rows($result)) {
@@ -132,9 +132,9 @@ $user_id = $_SESSION["user_id"];
                 }
                 while ($row = mysqli_fetch_assoc($result)) {
 
-                    echo "<td>" . $row["payment_id"] .  "</td> ";
+                    // echo "<td>" . $row["payment_id"] .  "</td> ";
                     echo "<td>" . $row["booking_id"] .  "</td> ";
-                    echo "<td style='text-align: right;'>" . $row["payment_amount"] .  "</td> ";
+                    echo "<td style='text-align: right;'>" . $row["payment_price"] .  "</td> ";
                     if ($row["image_name"] != "") {
                         echo "<td> <img style='width:80%' src='uploads/" .  $row['image_name']  . "'/>    </td>";
                     } else {

@@ -4,6 +4,7 @@ session_start();
 if (!isset($_SESSION["type"])) //1 = admin , 2 = member
     header("location:login.php");
 include "header.php";
+$user_id = $_SESSION["user_id"];
 ?>
 
 <!DOCTYPE html>
@@ -79,7 +80,7 @@ include "header.php";
 
                 <?php
 
-                $sql = "SELECT * FROM `t_user` WHERE del = '0'";
+                $sql = "SELECT * FROM `user` WHERE del = '0'";
                 $result = mysqli_query($conn, $sql);
                 while ($row = mysqli_fetch_assoc($result)) {
 
@@ -102,7 +103,12 @@ include "header.php";
                     echo "<td><a href='edit_member.php?id=$row[user_id]' onclick=\"return confirm('ต้องการแก้ไขข้อมูลใช่ไหม!!!')\">แก้ไข</a></td> ";
 
                     //ลบข้อมูล
-                    echo "<td><a href='controllers/delete_member.php?id=$row[user_id]' onclick=\"return confirm('ต้องการลบข้อมูลใช่ไหม!!!')\">ลบ</a></td> ";
+                    if($row["user_id"] == $user_id){
+                        echo "<td> </td>";
+                    }else{
+                        echo "<td><a href='controllers/delete_member.php?id=$row[user_id]' onclick=\"return confirm('ต้องการลบข้อมูลใช่ไหม!!!')\">ลบ</a></td> ";
+                    }
+                    
                     echo "</tr>";
                 }
                 echo "</table>";

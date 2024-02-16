@@ -2,7 +2,7 @@
 if (isset($_GET['id'])) {
     require_once '../common/connect.php';
     $id = $_GET['id'];
-    $sql = "DELETE FROM m_image WHERE image_id='$id'";
+    $sql = "DELETE FROM image WHERE image_id='$id'";
     $result = mysqli_query($conn, $sql);
     
     //  sweet alert 

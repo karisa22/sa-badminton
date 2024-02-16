@@ -7,7 +7,7 @@ if (isset($_POST["submit"])) {
     $username = $_POST['username'];
     $password = hash('sha256', $_POST['password']);
 
-    $sql = "INSERT INTO t_user(user_name, user_tel, user_username, user_password, user_type , image_name , create_date , edit_date , create_by , edit_by , del ) 
+    $sql = "INSERT INTO user(user_name, user_tel, user_username, user_password, user_type , image_name , create_date , edit_date , create_by , edit_by , del ) 
     Values('$name', '$tel', '$username' , '$password' , 1 , NULL , now() , now() , 1 , 1 , 0)";
     $result = mysqli_query($conn, $sql);
 
