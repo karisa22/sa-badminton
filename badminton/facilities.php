@@ -20,44 +20,76 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 </head>
 <style>
-	 /* Googlefont Poppins CDN Link */
-	 @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&family=Noto+Sans+Thai:wght@100;200;300;400;500;600;700;800&display=swap');
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box; 
-  font-family: 'M PLUS Rounded 1c', sans-serif;
-  font-family: 'Noto Sans Thai', sans-serif;
-}
+    /* Googlefont Poppins CDN Link */
+    @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&family=Noto+Sans+Thai:wght@100;200;300;400;500;600;700;800&display=swap');
 
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'M PLUS Rounded 1c', sans-serif;
+        font-family: 'Noto Sans Thai', sans-serif;
+    }
+
+    .top10 {
+        padding-top: 15px;
+    }
+
+    .left {
+        padding-left: 20px;
+    }
+
+    .text_center{
+        text-align: center;
+    }
 </style>
+
 <body>
-    
+
     <div class="container">
         <div class="row mt-2">
-           
+
         </div>
 
         <div class="row g-2">
-            <?php 
-                $query = $db->query("SELECT * FROM image WHERE activity_id = '4' ORDER BY create_date DESC");
-                if ($query->num_rows > 0) {
-                    while($row = $query->fetch_assoc()) {
-                        $imageURL = 'uploads/'.$row['image_name'];
-                    ?>
+            <?php
+            $query = $db->query("SELECT
+                image_name,
+                activity_name,
+                activity_desc
+            FROM
+                image img
+            LEFT JOIN activity act ON
+                img.activity_id = act.activity_id
+            WHERE
+                act.activity_type_id = '4' AND ( NOW() BETWEEN act.activity_start_time AND act.activity_end_time ) AND del = 0
+            ORDER BY
+                img.create_date
+            DESC;");
+            if ($query->num_rows > 0) {
+                while ($row = $query->fetch_assoc()) {
+                    $imageURL = 'uploads/' . $row['image_name'];
+            ?>
                     <div class="col-sm-4">
-                        <div>
-                            <img src="<?php echo $imageURL ?>" alt="center" width="430px" height="250px" margin="5px" >
+                        <div class="top10">
+                            <img src="<?php echo $imageURL ?>" alt="center" width="430px" height="250px" margin="5px">
+                            <!-- <div class="text_center">
+                                <label>[<?php echo $row['activity_name'] ?>]</label><br>
+                                <label>[<?php echo $row['activity_desc'] ?>]</label>
+                            </div> -->
                         </div>
                     </div>
-                <?php 
-                    }
-                } else { ?>
+                <?php
+                }
+            } else { ?>
                 <p>No image found...</p>
             <?php } ?>
+            <?php //} 
+            ?>
         </div>
     </div>
-    
+
 </body>
-<?php include"footer.php"; ?>
+<?php include "footer.php"; ?>
+
 </html>

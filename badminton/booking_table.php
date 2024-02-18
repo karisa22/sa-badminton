@@ -37,6 +37,9 @@ $date_time_sarr = array();
 $date_time_earr = array();
 
 $date1 = date("Y-m-d"); // วันเวลาปัจจุบัน
+if(date("H")>20){
+    $date1 = date('Y-m-d', strtotime("+ 1 day", strtotime($date1)));
+}
 $date2 = date('Y-m-d', strtotime("+ 1 day", strtotime($date1)));
 $date3 = date('Y-m-d', strtotime("+ 2 day", strtotime($date1)));
 $date4 = date('Y-m-d', strtotime("+ 3 day", strtotime($date1)));
@@ -200,6 +203,9 @@ if (isset($_POST["search"])) { // select dropdown (เลือก court)
                     <?php
 
                     $date = date("Y-m-d");
+                    if(date("H")>20){
+                        $date = date("Y-m-d", strtotime("+1 day", strtotime($date)));
+                    }
 
                     $i = 0;
                     while ($i < 3) {

@@ -12,7 +12,7 @@ include_once 'dbConfig.php';
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHP Upload Image System</title>
+    <title>Advertise</title>
 
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,6 +30,18 @@ include_once 'dbConfig.php';
         box-sizing: border-box;
         font-family: 'M PLUS Rounded 1c', sans-serif;
         font-family: 'Noto Sans Thai', sans-serif;
+    }
+
+    .top10 {
+        padding-top: 15px;
+    }
+
+    .left {
+        padding-left: 20px;
+    }
+
+    .text_center{
+        text-align: center;
     }
 </style>
 
@@ -50,23 +62,40 @@ include_once 'dbConfig.php';
             //     echo '<label>'.$row_adv['advertise_name'].' </label>';
             //     echo '<label>'.$row_adv['advertise_desc'].' </label>';
             //     $adv_id = $row_adv["advertise_id"];
-                // $query = $db->query("SELECT * FROM image WHERE activity_id = '$adv_id' ORDER BY create_date DESC");
-                $query = $db->query("SELECT * FROM image WHERE activity_id = '2' ORDER BY create_date DESC");
-                if ($query->num_rows > 0) {
-                    while ($row = $query->fetch_assoc()) {
-                        $imageURL = 'uploads/' . $row['image_name'];
+            // $query = $db->query("SELECT * FROM image WHERE activity_id = '$adv_id' ORDER BY create_date DESC");
+            $query = $db->query("SELECT
+                image_name,
+                activity_name,
+                activity_desc
+            FROM
+                image img
+            LEFT JOIN activity act ON
+                img.activity_id = act.activity_id
+            WHERE
+                act.activity_type_id = '2' AND ( NOW() BETWEEN act.activity_start_time AND act.activity_end_time ) AND del = 0
+            ORDER BY
+                img.create_date
+            DESC;");
+            if ($query->num_rows > 0) {
+                while ($row = $query->fetch_assoc()) {
+                    $imageURL = 'uploads/' . $row['image_name'];
             ?>
-                        <div class="col-sm-4">
-                            <div>
-                                <img src="<?php echo $imageURL ?>" alt="center" width="430px" height="250px" margin="5px">
+                    <div class="col-sm-4">
+                        <div class="top10">
+                            <img src="<?php echo $imageURL ?>" alt="center" width="430px" height="250px" margin="5px">
+                            <div class="text_center">
+                                <label>[<?php echo $row['activity_name'] ?>]</label><br>
+                                <label>[<?php echo $row['activity_desc'] ?>]</label>
                             </div>
                         </div>
-                    <?php
-                    }
-                } else { ?>
-                    <p>No image found...</p>
-                <?php } ?>
-            <?php //} ?>
+                    </div>
+                <?php
+                }
+            } else { ?>
+                <p>No image found...</p>
+            <?php } ?>
+            <?php //} 
+            ?>
         </div>
     </div>
 

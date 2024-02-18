@@ -19,6 +19,12 @@ $option0 = date("Y-m-d");
 $option1 = date("Y-m-d", strtotime("+1 day", strtotime($option0)));
 $option2 = date("Y-m-d", strtotime("+2 day", strtotime($option0)));
 
+if(date("H">20)){
+    $option0 = date("Y-m-d", strtotime("+1 day", strtotime($option0)));
+    $option1 = date("Y-m-d", strtotime("+1 day", strtotime($option0)));
+    $option2 = date("Y-m-d", strtotime("+2 day", strtotime($option0)));
+}
+
 // echo date("H:i:s");
 // return;
 
@@ -130,6 +136,12 @@ if (isset($_POST["booking"])) {
     $end = $startdate . "T" . $endtime;
 
     $v_type = $type;
+    $v_type_name = "";
+    if($v_type==1){
+        $v_type_name = "เงินโอน";
+    }else{
+        $v_type_name = "เงินสด";
+    }
 
     $sql_check_insert = "SELECT
                             booking_id
@@ -146,6 +158,7 @@ if (isset($_POST["booking"])) {
             `booking_start_time`,
             `booking_end_time`,
             `payment_type_id`,
+            `payment_type_name`,
             `payment_id`,
             `booking_status`,
             `booking_price`,
@@ -162,6 +175,7 @@ if (isset($_POST["booking"])) {
             '$start',
             '$end',
             $v_type,
+            '$v_type_name',
             NULL,
             '1',
             $amount,

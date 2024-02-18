@@ -17,13 +17,13 @@ if (isset($_POST["submit"])) {
             $fileName = basename($_FILES["file"]["name"]);
             $targetFilePath = $targetDir . $fileName;
             $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-    
+
             // Allow certain file formats
             $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'pdf');
             if (in_array(strtolower($fileType), $allowTypes)) {
                 if (move_uploaded_file($_FILES['file']['tmp_name'], $targetFilePath)) {
-                   
-                    $sql ="INSERT INTO `image`(
+
+                    $sql = "INSERT INTO `image`(
                         `image_name`,
                         `activity_id`,
                         `create_date`,
@@ -128,8 +128,8 @@ if (isset($_POST["submit"])) {
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-image: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.4)), url("img_sys/badminton-bg.jpg");
-            background-size: 100% ;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url("img_sys/badminton-bg.jpg");
+            background-size: 100%;
         }
 
         .container {
@@ -218,10 +218,10 @@ if (isset($_POST["submit"])) {
                     <label for="activity">เลือกกิจกรรม:</label>
                     <select class="input" id="activity" name="activity_id">
                         <?php
-                        $sql_activity = "SELECT * FROM `activity`";
+                        $sql_activity = "SELECT * FROM `activity` WHERE del = 0;";
                         $result_activity = mysqli_query($conn, $sql_activity);
                         while ($row_court = mysqli_fetch_assoc($result_activity)) {
-                            echo '<option value="' . $row_court["activity_id"] . '">' . $row_court["activity_name"] . '</option>';
+                            echo '<option value="' . $row_court["activity_id"] . '">' . $row_court["activity_name"] . ' : ' . $row_court["activity_desc"] . '</option>';
                         }
                         ?>
                     </select>
@@ -244,7 +244,7 @@ if (isset($_POST["submit"])) {
                 <div class="input-field">
                     <div align=center>
                         <button type="submit" class="btn btn-success" value="Upload" name="submit">บันทึก</button>
-                        
+
                         <a href="web_manage.php" class="btn btn-danger">ยกเลิก</a>
                     </div>
                     <div><br></div>

@@ -61,7 +61,7 @@ include "header.php";
         <br>
         <h1>จัดการหน้าเว็บไซต์</h1>
         <div>
-            <!-- <a href="#" type="button" class="btn btn-primary">เพิ่มกิจกรรม</a> -->
+            <a href="add_activity.php" type="button" class="btn btn-primary">เพิ่มกิจกรรม</a>
             <a href="add_image.php" type="button" class="btn btn-primary">เพิ่มรูปภาพกิจกรรม</a>
         </div>
         <BR>
@@ -69,9 +69,10 @@ include "header.php";
             <BR>
             <thead>
                 <tr>
-                    <th width="30%">รูปภาพ</th>
+                    <th width="25%">รูปภาพ</th>
                     <th width="10%">ชื่อกิจกรรม</th>
-                    <th width="10%">ข้อมูลกิจกรรม</th>
+                    <th width="20%">ข้อมูลกิจกรรม</th>
+                    <th width="10%">หน้าจอที่แสดง</th>
                     <th width="10%">วันที่สร้าง</th>
                     <th width="10%">สถานะ</th>
                     <th width="10%">ลบ</th>
@@ -88,6 +89,7 @@ include "header.php";
                             mi.create_date,
                             ta.activity_name,
                             ta.activity_desc,
+                            ta.activity_type_name,
                             -- ta.create_date,
                             ta.del
                         FROM
@@ -104,6 +106,7 @@ include "header.php";
                     }
                     echo "<td>" . $row["activity_name"] .  "</td> ";
                     echo "<td>" . $row["activity_desc"] .  "</td> ";
+                    echo "<td>" . $row["activity_type_name"] .  "</td> ";
                     echo "<td>" . $row["create_date"] .  "</td> ";
                     if ($row["del"] == 0) {
                         echo "<td>" . "ใช้งาน" .  "</td> ";
