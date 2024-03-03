@@ -19,7 +19,7 @@ $option0 = date("Y-m-d");
 $option1 = date("Y-m-d", strtotime("+1 day", strtotime($option0)));
 $option2 = date("Y-m-d", strtotime("+2 day", strtotime($option0)));
 
-if(date("H">20)){
+if (date("H") > 20) {
     $option0 = date("Y-m-d", strtotime("+1 day", strtotime($option0)));
     $option1 = date("Y-m-d", strtotime("+1 day", strtotime($option0)));
     $option2 = date("Y-m-d", strtotime("+2 day", strtotime($option0)));
@@ -31,6 +31,10 @@ if(date("H">20)){
 $search_date = $option0;
 $search_hour = "12";
 $search_minuts = "00";
+
+if ($search_hour < date("H")) {
+    $search_hour = date("H");
+}
 
 if (isset($_POST["search"])) {
     $search_date = $_POST["search_date"];
@@ -137,9 +141,9 @@ if (isset($_POST["booking"])) {
 
     $v_type = $type;
     $v_type_name = "";
-    if($v_type==1){
+    if ($v_type == 1) {
         $v_type_name = "เงินโอน";
-    }else{
+    } else {
         $v_type_name = "เงินสด";
     }
 
@@ -199,6 +203,18 @@ if (isset($_POST["booking"])) {
         $style_booked = "";
     }
 }
+
+//debug
+// echo '<br>';
+// echo $search_date;
+// echo '<br>';
+// echo date("Y-m-d");
+// echo '<br>';
+// echo $search_hour;
+// echo '<br>';
+// echo date("H");
+// echo '<br>';
+// echo date("i");
 
 ?>
 
@@ -386,79 +402,153 @@ if (isset($_POST["booking"])) {
                             <?php
 
                             $search_date_check = 0;
+                            $search_date_i_check = 0;
                             if ($search_date == date("Y-m-d")) {
                                 $search_date_check = date("H");
+                                $search_date_i_check = date("i");
                             }
 
-                            if ($search_date_check <= 12) {
+                            if ($search_date_check < 12) {
                                 if ($search_hour == "12") {
                                     echo '<option value="12" selected>12</option>';
                                 } else {
                                     echo '<option value="12" >12</option>';
                                 }
+                            } else if ($search_date_check == 12) {
+                                if ($search_date_i_check <= 30) {
+                                    if ($search_hour == "12") {
+                                        echo '<option value="12" selected>12</option>';
+                                    } else {
+                                        echo '<option value="12" >12</option>';
+                                    }
+                                }
                             }
 
-                            if ($search_date_check <= 13) {
+                            if ($search_date_check < 13) {
                                 if ($search_hour == "13") {
                                     echo '<option value="13" selected>13</option>';
                                 } else {
                                     echo '<option value="13" >13</option>';
                                 }
+                            } else if ($search_date_check == 13) {
+                                if ($search_date_i_check <= 30) {
+                                    if ($search_hour == "13") {
+                                        echo '<option value="13" selected>13</option>';
+                                    } else {
+                                        echo '<option value="13" >13</option>';
+                                    }
+                                }
                             }
 
-                            if ($search_date_check <= 14) {
+                            if ($search_date_check < 14) {
                                 if ($search_hour == "14") {
                                     echo '<option value="14" selected>14</option>';
                                 } else {
                                     echo '<option value="14" >14</option>';
                                 }
+                            } else if ($search_date_check == 14) {
+                                if ($search_date_i_check <= 30) {
+                                    if ($search_hour == "14") {
+                                        echo '<option value="14" selected>14</option>';
+                                    } else {
+                                        echo '<option value="14" >14</option>';
+                                    }
+                                }
                             }
 
-                            if ($search_date_check <= 15) {
+                            if ($search_date_check < 15) {
                                 if ($search_hour == "15") {
                                     echo '<option value="15" selected>15</option>';
                                 } else {
                                     echo '<option value="15" >15</option>';
                                 }
+                            } else if ($search_date_check == 15) {
+                                if ($search_date_i_check <= 30) {
+                                    if ($search_hour == "15") {
+                                        echo '<option value="15" selected>15</option>';
+                                    } else {
+                                        echo '<option value="15" >15</option>';
+                                    }
+                                }
                             }
 
-                            if ($search_date_check <= 16) {
+                            if ($search_date_check < 16) {
                                 if ($search_hour == "16") {
                                     echo '<option value="16" selected>16</option>';
                                 } else {
                                     echo '<option value="16" >16</option>';
                                 }
+                            } else if ($search_date_check == 16) {
+                                if ($search_date_i_check <= 30) {
+                                    if ($search_hour == "16") {
+                                        echo '<option value="16" selected>16</option>';
+                                    } else {
+                                        echo '<option value="16" >16</option>';
+                                    }
+                                }
                             }
 
-                            if ($search_date_check <= 17) {
+                            if ($search_date_check < 17) {
                                 if ($search_hour == "17") {
                                     echo '<option value="17" selected>17</option>';
                                 } else {
                                     echo '<option value="17" >17</option>';
                                 }
+                            } else if ($search_date_check == 17) {
+                                if ($search_date_i_check <= 30) {
+                                    if ($search_hour == "17") {
+                                        echo '<option value="17" selected>17</option>';
+                                    } else {
+                                        echo '<option value="17" >17</option>';
+                                    }
+                                }
                             }
 
-                            if ($search_date_check <= 18) {
+                            if ($search_date_check < 18) {
                                 if ($search_hour == "18") {
                                     echo '<option value="18" selected>18</option>';
                                 } else {
                                     echo '<option value="18" >18</option>';
                                 }
+                            } else if ($search_date_check == 18) {
+                                if ($search_date_i_check <= 30) {
+                                    if ($search_hour == "18") {
+                                        echo '<option value="18" selected>18</option>';
+                                    } else {
+                                        echo '<option value="18" >18</option>';
+                                    }
+                                }
                             }
 
-                            if ($search_date_check <= 19) {
+                            if ($search_date_check < 19) {
                                 if ($search_hour == "19") {
                                     echo '<option value="19" selected>19</option>';
                                 } else {
                                     echo '<option value="19" >19</option>';
                                 }
+                            } else if ($search_date_check == 19) {
+                                if ($search_date_i_check <= 30) {
+                                    if ($search_hour == "19") {
+                                        echo '<option value="19" selected>19</option>';
+                                    } else {
+                                        echo '<option value="19" >19</option>';
+                                    }
+                                }
                             }
 
-                            if ($search_date_check <= 20) {
+                            if ($search_date_check < 20) {
                                 if ($search_hour == "20") {
                                     echo '<option value="20" selected>20</option>';
                                 } else {
                                     echo '<option value="20" >20</option>';
+                                }
+                            } else if ($search_date_check == 20) {
+                                if ($search_date_i_check <= 30) {
+                                    if ($search_hour == "20") {
+                                        echo '<option value="20" selected>20</option>';
+                                    } else {
+                                        echo '<option value="20" >20</option>';
+                                    }
                                 }
                             }
                             ?>
@@ -466,10 +556,29 @@ if (isset($_POST["booking"])) {
                         <label for="search_minuts"> : </label>
                         <select onchange="this.form.submit()" class="input2" id="search_minuts" name="search_minuts">
                             <?php
-                            if ($search_minuts == "00") {
-                                echo '<option value="00" selected>00</option>';
+
+                            if ($search_date == date("Y-m-d")) {
+                                if ($search_hour > date("H")) {
+                                    if ($search_minuts == "00") {
+                                        echo '<option value="00" selected>00</option>';
+                                    } else {
+                                        echo '<option value="00">00</option>';
+                                    }
+                                }else{
+                                    if(date("i")>30){
+                                        if ($search_minuts == "00") {
+                                            echo '<option value="00" selected>00</option>';
+                                        } else {
+                                            echo '<option value="00">00</option>';
+                                        }
+                                    }
+                                }
                             } else {
-                                echo '<option value="00">00</option>';
+                                if ($search_minuts == "00") {
+                                    echo '<option value="00" selected>00</option>';
+                                } else {
+                                    echo '<option value="00">00</option>';
+                                }
                             }
 
                             if ($search_minuts == "30") {
